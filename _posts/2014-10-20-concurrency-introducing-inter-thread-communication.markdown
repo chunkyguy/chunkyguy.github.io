@@ -2,7 +2,7 @@
 layout: post
 title:  "Concurrency: Introducing Inter-Thread Communication"
 date:   2014-10-20 10:23:00 +0530
-categories: jekyll update
+categories: concurrency
 ---
 
 

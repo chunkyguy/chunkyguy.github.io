@@ -2,7 +2,7 @@
 layout: post
 title:  "Concurrency: Working with shared data using threads"
 date:   2014-10-05 06:32:0 +0530
-categories: jekyll update
+categories: concurrency 
 ---
 
 In continuation with the [last week’s

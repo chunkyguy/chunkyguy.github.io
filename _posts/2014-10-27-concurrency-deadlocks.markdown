@@ -2,7 +2,7 @@
 layout: post
 title:  "Concurrency: Deadlocks"
 date:   2014-10-27 05:54:54 +0530
-categories: jekyll update
+categories: concurrency
 ---
 
 We’ve explored so much with our concurrency experiments and yet there’s

@@ -2,7 +2,7 @@
 layout: post
 title:  "Changing the gears to Generic Programming"
 date:   2015-06-20 11:32:54 +0530
-categories: jekyll update
+categories: programming generic
 ---
 
 Practical usage of generic programming can be narrowed down to two

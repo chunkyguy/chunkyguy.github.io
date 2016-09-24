@@ -2,7 +2,7 @@
 layout: post
 title:  "Generic Programming: The Concept"
 date:   2015-06-27 23:28:54 +0530
-categories: jekyll update
+categories: programming generic
 ---
 
 Generic Programming: The Concept

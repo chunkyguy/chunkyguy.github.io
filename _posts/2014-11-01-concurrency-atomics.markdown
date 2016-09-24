@@ -2,7 +2,7 @@
 layout: post
 title:  "Concurrency: Atomics"
 date:   2014-11-01 11:28:54 +0530
-categories: jekyll update
+categories: concurrency
 ---
 
 I think we have covered most of the core concurrency concepts. With the

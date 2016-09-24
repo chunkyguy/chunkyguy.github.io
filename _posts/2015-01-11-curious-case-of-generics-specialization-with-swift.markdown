@@ -2,7 +2,7 @@
 layout: post
 title:  "Curious case of Generics Specialization with Swift"
 date:   2015-01-11 11:54:54 +0530
-categories: jekyll update
+categories: swift
 ---
 
 Today, I want to talk about a curious case I discovered while playing

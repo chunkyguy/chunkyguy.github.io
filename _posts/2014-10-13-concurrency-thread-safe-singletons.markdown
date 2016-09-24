@@ -2,7 +2,7 @@
 layout: post
 title:  "Concurrency: Thread-safe Singletons"
 date:   2014-10-13 00:02:00 +0530
-categories: jekyll update
+categories: concurrency
 ---
 
 Love them or hate them, you just can not ignore

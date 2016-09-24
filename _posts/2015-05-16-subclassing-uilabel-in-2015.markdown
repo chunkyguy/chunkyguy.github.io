@@ -2,7 +2,7 @@
 layout: post
 title:  "Subclassing UILabel in 2015"
 date:   2015-05-16 11:53:54 +0530
-categories: jekyll update
+categories: uikit
 ---
 
 `UILabel` is one the most smart view in `UIKit` family. It knows a lot
