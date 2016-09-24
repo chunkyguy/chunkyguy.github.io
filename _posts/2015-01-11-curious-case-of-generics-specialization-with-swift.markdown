@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "Curious case of Generics Specialization with Swift"

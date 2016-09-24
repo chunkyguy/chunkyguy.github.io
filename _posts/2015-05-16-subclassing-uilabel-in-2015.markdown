@@ -1,5 +1,3 @@
-
-
 ---
 layout: post
 title:  "Subclassing UILabel in 2015"

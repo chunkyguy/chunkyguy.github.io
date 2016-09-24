@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "Concurrency: Introducing Inter-Thread Communication"

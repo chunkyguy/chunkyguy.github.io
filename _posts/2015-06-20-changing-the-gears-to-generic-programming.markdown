@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "Changing the gears to Generic Programming"
