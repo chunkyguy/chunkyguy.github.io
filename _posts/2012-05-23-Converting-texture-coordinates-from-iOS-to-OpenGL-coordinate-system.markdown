@@ -43,6 +43,7 @@ Now lets dive into the using sprite sheet part. Remember when I said about the s
 
 So, for the above example the plist file would look something like:
 
+```
 <!--?xml version="1.0" encoding="UTF-8"?-->
 
 	frames
@@ -52,7 +53,7 @@ So, for the above example the plist file would look something like:
 			aliases
 
 			spriteColorRect
-			{{64, 1}, {64, 148}}
+			{ { 64, 1}, {64, 148 } }
 			spriteOffset
 			{-4, -0}
 			spriteSize
@@ -62,7 +63,7 @@ So, for the above example the plist file would look something like:
 			spriteTrimmed
 
 			textureRect
-			{{0, 362}, {64, 148}}
+			{ { 0, 362}, { 64, 148 } }
 			textureRotated
 
 		snowman.png
@@ -70,7 +71,7 @@ So, for the above example the plist file would look something like:
 			aliases
 
 			spriteColorRect
-			{{5, 0}, {120, 113}}
+			{ { 5, 0 }, { 120, 113 } }
 			spriteOffset
 			{-10, -0}
 			spriteSize
@@ -80,7 +81,7 @@ So, for the above example the plist file would look something like:
 			spriteTrimmed
 
 			textureRect
-			{{66, 362}, {120, 113}}
+			{ { 66, 362 }, { 120, 113 } }
 			textureRotated
 
 		snowview.png
@@ -88,7 +89,7 @@ So, for the above example the plist file would look something like:
 			aliases
 
 			spriteColorRect
-			{{0, 0}, {480, 360}}
+			{ { 0, 0 }, { 480, 360 } }
 			spriteOffset
 			{0, -0}
 			spriteSize
@@ -98,7 +99,7 @@ So, for the above example the plist file would look something like:
 			spriteTrimmed
 
 			textureRect
-			{{0, 0}, {480, 360}}
+			{ { 0, 0 }, { 480, 360 } }
 			textureRotated
 
 	metadata
@@ -126,6 +127,8 @@ So, for the above example the plist file would look something like:
 			coordinatesFileExtension
 			.plist
 			premultipliedAlpha
+```
+
 As, you can see that the structure basically consists of  a dictionary of two things, a frames and a metadata. The frames is the one we’re more interested in, it is again an array of dictionaries, with each dictionary having a key as the filename and the other data for the relative coordinated in the giant image.
 
 Here’s my code for parsing that data:
@@ -191,7 +194,7 @@ Line 10-11: We’ve already calculated the fullSize_ of the texture, the giant i
 5
     NSDictionary *metaDict = [texDict objectForKey:@"metadata"];
 NSString *sizeStr = [metaDict objectForKey:@"size"];
-NSString *fullFrameStr = [NSString stringWithFormat:@"{{0,0},%@}",sizeStr];
+NSString *fullFrameStr = [NSString stringWithFormat:@" { { 0,0 }, %@ }",sizeStr];
 CGRect fullFrame = CGRectFromString(fullFrameStr);
 fullSize_ = fullFrame.size;
 Next, we just transform the origin y in openGL coordinate space, as the zwoptex plist and even the cocos2d plist format assumes the origin at top-left, while the openGL coordinate system assumes origin at the center of screen.
