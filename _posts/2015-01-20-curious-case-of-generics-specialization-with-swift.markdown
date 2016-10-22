@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Curious case of Generics Specialization with Swift"
-date:   2015-01-11 11:54:54 +0530
+date:   2015-01-20 11:54:54 +0530
 categories: swift
 ---
 
