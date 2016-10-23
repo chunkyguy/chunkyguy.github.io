@@ -21,18 +21,23 @@ You can think of whackylabs as my hideout. This where I keep all my personal stu
 
 ## Who are you?
 
-I am Sidharth Juyal. I have been making iOS apps since 2008. I'm also a computer graphics enthusiast. As a hobby I've made several games using Coccos-2d, SpriteKit, Unity, and written Hideous Game Engine.
+I am Sidharth Juyal. I have been making iOS apps since 2008. I'm also a computer graphics enthusiast. As a hobby I've made several games using [cocos-2d](http://cocos2d.org/), [SpriteKit](https://developer.apple.com/reference/spritekit), [Unity3d](https://unity3d.com/), and written [Hideous Game Engine](https://bitbucket.org/chunkyguy/hideous-engine/wiki/Home).
+
 Oh, and yes I also have a Mater of Computer Applications college degree from Kumaon Engineering College, Dwarahat.
 
 ## How can I contact you?
 
-If you want to follow me as a person, here are few possible ways I can think of
+If you want to get in touch with me as a person, here are few possible ways I can think of:
 
-[Twitter](https://twitter.com/chunkyguy) | [LinkedIn](https://nl.linkedin.com/in/sidharthjuyal) | [Github](https://github.com/chunkyguy) | [Bitbucket](https://bitbucket.org/chunkyguy/)
+1. [Twitter](https://twitter.com/chunkyguy)
+1. [LinkedIn](https://nl.linkedin.com/in/sidharthjuyal)
+1. [Github](https://github.com/chunkyguy)
+1. [Bitbucket](https://bitbucket.org/chunkyguy/)
 
-And if you want to get updates about what's cooking at Whacky Labs, the backstage thing and stuff.
+And if you only care about updates from Whacky Labs, these might help:
 
-[Facebook](https://www.facebook.com/whackylabs) | [Twitter](https://twitter.com/whackylabs)
+1. [Facebook](https://www.facebook.com/whackylabs)
+1. [Twitter](https://twitter.com/whackylabs)
 
 Did I tell you, I love meeting all kind of people? And there must be a billion topics to break the ice with me, football, music, literature, science, philosophy, games and of course programming. Just shoot anything.
 
