@@ -6,10 +6,10 @@ permalink: /about/
 
 # Frequently thought questions while on this page
 
-1. [What am I doing here?][#what-am-i-doing-here]
-1. [What exactly is whackylabs?][#what-exactly-is-whackylabs]
-1. [Who are you?][#who-are-you]
-1. [How can I contact you?][#how-can-i-contact-you]
+1. [What am I doing here?](#what-am-i-doing-here)
+1. [What exactly is whackylabs?](#what-exactly-is-whackylabs)
+1. [Who are you?](#who-are-you)
+1. [How can I contact you?](#how-can-i-contact-you)
 
 ## What am I doing here?
 
