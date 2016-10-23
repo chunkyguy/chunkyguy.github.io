@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-# Frequently thought questions while on this page
+## Frequently thought questions while on this page
 
 1. [What am I doing here?](#what-am-i-doing-here)
 1. [What exactly is whackylabs?](#what-exactly-is-whackylabs)
