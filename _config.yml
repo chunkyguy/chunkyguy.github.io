@@ -17,3 +17,6 @@ github_username:  chunkyguy
 
 # Build settings
 markdown: kramdown
+
+plugins:
+- jekyll-feed
