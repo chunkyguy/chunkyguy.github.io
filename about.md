@@ -4,42 +4,21 @@ title: About
 permalink: /about/
 ---
 
-## Frequently thought questions while on this page
+# Hi there!
 
-1. [What am I doing here?](#what-am-i-doing-here)
-1. [What exactly is whackylabs?](#what-exactly-is-whackylabs)
-1. [Who are you?](#who-are-you)
-1. [How can I contact you?](#how-can-i-contact-you)
+ I'm Sidharth Juyal, most people call me Sid.
 
-## What am I doing here?
+I'm an iOS developer. I've been professionally making mobile apps since 2008. I'm good with Swift, C++, Objective-C and C. Currently, I'm based in Amsterdam, shaping the official [Picnic.app](https://picnic.app/nl/).
 
-Either you followed one of my many white rabbits out there, or your friends tricked you into this space. Whatever be the reason, welcome to Whacky Labs!
+I'm also a computer graphics enthusiast. I've made several games, a game engine and a bunch 3D demos. Most of them are available as open source projects on my github.
 
-## What exactly is whackylabs?
+Oh, and yes I also have a Mater of Computer Applications from Kumaon Engineering College, Dwarahat.
 
-You can think of whackylabs as my hideout. This where I keep all my personal stuff. It's my personal space on the web. It's where I post all the things I love. You can think of whackylabs as my Dexter's Laboratory.
+### Contact
 
-## Who are you?
-
-I am Sidharth Juyal. I have been making iOS apps since 2008. I'm also a computer graphics enthusiast. As a hobby I've made several games using [cocos-2d](http://cocos2d.org/), [SpriteKit](https://developer.apple.com/reference/spritekit), [Unity3d](https://unity3d.com/), and written [Hideous Game Engine](https://bitbucket.org/chunkyguy/hideous-engine/wiki/Home).
-
-Oh, and yes I also have a Mater of Computer Applications college degree from Kumaon Engineering College, Dwarahat.
-
-## How can I contact you?
-
-If you want to get in touch with me as a person, here are few possible ways I can think of:
+Here are few possible ways go connect with me:
 
 1. [Twitter](https://twitter.com/chunkyguy)
 1. [LinkedIn](https://nl.linkedin.com/in/sidharthjuyal)
 1. [Github](https://github.com/chunkyguy)
 1. [Bitbucket](https://bitbucket.org/chunkyguy/)
-
-And if you only care about updates from Whacky Labs, these might help:
-
-1. [Facebook](https://www.facebook.com/whackylabs)
-1. [Twitter](https://twitter.com/whackylabs)
-
-Did I tell you, I love meeting all kind of people? And there must be a billion topics to break the ice with me, football, music, literature, science, philosophy, games and of course programming. Just shoot anything.
-
-Goodbye and have a nice day!
-
