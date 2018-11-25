@@ -2,7 +2,7 @@
 layout: post
 title:  "Cross platform mobile development with Djinni"
 date:   2018-11-24 00:54:00 +0200
-categories: djinni cpp ios android 
+categories: djinni cpp ios android
 published: true
 ---
 
