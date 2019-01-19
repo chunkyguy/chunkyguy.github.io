@@ -8,7 +8,7 @@ permalink: /about/
 
  I'm Sidharth Juyal, most people call me Sid.
 
-I'm an iOS developer. I've been professionally making mobile apps since 2008. I'm good with Swift, C++, Objective-C and C. Currently, I'm based in Amsterdam, shaping the official [Picnic.app](https://picnic.app/nl/).
+I'm an iOS developer. I've been professionally making mobile apps since 2008.
 
 I'm also a computer graphics enthusiast. I've made several games, a game engine and a bunch 3D demos. Most of them are available as open source projects on my github.
 
