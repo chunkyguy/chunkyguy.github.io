@@ -43,7 +43,7 @@ The basis matrix is just another way to move the range from [-1, 1] to [0, 1]. O
 
 This is how it can be calculated:
 
-
+``` objc
 GLKMatrix4 genShadowBasisMatrix()
 {
   GLKMatrix4 m = GLKMatrix4Identity;
@@ -60,6 +60,8 @@ GLKMatrix4 genShadowBasisMatrix()
 
   return m;
 }
+```
+
 The first run was pretty cool on the simulator, but not so good on the device.
 
 That is something I learned from my last experiment. To try out on the actual device as soon as possible.
@@ -68,13 +70,15 @@ I tried playing around with many configurations, like using 32 bits for depth pr
 
 If you’re working on something, where the shadows needs to be projected far away from the object. Like on a wall behind, try this in the first pass, while creating the depth map:
 
-
+``` objc
 glDepthRangef(1.0f, 0.0f);
 And, in the second pass don’t forget to switch back to
 
 
 glDepthRangef(0.0f, 1.0f);
-Of course, you also need to update your shader code, so that the result 1.0 now means fail case while 0.0 means the pass case. Or you could even update the GL_TEXTURE_COMPARE_FUNC to GL_GREATER.
+```
+
+Of course, you also need to update your shader code, so that the result 1.0 now means fail case while 0.0 means the pass case. Or you could even update the `GL_TEXTURE_COMPARE_FUNC` to `GL_GREATER`.
 
 But, for majority cases where the shadow is attached to the geometry. The experiment’s code should work fine.
 
