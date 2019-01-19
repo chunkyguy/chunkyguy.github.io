@@ -10,7 +10,7 @@ with generic programming with Swift.
 
 To illustrate, let’s start by writing a simple function.
 
-```
+``` swift
 func Min(x:Int, y:Int) -> Int {
     println("Using Min<Int>")
     return (x < y) ? x : y
@@ -21,7 +21,7 @@ let a = Min(-1, 1) // Using Min<Int>
 
 And now let’s make it generic.
 
-```
+``` swift
 func Min<T:Comparable>(x:T, y:T) -> T {
     println("Using Min<T>")
     return (x < y) ? x : y
@@ -33,7 +33,7 @@ let a = Min(-1, 1) // Using Min<T>
 What if we’ve both the implementations? The compiler automatically picks
 the specialized version.
 
-```
+``` swift
 func Min<T:Comparable>(x:T, y:T) -> T {
     println("Using Min<T>")
     return (x < y) ? x : y
@@ -49,14 +49,14 @@ let a = Min(-1, 1) // Using Min<Int>
 
 The swift standard library already provides a min and max functions.
 
-```
+``` swift
 func min<T : Comparable>(x: T, y: T) -> T
 ```
 
 Suppose we use that as the generic version and override our specialized
 one for Int? The compiler still picks the specialized one.
 
-```
+``` swift
 func min(x:Int, y:Int) -> Int {
     println("Using Min<Int>")
     return (x < y) ? x : y
@@ -68,7 +68,7 @@ let a = min(-1, 1) // Using min<Int>
 This is really convenient, isn’t it? Let’s expand our example to
 something you might face in real life. Let’s work with a Vector2 type.
 
-```
+``` swift
 struct Vector2 {
     var x : Float = 0.0
     var y : Float = 0.0
@@ -82,7 +82,7 @@ struct Vector2 {
 
 How about making use of standard min and max functions with Vector2?
 
-```
+``` swift
 let lowerBound = Vector2(x: -1, y: -1)
 let upperBound = Vector2(x: 1, y: 1)
 
@@ -93,7 +93,7 @@ This is going to throw an error, as the standard min and max functions
 need the type to conform to the comparable protocol. So let’s do that
 first.
 
-```
+``` swift
 func ==(lhs: Vector2, rhs: Vector2) -> Bool {
    return (lhs.x == rhs.x) && (lhs.y == rhs.y)
 }
@@ -114,7 +114,7 @@ This works as expected. This is a great feature, in my opinion, one of
 the best things to switch from Objective-C to Swift. Moving forward,
 let’s write a generic clamp function.
 
-```
+``` swift
 
 func clamp<T:Comparable>(value:T, lowerBound:T, upperBound:T) -> T {
     return min(max(lowerBound, value), upperBound)
@@ -125,7 +125,7 @@ let b = clamp(10, -1, 1) // prints 1
 
 This is awesome! Let’s try our clamp function with Vector2.
 
-```
+``` swift
 let lowerBound = Vector2(x: -100, y: -100)
 let upperBound = Vector2(x: 100, y: 100)
 
@@ -140,14 +140,14 @@ correct. But, this is not the compiler’s fault. The standard min and max
 use the overloaded comparison operators and they are not correct. We can
 test this with
 
-```
+``` swift
 let test5 = min(Vector2(x: -10, y: -134), lowerBound) // {x:-10, y:-134}
 let test6 = max(Vector2(x: 10, y: 134), upperBound) // {x:10, y:134}
 ```
 
 Let’s fix them by providing our own specialized versions.
 
-```
+``` swift
 func min(lhs: Vector2, rhs: Vector2) -> Vector2 {
     return Vector2(x: min(lhs.x, rhs.x), y: min(lhs.y, rhs.y))
 }
@@ -169,7 +169,7 @@ provided specialized version.
 The only way to make this work is if I provide a specialized clamp
 function for Vector2.
 
-```
+``` swift
 func clamp(value:Vector2, lowerBound:Vector2, upperBound:Vector2) -> Vector2 {
     return min(max(lowerBound, value), upperBound)
 }
@@ -190,7 +190,7 @@ chain.
 To compare, here’s a C++ version of the same functionality that works
 great with a single clamp generic implementation.
 
-```
+``` cpp
 #include <iostream>
 
 struct Vector2 {

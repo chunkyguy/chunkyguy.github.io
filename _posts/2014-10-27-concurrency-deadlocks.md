@@ -44,126 +44,62 @@ release their fork, we have a deadlock situation.
 Let’s reduce this problem to just two philosophers dining. Here’s a
 simple implementation
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 #define MAX_FORKS 2
-
-
 
 std::mutex fork[MAX_FORKS];
 
-
-
 class Philosopher {
-
 private:
-
     std::string name_;
-
     int holdForkIndex_;
 
-
-
     void Think()
-
     {
-
         std::this_thread::sleep_for(std::chrono::seconds(1));
-
     }
-
-    
 
 public:
-
     Philosopher(const std::string &name, const int startForkIndex) :
-
     name_(name),
-
     holdForkIndex_(startForkIndex)
-
     {}
 
-
-
     void Eat()
-
     {
-
         std::cout << name_ << ": Begin eating" << std::endl;
-
-
-
         Think();
-
-        
-
         std::lock_guard<std::mutex> locka(fork[holdForkIndex_]);
-
         std::cout << name_ << ": Hold fork: " << holdForkIndex_ << std::endl;
-
         holdForkIndex_ = (holdForkIndex_ + 1) % MAX_FORKS;
-
-
-
         Think();
-
-
 
         std::lock_guard<std::mutex> lockb(fork[holdForkIndex_]);
-
         std::cout << name_ << ": Hold fork: " << holdForkIndex_ << std::endl;
-
         holdForkIndex_ = (holdForkIndex_ + 1) % MAX_FORKS;
 
-
-
         // eating
-
         std::this_thread::sleep_for(std::chrono::microseconds(10));
-
-        
-
         std::cout << name_ << " End eating" << std::endl;
-
     }
-
 };
 
-
-
 void DiningPhilosophers()
-
 {
-
     Philosopher s("Socrates", 0);
-
     Philosopher n("Nietzsche", 1);
 
-    
-
     std::thread sEat(&Philosopher::Eat, &s);
-
     std::thread nEat(&Philosopher::Eat, &n);
 
-    
-
     sEat.join();
-
     nEat.join();
-
 }
 
-
-
 /* this is the main() */
-
 void Deadlocks_main()
-
 {
-
     DiningPhilosophers();
-
 }
 ```
 
@@ -179,14 +115,10 @@ the order:
 
 Here’s the output on my machine, before the program just hangs:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Socrates: Begin eating
-
 Nietzsche: Begin eating
-
 Socrates: Hold fork: 0
-
 Nietzsche: Hold fork: 1
 ```
 
@@ -196,54 +128,28 @@ indefinitely. One way to break this deadlock is to use
 What this function does is that it provides a functionality to lock one
 or more mutexes at once if it can, otherwise it locks nothing.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 void Eat()
-
 {
-
     std::cout << name_ << ": Begin eating" << std::endl;
 
-
-
     int lockAIndex = holdForkIndex_;
-
     int lockBIndex = (holdForkIndex_ + 1) % MAX_FORKS;
-
-    
 
     std::lock(fork[lockAIndex], fork[lockBIndex]);
 
-    
-
     Think();
-
-    
 
     std::lock_guard<std::mutex> locka(fork[lockAIndex], std::adopt_lock);
-
     std::cout << name_ << ": Hold fork: " << lockAIndex << std::endl;
-
-
-
     Think();
 
-
-
     std::lock_guard<std::mutex> lockb(fork[lockBIndex], std::adopt_lock);
-
     std::cout << name_ << ": Hold fork: " << lockBIndex << std::endl;
 
-
-
     // eating
-
     std::this_thread::sleep_for(std::chrono::microseconds(10));
-
-    
-
     std::cout << name_ << " End eating" << std::endl;
-
 }
 ```
 
@@ -262,22 +168,14 @@ Eat() goes out of scope.
 
 Here’s the output for the above code:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Socrates: Begin eating
-
 Nietzsche: Begin eating
-
 Socrates: Hold fork: 0
-
 Socrates: Hold fork: 1
-
 Socrates End eating
-
 Nietzsche: Hold fork: 1
-
 Nietzsche: Hold fork: 0
-
 Nietzsche End eating
 ```
 
@@ -309,65 +207,40 @@ mutex and still deadlocking the code. Picture this scenario:
 
 Here’s a representation of above problem in code
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
+``` cpp
 
 std::mutex m;
 
-
-
 void SwipeCard()
-
 {
-
     std::cout << "Card swiping ... " << std::endl;
-
     std::lock_guard<std::mutex> waterCoolerLock(m);
-
     std::cout << "Card swiped" << std::endl;
-
 }
 
-
-
 void GetWater()
-
 {
-
     std::cout << "Chamber unlocking ... " << std::endl;
-
     std::lock_guard<std::mutex> waterCoolerLock(m);
-
     std::cout << "Chamber unlocked" << std::endl;
-
-
 
     SwipeCard();
 
-
-
     std::cout << "Water pouring" << std::endl;
-
 }
 
-
-
 void Sector7GSituation()
-
 {
-
     GetWater();
-
 }
 ```
 
 And here’s the output before the program hangs:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
+``` 
 
 Chamber unlocking ... 
-
 Chamber unlocked
-
 Card swiping ... 
 ```
 
@@ -378,77 +251,44 @@ some design errors with this code.
 
 The solution is to the restructure the code with something like:
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
+``` cpp
 
 std::mutex m;
 
-
-
 void SwipeCard()
-
 {
-
     std::cout << "Card swiping ... " << std::endl;
-
     std::lock_guard<std::mutex> waterCoolerLock(m);
-
     std::cout << "Card swiped" << std::endl;
-
 }
-
-
 
 void EnterChamber()
-
 {
-
     std::cout << "Chamber unlocking ... " << std::endl;
-
     std::lock_guard<std::mutex> waterCoolerLock(m);
-
     std::cout << "Chamber unlocked" << std::endl;
-
 }
-
-
 
 void GetWater()
-
 {
-
     EnterChamber();
-
     SwipeCard();
-
-
-
     std::cout << "Water pouring" << std::endl;
-
 }
 
-
-
 void Sector7GSituation()
-
 {
-
     GetWater();
-
 }
 ```
 
 Output:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Chamber unlocking ... 
-
 Chamber unlocked
-
-Card swiping ... 
-
+Card swiping ...
 Card swiped
-
 Water pouring
 ```
 
@@ -461,35 +301,19 @@ anything else.
 
 Here’s one example of a deadlock using GCD
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 let queue:dispatch_queue_t = dispatch_queue_create("deadlockQueue", nil)
-
-
-
 func SimpleDeadlock()
-
 {
-
     dispatch_sync(queue) {
-
         println("Enter task: 0")
-
         dispatch_sync(queue) {
-
             println("Enter task: 1")
-
             println("Exit task: 1")
-
         }
-
         println("Exit task: 0")
-
     }
-
 }
-
-
 
 SimpleDeadlock()
 ```
@@ -502,8 +326,7 @@ one after the other.
 
 Here’s the output, before it gets deadlocked:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Enter task: 0
 ```
 
@@ -527,32 +350,19 @@ task 0 is insisting the queue to finish the task 1 first.
 There are two ways to resolve this deadlock. First is using a concurrent
 queue instead of a serial queue.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 let queue:dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
-
-
 func SimpleDeadlock()
-
 {
-
     dispatch_sync(queue) {
-
         println("Enter task: 0")
-
         dispatch_sync(queue) {
-
             println("Enter task: 1")
-
             println("Exit task: 1")
-
         }
-
         println("Exit task: 0")
-
     }
-
 }
 
 
@@ -562,14 +372,10 @@ SimpleDeadlock()
 
 Output
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Enter task: 0
-
 Enter task: 1
-
 Exit task: 1
-
 Exit task: 0
 ```
 
@@ -597,53 +403,31 @@ serial queues and synchronous tasks. This solution actually breaks it.
 What we actually need is a serial queue with tasks asynchronously
 submitted.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 let queue:dispatch_queue_t = dispatch_queue_create("deadlockQueue", nil)
 
-
-
 func SimpleDeadlock()
-
 {
-
     dispatch_async(queue) {
-
         println("Enter task: 0")
-
         dispatch_async(queue) {
-
             println("Enter task: 1")
-
             println("Exit task: 1")
-
         }
-
         println("Exit task: 0")
-
     }
-
 }
 
-
-
 XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)
-
-
-
 SimpleDeadlock()
 ```
 
 Output:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Enter task: 0
-
 Exit task: 0
-
 Enter task: 1
-
 Exit task: 1
 ```
 
@@ -651,7 +435,7 @@ This solution submits task 1 after task 0 to a serial queue. Since, this
 is a serial queue, the task ordering is preserved. Also, since tasks do
 not depend on each other, we never see any deadlocks.
 
-The lesson here is to use dispatch\_sync very carefully. Remember
+The lesson here is to use `dispatch_sync` very carefully. Remember
 deadlocks are always design errors.
 
 The code for todays experiment is available at

@@ -53,7 +53,7 @@ We simply create a new project with a single view and add a
 `RoundedRectLabel` class. Next, we write our basic code to render the
 label on screen.
 
-```
+``` swift
 class RoundedRectLabel: UILabel {
 }
 
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
 
 Now the two important methods to subclass within a `UILabel` are:
 
-```
+``` swift
 func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect
 func drawTextInRect(rect: CGRect)
 ```
@@ -102,7 +102,7 @@ do whatever you want to do with you custom `UILabel`.
 For sake of getting a deeper understanding, let’s print out the order of
 execution.
 
-```
+``` swift
 class RoundedRectLabel: UILabel {
    override func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         let textRect = super.textRectForBounds(bounds, limitedToNumberOfLines: numberOfLines)
@@ -147,7 +147,7 @@ redrawn automatically whenever the content updates. To confirm, if you
 update the text after a while, you can see the drawing methods being
 invoked again.
 
-```
+``` swift
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -199,7 +199,7 @@ the rest. So, lets focus first on the `drawTextInRect()`.
 The first thing is to calculate the edge insets or padding you wish to
 give your label.
 
-```
+``` swift
 let edgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
 
 override func drawTextInRect(rect: CGRect) {
@@ -222,7 +222,7 @@ text content?
 The `NSString` has a handy extension that does this calculations. The
 method we’re particularly interested in is
 
-```
+``` swift
 func boundingRectWithSize(size: CGSize, options: NSStringDrawingOptions, attributes: [NSObject : AnyObject]!, context: NSStringDrawingContext!) -> CGRect
 ```
 
@@ -233,7 +233,7 @@ How do we calculate the estimated size of the drawing area?
 
 Let’s see, we know the width that we wish to draw in.
 
-```
+``` swift
 let estimatedWidth = CGRectGetWidth(textRect) - (edgeInsets.left + edgeInsets.right)
 ```
 
@@ -246,14 +246,14 @@ size passed down to `drawTextInRect()` is 100×200, where we again shrink
 the size down to 80×180. In order to compensate for this second
 clipping, we must calculate the height for an 2 times smaller width.
 
-```
+``` swift
 let estimatedWidth = CGRectGetWidth(rect) - (2 * (edgeInsets.left + edgeInsets.right))
 ```
 
 But what about the height? Don’t worry, this is just an estimated
 height, we can provide a very high value, and hope for the best.
 
-```
+``` swift
 let estimatedWidth = CGRectGetWidth(rect) - (2 * (edgeInsets.left + edgeInsets.right))
 let estimatedHeight = CGFloat.max
 let calculatedFrame = NSString(string: text).boundingRectWithSize(CGSize(width: estimatedWidth, height: estimatedHeight), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
@@ -264,7 +264,7 @@ text in as less space as possible, because that is the default behavior.
 So, we need to explicitly provide the extra top and bottom padding to
 the size calculated.
 
-```
+``` swift
 let calculatedWidth = ceil(CGRectGetWidth(calculatedFrame))
 let calculatedHeight = ceil(CGRectGetHeight(calculatedFrame))
 let finalHeight = (calculatedHeight + edgeInsets.top + edgeInsets.bottom)
@@ -274,7 +274,7 @@ rect.size = CGSize(width: calculatedWidth, height: finalHeight)
 The `ceil()` should raise fractional mathematical value to a renderable
 screen value. The entire code is below.
 
-```
+``` swift
 class RoundedRectLabel: UILabel {
     let edgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
 
@@ -305,7 +305,7 @@ class RoundedRectLabel: UILabel {
 To finish it off, we just need some custom drawing code. Feel free to
 draw whatever you like.
 
-```
+``` swift
 override func drawTextInRect(rect: CGRect) {
     UIColor.cyanColor().setFill()
     UIColor.blackColor().setStroke()

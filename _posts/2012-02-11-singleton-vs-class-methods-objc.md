@@ -5,21 +5,22 @@ date:   2012-02-11 23:28:54 +0530
 categories: design-patterns
 ---
 
-Singleton vs Class Methods: ObjC
-=================================
-
 Every sometime you might get into a situation with your design pattern, that you might have this inevitable desire to use a Singleton class, or maybe you are coming from C++ background and are much used to it.
 
 But, you shouldn’t forget that Objective-C is a different language, that here the classes are first class objects, so today I’m going to show a way to avoid using the singleton pattern and fill with the class methods instead.
 
 The motivation is this: Every time you use the Singleton pattern the code looks a little uglier. For example, if your code has a Librarian class that is singleton, and at some point you’re using it like this:
 
-1
+``` objc
 [[Librarian sharedInstance] openLibrary]
+```
+
 Looks good right, but wouldn’t it be nice if you could do something like:
 
-1
+``` objc
 [Librarian openLibrary]
+```
+
 And not only will this make the code more sensible, it will solve one more purpose, hiding the allocation part of the Librarian. As with the former code you need to add some extra code to check that no one allocates a new instance of the Librarian, because that’s the whole purpose of making it Singleton, right?
 
 OK, lets consider a classroom scenario, where there are a bunch of students and a single teacher. All the students want to communicate to the single teacher, so we might consider it as a perfect place to use the singleton pattern.
@@ -32,43 +33,7 @@ So, in each classroom students are just saying hello to the teacher, and the tea
 
 Here’s MrHyde’s classroom scenario:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
+``` objc
 //MrHyde.h
 @interface MrHyde : NSObject{
     int count_;
@@ -106,37 +71,18 @@ static MrHyde *shared_ = nil;
 }
  
 @end
-And here is how students are interacting:
+```
 
-1
-2
-3
+And here is how students are interacting:
+``` objc
 for(int student = 0; student < 10; student++){
     [[MrHyde shared] hello];
 }
-Looks familiar right, now take a look at Dr Jekyll’s classroom:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
+```
+
+Looks familiar right, now take a look at Dr Jekyll’s classroom:
+``` objc
 //DrJekyll.h
 @interface DrJekyll : NSObject{
 }
@@ -158,6 +104,8 @@ static MrHyde *shared_ = nil;
 +(void)hello{
     [shared_ hello];
 }
+```
+
 In case you are wondering what’s that +(void)initialize doing there? The Documentation says:
 
 The runtime sends initialize to each class in a program exactly one time just before the class, or any class that inherits from it, is sent its first message from within the program.
@@ -166,13 +114,12 @@ The runtime sends initialize to each class in a program exactly one time just be
 That you can confirm by looking for log creating Hidden Mr Hyde getting printed only once!
 
 And, this is how students interact with Dr Jekyll:
-
-1
-2
-3
+``` objc
 for(int student = 0; student < 10; student++){
     [DrJekyll hello];
 }
+```
+
 Looks much better than Mr Hyde’s scenario right?
 
 One more thing to notice here is you are not passing any messages to the instance of DrJekyll, so creating any instance of DrJekyll is waste of code, that solves our problem of Singleton class duplicate instance creation.
@@ -182,47 +129,7 @@ But, you can say that internally it’s just using MrHyde for all the deeds and 
 Yes, frankly that’s a scary situation, so we can improve our code by creating a private MrHyde, that is hidden inside DrJekyll, and is invisible to entire world.
 
 Take a look at this new improved DrJekyll implementation:
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
+``` objc
 //DrJekyll.m
 @interface HiddenMrHyde : NSObject {
     int count_;
@@ -263,6 +170,8 @@ static HiddenMrHyde *mrHyde_ = nil;
 }
  
 @end
+```
+
 All of the code remains the same!
 
 Hope this encourages you to write Singletons in a way that makes more sense, Objective-C way :)

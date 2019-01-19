@@ -6,8 +6,6 @@ categories: ios
 published: true
 ---
 
-# Experimenting with ComponentKit
-
 It's a nice Friday afternoon and I just realized that I've never used ComponentKit.
 
 One of the reasons that got me really interested in the project is that, I've been looking around alternatives to UIKit. Not that I've anything against UIKit, but I seen how things out of hands with UIKit pretty soon. And ComponentKit was on my radar for quite some time.
@@ -60,7 +58,7 @@ Probably the first piece of information we want to inform the data source is the
 
 For our case, we already know at the load time that there is going to be one section, which contains the loading view. We need to provide that information as a change set, as the data source starts with zero sections.
 
-```
+``` objc
     CKDataSourceChangeset *initialData = [[[CKDataSourceChangesetBuilder transactionalComponentDataSourceChangeset]
                                            withInsertedSections:[NSIndexSet indexSetWithIndex:0]]build];
     [_dataSource applyChangeset:initialData mode:CKUpdateModeAsynchronous userInfo:nil];
@@ -68,7 +66,7 @@ For our case, we already know at the load time that there is going to be one sec
 
 Before I get my hands dirty with building components, I would also like to plug in the other thing data source might be interested in. And that is a event callback for whenever a cell starts or ends displaying is invoked we want to update our data source with this information. In our case this is the `willDisplayCell` and `didEndDisplayingCell` of `UICollectionViewDelegate`
 
-```
+``` objc
 - (void)collectionView:(UICollectionView *)collectionView
        willDisplayCell:(UICollectionViewCell *)cell
     forItemAtIndexPath:(NSIndexPath *)indexPath
@@ -86,13 +84,13 @@ Before I get my hands dirty with building components, I would also like to plug 
 
 With our basic data source set up, we can now focus on providing the first view. Usually when we start our layout with a `UICollectionView` the first thing that comes to mind it to have a bunch of `UICollectionViewCell` and register them and later whenever UIKit needs to render them on screen, we paint them. With ComponentKit things are different, we probably only need to create a `UICollectionView` and leave the rest to ComponentKit. The starting point of the entire component system seems to be this `CKComponentProvider` which is a protocol with a class method, and the context is provided as an argument. Neat.
 
-```
+``` objc
 + (CKComponent *)componentForModel:(id<NSObject>)model context:(id<NSObject>)context;
 ```
 
 So, my first attempt would be insert a `NSNull` and render an `PHLoadingComponent` for that model
 
-```
+``` objc
     NSDictionary<NSIndexPath *, NSObject *> *loadingItem = @{[NSIndexPath indexPathForRow:0 inSection:0]: [NSNull null]};
     CKDataSourceChangeset *loadingData = [[[CKDataSourceChangesetBuilder transactionalComponentDataSourceChangeset] withInsertedItems:loadingItem] build];
     [_dataSource applyChangeset:loadingData mode:CKUpdateModeAsynchronous userInfo:nil];
@@ -102,7 +100,7 @@ So, my first attempt would be insert a `NSNull` and render an `PHLoadingComponen
 
 Creating a component does not seems as trivial if you have been writing apps for some time. I know I'm not creating a view from scratch because that is the job of ComponentKit, I probably have to only provide the data for the view. But what data? Let's start with a prebaked component `CKLabelComponent`
 
-```
+``` objc
 @interface PHLoadingComponent : CKCompositeComponent
 + (instancetype)newWithTintColor:(UIColor *)color;
 @end
@@ -133,7 +131,7 @@ To be honest the [official documentation](https://componentkit.org/appledoc/html
 
 From what I've figured out, the way one creates components for views is by providing the `Class` type and a bunch of selectors to be invoked. Imagine it this way, if you were to create a custom view with a `UIActivityIndicatorView`, you might do it like:
 
-```
+``` objc
 -(UIActivityIndicatorView *) makeSpinnerWithColor: (UIColor *)color
 {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -145,7 +143,7 @@ From what I've figured out, the way one creates components for views is by provi
 
 With ComponentKit, you might do it like:
 
-```
+``` objc
 -(CKComponent *) makeSpinnerWithColor: (UIColor *)color
 {
     return [CKComponent
@@ -175,7 +173,7 @@ Next step is to get the activity indicator start and stop animating. Which is pr
 
 Next step, rendering a bunch of images. The first part is easy, making a network request and get a JSON payload containing a bunch of image URLs.
 
-```
+``` objc
 - (void)updateImages
 {
     NSArray *images = _viewModel.list;
@@ -198,7 +196,7 @@ The tricky part is fetching the images. Normally we have to consider the fact th
 
 To make that happen, first step is provide a concrete implementation of `CKNetworkImageDownloading` which is pretty close to what `PANetworkService` is doing already. Here is a naive implementation
 
-```
+``` objc
 - (id)downloadImageWithURL:(NSURL *)URL
                     caller:(id)caller
              callbackQueue:(dispatch_queue_t)callbackQueue
@@ -223,7 +221,7 @@ To make that happen, first step is provide a concrete implementation of `CKNetwo
 
 And the second step is then to create the component
 
-```
+``` objc
 @implementation PHPhotoComponent
 + (instancetype)newWithPhoto:(PAPhoto *)photo
              imageDownloader:(PAImageDownloader *)imageDownloader;
@@ -246,7 +244,7 @@ And the second step is then to create the component
 
 Next we want the react on whenever a user taps on the cell, and here is where `CKComponentTapGestureAttribute` comes into the picture. After playing around for a while, this is what seems to be working
 
-```
+``` objc
 @implementation PHPhotoComponent
 + (instancetype)newWithPhoto:(PAPhoto *)photo
              imageDownloader:(PAImageDownloader *)imageDownloader;
@@ -288,12 +286,12 @@ Next we want the react on whenever a user taps on the cell, and here is where `C
 ```
 Whats left is hooking a listener to the event. From what I've read about the components is that they should not be set as delegate, as they are by design short lived immutables. So I'm imagining them as being disposed off after a draw cycle. So the question is how do we handle the touch event? To understand let's see what is `CKComponentTapGestureAttribute`?
 
-```
+``` objc
 CKComponentViewAttributeValue CKComponentTapGestureAttribute(CKAction<UIGestureRecognizer *> action);
 ```
 So it a function that takes a `CKAction` and returns a `CKComponentViewAttributeValue`. The `CKAction` on the other hand is a simple wrapper around the target selector pair, maybe we can use that. Or even better if we could construct the `CKAction` and inject it from outside.
 
-```
+``` objc
         CKAction<UIGestureRecognizer *>action = CKAction<UIGestureRecognizer *>::actionFromBlock(^(CKComponent *, UIGestureRecognizer *__strong) {
             NSLog(@"did tap");
         });
@@ -306,7 +304,7 @@ So it a function that takes a `CKAction` and returns a `CKComponentViewAttribute
 
 The tricky part is sending the invocation back to the view controller. This whole component creation lives in a class method so has no reference to the view controller. One way to fix this is by passing the view controller as context.
 
-```
+``` objc
 @interface PHRootComponentProvider : NSObject
 @end
 
@@ -350,7 +348,7 @@ The tricky part is sending the invocation back to the view controller. This whol
 
 And then in the view controller
 
-```
+``` objc
     _dataSource = [[CKCollectionViewDataSource alloc]
                    initWithCollectionView:_collectionView
                    supplementaryViewDataSource:nil

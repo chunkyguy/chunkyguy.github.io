@@ -5,9 +5,6 @@ date:   2012-05-27 23:28:54 +0530
 categories: tip
 ---
 
-Creating iOS Simulator Screencasts
-====================================
-
 I’ve seen in many forums devs asking tips to screencast the iOS Simulator to demo their app or whatever. Even I was using Jing to create swf files to demo my apps, but I think today everything is going to change forever :)
 
 Today I’m going to show a way to screencast a window of your screen, which can be your iOS Simulator or any other screen and we’ll be using following softwares.
@@ -21,7 +18,6 @@ And that’s it, download both of these softwares and continues to the following
 1: Run the CamTwist app and then FMLE, and this is very important step, don’t open FMLE before CamTwist, and the reason is that FMLE checks for all the video inputs at the launch time, so launch CamTwist before FMLE.
 
 2: The CamTwist launch screen should look something like this:
-
 
 
 On the Step 1 column select Desktop+ and press the Select button below it.
@@ -38,8 +34,6 @@ Now, you can go to ‘Tools > Preview’ and confirm that only the Simulator is 
 
 My final setup looks something like this:
 
-
-
 There are plenty of things you can experiment with CamTwist, that you can try later.
 
 3. Next, launch the FMLE app, and if not selected by default select CamTwist under ‘Video’ panel.
@@ -47,8 +41,6 @@ There are plenty of things you can experiment with CamTwist, that you can try la
 Under ‘Panel Options’ you can select ‘Save to file’ or ‘Stream to Flash Media Server’ if you intend to live stream your video to Twitch.tv or any other video blogging server.
 
 My FMLE screen looks like this:
-
-
 
 Again, there are plenty of options available here to play with, but I’m just sticking with the basic task of creating a screencast video of iOS simulator.
 

@@ -12,7 +12,7 @@ So, I decided to make the ray tracer render frames faster. It was getting signif
 
 Before any performance improvements, I profiled the time, it was around 10 minutes per frame.
 
-![main thread](https://i.imgur.com/gYlhjjx.png])
+![main thread](https://i.imgur.com/gYlhjjx.png)
 
 This was when using a single thread for all the processing.
 
@@ -22,7 +22,7 @@ The good thing about a ray tracer is that, it is actually very straightforward t
 
 To illustrate the problem, a ray which hits no objects will be much faster to compute the final value than the ray which hit multiple objects and bounces all over the place. The first solution to such a solution could be to guard the write operation to the image data with a [mutex](https://en.wikipedia.org/wiki/Lock_(computer_science)).
 
-```
+``` cpp
 // data structure for pixel data
 Film film;
 
@@ -48,19 +48,19 @@ For our case, if we think of each rendering of a pixel as an independent task th
 
 The first thing we need is a serial queue `filmQueue` which is responsible for synchronizing write operations on `film`, which is just the pixel data store.
 
-```
+``` cpp
 dispatch_queue_t filmQueue = dispatch_queue_create("com.whackylabs.srt", DISPATCH_QUEUE_SERIAL);
 ```
 
 Next we can either make our own concurrent queue, or simply use one of the few system global concurrent. Let us call this parallel queue `rayQueue` which is the concurrent queue and manages the parallel execution of all the rays in the scene. With this task based approach we won't have to manage the thread pool ourselves.
 
-```
+``` cpp
 dispatch_queue_t rayQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0);
 ```
 
 Now we can already implement our algorithm:
 
-```
+```cpp
 for (int j = ny - 1; j >= 0; --j) {
     for (int i = 0; i < nx; ++i) {
         dispatch_async(rayQueue, ^{
@@ -78,7 +78,7 @@ This is the job best suited for dispatch groups. You can think of dispatch group
 
 Here's how this would look:
 
-```
+``` cpp
 dispatch_group_t rayTask = dispatch_group_create();
 
 for (int j = ny - 1; j >= 0; --j) {
@@ -103,13 +103,13 @@ If you run this code as is, the program would exit even before the first ray has
 
 For our current needs what we simply need is this one line at the end:
 
-```
+``` cpp
 dispatch_main();
 ```
 
 And that should keep the main thread busy forever. Which means our program never exits. That is also not very good. The fastest way around is then to explicitly exit the program when the image has been processed.
 
-```
+``` cpp
 film.process();
 dispatch_async(mainQueue, ^{
     exit(0);
@@ -126,7 +126,7 @@ But this is not all, remember when we created the `rayQueue` we passed in the `Q
 
 Finally since we are mutating the `film` within `filmQueue`, we need to capture the reference. The way it's done blocks is with the use of `__block` keyword.
 
-```
+``` cpp
 __block Film film(nx, ny);
 ```
 ### Conclusion

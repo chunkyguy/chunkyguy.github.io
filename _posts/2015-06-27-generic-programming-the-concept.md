@@ -9,7 +9,7 @@ categories: programming generic
 
 Say, we have a type `Animal` which is at this time just an idea, so a protocol.
 
-```
+``` swift
 protocol Animal {
     func say()
 }
@@ -17,7 +17,7 @@ protocol Animal {
 
 Next, say we want a generic function that works with `Animal`.
 
-```
+``` swift
 func greet<T: Animal>(animal: T) {
     animal.say()
 }
@@ -25,7 +25,7 @@ func greet<T: Animal>(animal: T) {
 
 Looks good. Now let’s create our concrete types.
 
-```
+``` swift
 class Mammal: Animal {
     func say() {
         println("Hello! I'm a mammal!")
@@ -41,7 +41,7 @@ class Reptile: Animal {
 
 And bring it to use
 
-```
+``` swift
 let m = Mammal()
 let r = Reptile()
 let animals: [Animal] = [m, r]
@@ -60,7 +60,7 @@ error: generic parameter 'T' cannot be bound to non-@objc protocol type 'Animal'
 
 Let’s rewrite our implementation in C++ and see what sort of error we get.
 
-```
+``` cpp
 class Animal {
 public:
     virtual void Say() const = 0;
@@ -123,7 +123,7 @@ Let's take a look at some examples.
 
 This is a `Concept`:
 
-```
+``` cpp
 class Animal {
     public:
     virtual void Say() const = 0;
@@ -131,12 +131,12 @@ class Animal {
 ```
 
 This is a `Model`:
-```
+``` cpp
 class Mammal: public Animal { ... }
 ```
 
 This is `Refinement`:
-```
+``` cpp
 class WalkingAnimal: public Animal {
     public:
     virtual void Walk() const = 0;
@@ -144,7 +144,7 @@ class WalkingAnimal: public Animal {
 ```
 
 This is a `Type Constraint`:
-```
+``` swift
 protocol Equatable {
     func ==(lhs: Self, rhs: Self) -> Bool
 }
@@ -154,7 +154,7 @@ In Swift we use the term `protocol` for both `Concept` and `Type Constraint`, an
 
 First let us try to understand the relationship between a `Model` and a `Type Constraint`. Let's say we have a  `Model` named `Student` as:
 
-```
+``` swift
 struct Student: Equatable {
     let studentId: Int
 }
@@ -168,7 +168,7 @@ Here `Student` conforms to the `Type Constraint`. So any function that is design
 
 Next let us explore the relationship between a `Model` and a `Concept`. If we have a generic stack implementation:
 
-```
+``` swift
 class Stack<T> {
     private var store: [T] = []
 
@@ -187,7 +187,7 @@ class Stack<T> {
 
 What could be the core `Concept` of a stack? If we take a look at it, we might say a stack is a data structure where you push items and later on pop them back. So, we can say the `Concept` of stack can be written as:
 
-```
+``` swift
 protocol Stack {
     typealias Item
     func push(item: Item)
@@ -197,7 +197,7 @@ protocol Stack {
 
 Now, we can `Model` an `Array` backed stack on this `Concept` as:
 
-```
+``` swift
 class ArrayStack<T>: Stack {
     private var store: [T] = []
 
@@ -216,7 +216,7 @@ class ArrayStack<T>: Stack {
 
 Or, we can go crazy and write a weird stack, where you pop data filtered by some epoch timestamp that we provide at runtime.
 
-```
+``` swift
 class TimeStack<T>: Stack {
     private var store: [CFTimeInterval: T] = [:]
     var epoch = CACurrentMediaTime()

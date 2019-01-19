@@ -14,7 +14,7 @@ Practical usage of generic programming can be narrowed down to two forms:
 
 Writing top level generic functions is easier. Its more of like you write a normal function and later on you realize that this function is not restricted to any type, rather it is just an abstract algorithm that can be used by many types, you upgrade it to generic type. For example,
 
-```
+``` cpp
 bool isEqual(int x, int y) {
     return x == y;
 }
@@ -22,7 +22,7 @@ bool isEqual(int x, int y) {
 
 can be easily abstracted out to a generic form such as
 
-```
+``` cpp
 template <typename T>
 bool isEqual(T x, T y) {
     return x == y;
@@ -33,7 +33,7 @@ This generic form would work as long as `T` supports a `==` operation. Which bri
 
 So, the above example would work fine with all types that support `==` operation. Such as:
 
-```
+``` cpp
 std::cout << (isEqual(10, 10) ? "Y" : "N") << std::endl;
 std::cout << (isEqual(10.5, 10.5) ? "Y" : "N") << std::endl;
 std::cout << (isEqual("hello", "hello") ? "Y" : "N") << std::endl;
@@ -41,7 +41,7 @@ std::cout << (isEqual("hello", "hello") ? "Y" : "N") << std::endl;
 
 But would easily break down when used like:
 
-```
+``` cpp
 struct Vector2 {
     float x, y;
     Vector2(float xx, float yy) : x(xx), y(yy) {}
@@ -53,7 +53,7 @@ std::cout << (isEqual(Vector2(10, 10), Vector2(10, 10)) ? "Y" : "N") << std::end
 And the reason being, that the `Type Constraint` has been violated. The type `Vector2` does not provides an `==` operation. The fix is simple,
 satisfy the `Type Constraint`
 
-```
+``` cpp
 bool operator == (const Vector2 &lhs, const Vector2 &rhs) {
     return (lhs.x == rhs.x) && (lhs.y == rhs.y);
 }
@@ -61,7 +61,7 @@ bool operator == (const Vector2 &lhs, const Vector2 &rhs) {
 
 Another type of error that could arise with generic functions is, where the constraints are not violated syntactically, by are logically broken. For example:
 
-```
+``` cpp
 const char w1[] = "world";
 const char w2[] = "world";
 std::cout << (isEqual(w1, w2) ? "Y" : "N") << std::endl; // output N
@@ -71,7 +71,7 @@ Here, our `isEqual()` sees that the types are `const char *` and the compiler kn
 
 For our specific case, it can be achieved by providing an overloaded implementation that just takes `const char *`
 
-```
+``` cpp
 bool isEqual(const char *x, const char *y) {
     return strcmp(x, y) == 0;
 }
@@ -87,7 +87,7 @@ the compiler.
 
 To get an quick overview, the `Vector2` type that we wrote above for `float` types can easily be rewritten as a generic type
 
-```
+``` cpp
 template <typename T>
 struct Vector2 {
     T x, y;
@@ -97,7 +97,7 @@ struct Vector2 {
 
 And the `==` implementation should just fit with the change:
 
-```
+``` cpp
 template <typename T>
 bool operator == (const Vector2<T> &lhs, const Vector2<T> &rhs) {
     return (lhs.x == rhs.x) && (lhs.y == rhs.y);
@@ -108,7 +108,7 @@ Now, where should we actually use the generic types in real world? To address th
 polymorphism to compile-time polymorphism. Let’s consider an example where you have designed your types in the classical object-oriented
 fashion, that is using inheritence
 
-```
+``` cpp
 class Shape {
 public:
     virtual ~Shape() {}
@@ -169,7 +169,7 @@ Here, we have a base `Shape` class that does provides the public interface and l
 In another words, what we are actually doing is that delegating some part of the implementation of our `Shape` class to subclasses. Another
 way of achieving the same results is by not depending on subclasses for overrides, but delegating the implementation to some external classes.
 
-```
+``` cpp
 struct ShapeImpl {
     virtual float Area() const = 0;
 };
@@ -235,7 +235,7 @@ implementation can be dragged out of the core class while keeping the visible in
 
 If we can achieve this, we can even go a step further and actually provide the implementation at compile time. In other words, we can simply make the `Shape` class generic, and let the compiler plug-in the implementation details at compile-time.
 
-```
+``` cpp
 template <typename Impl>
 class Shape {
 public:
@@ -252,7 +252,7 @@ private:
 
 Now, we can create and use our generic shape instances as:
 
-```
+``` cpp
     Shape<RectangleImpl> rect(RectangleImpl(10, 20));
     Shape<CircleImpl> circle(CircleImpl(5));
 
@@ -262,7 +262,7 @@ Now, we can create and use our generic shape instances as:
 
 The only type constraints on the `RectangleImpl` and `CircleImpl` is that they need to have a `Area()` function.
 
-```
+``` cpp
 class RectangleImpl {
 public:
     RectangleImpl(float w, float h) : width(w), height(h) {}
@@ -290,7 +290,7 @@ private:
 
 The C++ compiler is smart enough to see the constraints are not violated by any new delegate class. For example if we introduce a `TriangleImpl` as:
 
-```
+``` cpp
 class TriangleImpl {
 public:
     TriangleImpl(float b, float h) : base(b), height(h) {}
@@ -305,7 +305,7 @@ triangle.PrintArea();
 
 The compiler will immediately throw error messages, unless you fix your implementation by providing the `Area()` function.
 
-```
+``` cpp
 class TriangleImpl {
 
 public:
@@ -339,7 +339,7 @@ To summarize, here’s a quick list of good and bad of generic type system:
 
 Now, moving on to using generics with Swift. Swift provides the same good old C++ way of writing generic code with some extra type constraint system. Where in C++ the compiler would do the type constraint checking when you actually compile the code, Swift actually makes the constraint system more explicit, such that you have to provide the constraint information with a `protocol`.
 
-```
+``` swift
 protocol ShapeImplementable {
     var area: Double { get }
 }
@@ -359,7 +359,7 @@ struct Shape<Impl: ShapeImplementable> {
 
 And then you can implement your delegate class as
 
-```
+``` swift
 struct RectangleImpl: ShapeImplementable {
     var area: Double {
         return width * height
@@ -377,7 +377,7 @@ struct RectangleImpl: ShapeImplementable {
 
 And finally use them the same way you would with C++.
 
-```
+``` swift
 let rect = Shape<RectangleImpl>(impl: RectangleImpl(w: 10, h: 20))
 ```
 

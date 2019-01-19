@@ -8,7 +8,7 @@ published: true
 
 Another weekend another tool. The tool for today is [Flutter](https://flutter.io/).
 
-# Why Flutter?
+## Why Flutter?
 
 I had known about Flutter for sometime now, but with the recent news of [Flutter 1.0](https://developers.googleblog.com/2018/12/flutter-10-googles-portable-ui-toolkit.html) being out, I got curious about it one more time. Then, recently at work [someone](https://github.com/LcTwisk) ignited my real interest by informing me that Flutter does its own rendering from scratch. I had to try it out.
 
@@ -24,11 +24,11 @@ Then a few hours into making my first Flutter app it occured to me that maybe wi
 
 I know most of Game Engines ship a core engine written with a high performance system language like C or C++, and a high level language for writing the actual game, like Lua. Which is also what Flutter does, the core engine is written in C++ and Dart is used to then write the app.
 
-# Set up
+## Set up
 
 Whatever they say on the official instructions works out of the box. Although there are quite of bunch of things that have to be installed to get the thing running, but that is expected when installing a tool for cross platform development. The instructions come in 2 flavors, Android Studio and Visual Studio Code (again reflecting the fact that Google does not wants to be biased towards Android). I followed the instructions for Visual Studio Code and it just works.
 
-# First run
+## First run
 
 Okay, even before I get to the part of running the app. I would like acknowledge the fact that how awesome is Visual Studio Code. This is the first time I'm actually using it for anything and I really like it. 
 
@@ -52,7 +52,7 @@ And now I think, if the main target device is Android, then maybe it is wise to 
 
 ![Hello Android](https://i.imgur.com/shXV1oG.png)
 
-# Make the real app
+## Make the real app
 
 Now, since we have tested the tool and know for sure that the simulators are working perfectly, it's time to dive a bit deeper and make a real app.
 
@@ -62,7 +62,7 @@ So, everything in Flutter is a `Widget`, which is again very common pattern with
 
 Another concept at the core of Flutter is the react like philosopy, where data flows in one direction so every node or `Widget` is more or less a stateless entity. Think of it this way, in every UI systems like `UIKit` or every game engines, at the core there is this tree like data structure, some call it the [scene graph](https://en.wikipedia.org/wiki/Scene_graph) other call it the [view hierarchy](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/WindowsandViews/WindowsandViews.html). And then there is is the infinite loop that traverses the tree and updates each node of the tree.
 
-```
+``` cpp
 void main()
 {
   SceneGraph *rootNode = buildSceneGraph();
@@ -86,7 +86,7 @@ Another nice thing about Flutter is that it comes its own package manager. You j
 
 With all this basic understanding of the architecture, writing the first table view is pretty dead simple. I guess this piece of code is self explainatory:
 
-```
+``` dart
 class ListState extends State<Item> {
   final _list = <Item>[];
   Widget _buildWidget() {
@@ -107,7 +107,7 @@ class ListState extends State<Item> {
 
 Since everything is a `Widget`, it is a piece of cake to add decorations to a `Widget`
 
-```
+``` dart
 Icon
 (
   isSaved ? Icons.favorite : Icons.favorite_border,
@@ -122,7 +122,7 @@ Another interesting fact is that Flutter builds a Xcode project internally which
 ![Xcode](https://i.imgur.com/SBsNuK1.png)
 
 One question I still had was how does the one maintains a state if required. For example, if say we want to react on a touch interaction we need to use the `StatefulWidget` which then comes with a `createState()` function that can provide access to some internal data store where we can read and write data like so:
-```
+``` dart
 onTap: () {
   setState((){
     if (isSaved) {
@@ -136,7 +136,7 @@ onTap: () {
 
 If you think that is weird, see how the screen transitions are done:
 
-```
+``` dart
 void onDetails() {
   Navigator.of(context)
       .push(MaterialPageRoute<void>(builder: (BuildContext context) {
@@ -154,7 +154,7 @@ void onDetails() {
 }
 ```
 
-### Conclusion
+## Conclusion
 
 If you can move out of your comfortable `UIKit` zone, I think Flutter is a pretty good tool. The performance so far was really nice (at least on the simulators). I can not say much anymore, I would have to complete my photo app to give any good opinion, but I can already say that so far with all the things I've tried with cross platform development, Flutter was the best.
 

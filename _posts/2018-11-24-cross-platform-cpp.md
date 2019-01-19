@@ -6,8 +6,6 @@ categories: djinni cpp ios android
 published: true
 ---
 
-# Hello Djinni
-
 ## Motivation
 
 One of my last years goal was to make a Android app. It just occurred to me that even though I had been making app for such a long time, I had never made an Android. The app that I eventually made was far from being anything but glorious. It was just a empty with a label saying **Hello World**. Nonetheless, it was a milestone of my career. I should also mention, that being a Java illiterate I wrote that app in C++, so most my time was actually spent fighting with the JNI.
@@ -48,13 +46,13 @@ With a simple command
 ```
 And after downloading a bunch of more stuff, it chokes on some random `Unresolved dependencies` error. Retrying with sudo does not help either. From what I understand, the Djinni is build with Scala and there is this sbt that builds the projects. When running the packaged `./src/build`, the installer hangs on some dependency issues. Next step could be try building directly with [sbt](https://www.scala-sbt.org/) with 
 
-```
+``` sh
 $ brew install sbt@1
 ```
 
 Next, I would try running the installer directly.
 
-```
+``` sh
 $ sbt
 ```
 

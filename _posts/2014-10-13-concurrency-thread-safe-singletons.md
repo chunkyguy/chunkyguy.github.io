@@ -14,150 +14,81 @@ over your program lifecycle. Usually, you want to create singleton
 objects lazily. Here’s a typical way you can create a singleton in a
 single threaded application.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+```  cpp
 class Library {
-
 public:
-
-
-
     static Library *SharedInstance()
-
     {
-
         if (!shared_) {
-
             shared_ = new Library();
-
         }
-
         return shared_;
-
     }
-
-
 
     static void Dealloc()
-
     {
-
         if (shared_) {
-
             delete shared_;
-
         }
-
     }
-
     
-
     Library() :
-
     books_({
-
         {"Ernest Hemingway", "Old man and the sea"},
-
         {"Aldous Huxley", "Brave new world"},
-
         {"Aldous Huxley", "The Genius and the Goddess"},
-
         {"Aldous Huxley", "Antic Hay"},
-
         {"Salman Rushdie", "Midnight's children"},
-
         {"Fyodor Dostovesky", "Crime and punishment"},
-
         {"Boris Pasternak", "Doctor Zhivago"},
-
         {"Bernard Shaw", "Arms and the Man"},
-
         {"Bernard Shaw", "Man and Superman"}
-
     })
-
     {
-
         std::cout << "Library " << this << std::endl;
-
     }
-
-    
 
     ~Library()
-
     {
-
         std::cout << "~Library " << this << std::endl;
-
     }
 
-    
-
     std::vector<std::string> GetBooks(const std::string &author) const
-
     {
-
         typedef std::multimap<std::string, std::string>::const_iterator BookIt;
 
         std::pair<BookIt, BookIt> range =  books_.equal_range(author);
-
         std::vector<std::string> bookList;
 
         for (BookIt it = range.first; it != range.second; ++it) {
-
             bookList.push_back(it->second);
-
         }
 
         return bookList;
-
     }
-
-    
 
     std::size_t GetSize() const
-
     {
-
         return books_.size();
-
     }
 
-    
-
 private:
-
     std::multimap<std::string, std::string> books_;
-
     static Library *shared_;
-
 };
-
-
 
 Library *Library::shared_ = nullptr;
 
-
-
 void PrintBooks(const std::string &author)
-
 {
-
     std::cout << "Searching for author: " << author << std::endl;
-
     std::vector<std::string> list = Library::SharedInstance()->GetBooks(author);
 
     std::copy(list.begin(), list.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-
 }
 
-
-
 void PrintSize()
-
 {
-
     std::cout << "Library Size: " << Library::SharedInstance()->GetSize() << " books" << std::endl;
 
 }
@@ -165,53 +96,31 @@ void PrintSize()
 
 When invoked with:
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 void SerialImpl()
-
 {
-
     std::string searchAuthor("Aldous Huxley");
-
     PrintBooks(searchAuthor);
-
     PrintSize();
-
 }
-
-
 
 void ThreadsafeSingleton_main()
-
 {
-
     SerialImpl();
-
     Library::Dealloc();
-
 }
-
-
 ```
 
 We get
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+```
 Searching for author: Aldous Huxley
-
 Library 0x100a6bfe0
-
 Brave new world
-
 The Genius and the Goddess
-
 Antic Hay
-
 Library Size: 9 books
-
 ~Library 0x100a6bfe0
-
 main() exit
 ```
 
@@ -221,24 +130,15 @@ thanks to the Dealloc() function.
 
 Next, lets try calling it from multiple threads.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 void ConcurrentImpl()
-
 {
-
     std::string searchAuthor("Aldous Huxley");
-
     std::thread bookSearchThread(PrintBooks, std::ref(searchAuthor));
-
     std::thread libSizeThread(PrintSize);
 
-    
-
     bookSearchThread.join();
-
     libSizeThread.join();
-
 }
 ```
 
@@ -246,40 +146,26 @@ This might actually work or not depending on how the threads are
 switching on your machine. To see what is problem with this code, let’s
 deliberately sleep the thread while creating the singleton instance.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
     static Library *SharedInstance()
-
     {
-
         if (!shared_) {
-
             std::this_thread::sleep_for(std::chrono::seconds(1));
-
             shared_ = new Library();
-
         }
-
         return shared_;
-
     }
 ```
 
 Now, if you run it you might see two instances of Library objects
 getting created.
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Searching for author: Aldous Huxley
-
 Library Size: Library 0x100b84fe0
-
 Brave new world
-
 The Genius and the Goddess
-
 Antic Hay
-
 Library 0x100ba4fe0
 
 9 books
@@ -301,64 +187,41 @@ static initialization.
 Let’s modify our Library class and instead of creating the singleton at
 heap, we create a static instance of a Library object.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 static Library &SharedInstance()
-
 {
-
     static Library lib;
-
     return lib;
-
 }
 ```
 
 And modifying our calls
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
+``` cpp
 
 void PrintBooks(const std::string &author)
-
 {
-
     std::cout << "Searching for author: " << author << std::endl;
-
     std::vector<std::string> list = Library::SharedInstance().GetBooks(author);
-
     std::copy(list.begin(), list.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-
 }
 
-
-
 void PrintSize()
-
 {
-
     std::cout << "Library Size: " << Library::SharedInstance().GetSize() << " books" << std::endl;
-
 }
 ```
 
 If we now run our code, we get
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Searching for author: Aldous Huxley
-
 Library 0x10006d3c8
-
 Brave new world
-
 The Genius and the Goddess
-
 Antic Hay
-
 Library Size: 9 books
-
 main() exit
-
 ~Library 0x10006d3c8
 ```
 
@@ -377,41 +240,27 @@ C++ thread library.
 Let’s switch back to our original implementation, with Library object in
 heap memory. The first thing that we can try is using mutex.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
     static Library *SharedInstance()
-
     {
-
         std::lock_guard<std::mutex> lock(mutex_);
 
-        
-
         if (!shared_) {
-
             std::this_thread::sleep_for(std::chrono::seconds(1));
-
             shared_ = new Library();
-
         }
 
         return shared_;
-
     }
 ```
 
 And this works as expected:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+```
 Searching for author: Aldous Huxley
-
 Library Size: Library 0x100b92fe0
-
 Brave new world
-
 The Genius and the Goddess
-
 Antic Hay
 
 9 books
@@ -429,28 +278,18 @@ times we can just simple pass the pointer back. This brings us to the
 infamous [double checking lock
 design](http://en.wikipedia.org/wiki/Double-checked_locking).
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
     static Library *SharedInstance()
-
     {
-
         if (!shared_) {
-
             std::lock_guard<std::mutex> lock(mutex_);
-
             if (!shared_) {
-
                 std::this_thread::sleep_for(std::chrono::seconds(1));
-
                 shared_ = new Library();
-
             }
-
         }
 
         return shared_;
-
     }
 ```
 
@@ -470,8 +309,7 @@ space in the heap, so the shared\_ isn’t NULL anymore, but
 bookSearchThread is not done initializing the instance yet, just the
 allocation. Something like in Objective-C as:
 
-``` {.brush: .objc; .title: .; .notranslate title=""}
-
+``` objc
 Library *shared = [[Library alloc] init];
 ```
 
@@ -484,63 +322,41 @@ that isn’t actually fully initialized.
 This is such a great problem that almost every thread library provides a
 way to make this work. In C++11, we can use the std::call\_once
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 class Library {
 
 private:
-
     static std::once_flag onceFlag_;
 
     /* other data members */
-
-    
-
-    public:
-
+public:
     static Library *SharedInstance()
-
     {
-
         std::call_once(onceFlag_, []{
-
             std::this_thread::sleep_for(std::chrono::seconds(1));
-
             shared_ = new Library();
-
         });
 
         return shared_;
-
     }
 
-    
-
     /* other member functions */
-
 }
 ```
 
 Even GCD provides something similar:
 
-``` {.brush: .objc; .title: .; .notranslate title=""}
-
+``` objc
 + (instancetype)sharedInstance
-
 {
-
     static dispatch_once_t onceFlag;
-
     static id shared_;
 
     dispatch_once(&once, ^{
-
         shared_ = [[[self class] alloc] init];
-
     });
 
     return shared_;
-
 }
 ```
 

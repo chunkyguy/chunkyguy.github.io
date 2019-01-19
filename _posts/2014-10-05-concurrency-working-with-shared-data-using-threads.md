@@ -18,126 +18,71 @@ number.
 
 Let’s build the concept within a single-threaded environment:
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 class StatusBoard {
-
     std::forward_list<int> statusBoard;
-
-    
-
 public:
-
     void AddFlight()
-
     {
-
         int newFlight = rand()%MAX_FLIGHTS;
-
         statusBoard.push_front(newFlight);
-
     }
 
-    
-
     bool FindFlight(const int flightNum) const
-
     {
-
         return (std::find(statusBoard.begin(), 
 
                           statusBoard.end(), 
 
                           flightNum) != statusBoard.end());
-
     }
-
 };
-
-
 
 StatusBoard statusBoard;
 
-
-
 void StatusWriter()
-
 {
-
     debugCount.write++;
-
     statusBoard.AddFlight();
-
 }
-
-
 
 bool StatusReader(const int searchFlightNum)
-
 {
-
     debugCount.read++;
-
     return statusBoard.FindFlight(searchFlightNum);
-
 }
 
-
-
 void SerialLoop()
-
 {
-
     while (!StatusReader(SEARCH_FLIGHT)) {
-
         StatusWriter();
-
     }
-
 }
 ```
 
 On my machine, it outputs:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Flight found after 26 writes and 27 reads.
 ```
 
 Now let’s begin with making this implementation multithreaded.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 void StatusWriter()
-
 {
-
     std::this_thread::sleep_for(std::chrono::seconds(1));
-
-    
-
     debugCount.write++;
-
     statusBoard.AddFlight();
-
 }
 
-
-
 void ParallelLoop()
-
 {
-
     while (!std::async(std::launch::async, StatusReader, SEARCH_FLIGHT).get()) {
-
         /* write operation */
-
         std::thread writeOp(StatusWriter);
-
         writeOp.detach();
-
     }
-
 }
 ```
 
@@ -149,8 +94,7 @@ operations on two threads at each iteration of the loop.
 
 First we have a read operation
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 while (!std::async(std::launch::async, StatusReader, SEARCH_FLIGHT).get()) {
 ```
 
@@ -168,19 +112,15 @@ experiment](http://127.0.0.1/rants/?p=1121 "Concurrency: Spawning Independent Ta
 Here we just start the StatusWriter function on a new thread every time
 the loop iterates.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 /* write operation */
-
 std::thread writeOp(StatusWriter);
-
 writeOp.detach();
 ```
 
 On my machine, when the code doesn’t crashes, it prints:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+```
 Flight found after 26 writes and 1614 reads.
 ```
 
@@ -196,30 +136,15 @@ First of all we start with a std::mutex object. This object guarantees
 that the code is locked for a single thread use at a time. We can use
 the lock() and unlock() member functions on std::mutex object like:
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 void foo()
-
 {
-
     std::mutex mutex;
-
-    
-
     mutex.lock();
-
-    
-
     /* 
-
      * some resource locking code here
-
      */
-
-    
-
     mutex.unlock();
-
 }
 ```
 
@@ -240,62 +165,37 @@ to work with any lock like object.
 
 Using std::mutex and std::lock\_guard our code is now:
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` cpp
 class StatusBoard {
-
     std::forward_list<int> statusBoard;
-
     mutable std::mutex mutex;
-
-    
-
 public:
-
     void AddFlight()
-
     {
-
         std::lock_guard<std::mutex> lock(mutex);
-
-        
-
         int newFlight = rand()%MAX_FLIGHTS;
-
         statusBoard.push_front(newFlight);
-
     }
-
-    
 
     bool FindFlight(const int flightNum) const
-
     {
-
         std::lock_guard<std::mutex> lock(mutex);
-
-        
-
         return (std::find(statusBoard.begin(), statusBoard.end(), flightNum) != statusBoard.end());
-
     }
-
 };
 ```
 
 The mutable keyword is used as we’re using the mutex in a const member
 function FindFlight(). On my machine it executes as:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 Flight found after 10 writes and 1591 reads.
 ```
 
 Sometime, the code also throws the following exception after exiting
 from main:
 
-``` {.brush: .plain; .title: .; .notranslate title=""}
-
+``` 
 libc++abi.dylib: terminating with uncaught exception of type std::__1::system_error: mutex lock failed: Invalid argument
 ```
 

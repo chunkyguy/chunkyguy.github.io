@@ -38,7 +38,7 @@ mean bool and integers, no floating points, as you’ll see in a moment
 why). You can use them directly or as `std::atomic<>` template
 specialization. Here’s an example
 
-```
+``` cpp
 std::atomic_bool b1;
 std::atomic<bool> b2;
 ```
@@ -48,7 +48,7 @@ you can use them as your usual fundamental types, there are few
 operations that are not allowed. First striking constraint disallowed is
 copy and assign operation. This code won’t compile
 
-```
+``` cpp
 void TryCopy()
 {
     std::atomic<bool> b1(false);
@@ -68,7 +68,7 @@ If you’ve ever done a bit of assembly, you must be familiar with load
 and store operations. Load retrieves the data while store saves the
 data.
 
-```
+``` cpp
 void DoLoad()
 {
     std::atomic<int> i(10);
@@ -90,7 +90,7 @@ Apart from the basic load and store, you also get a bunch of exchange
 operations. An exchange operation does exactly what you’d expect, store
 a new value and return the old value.
 
-```
+``` cpp
 void DoExchange(const int n)
 {
     std::atomic<int> i(50);
@@ -120,7 +120,7 @@ successful. This could be because if the running thread’s time just ran
 out and was kicked out by the scheduler before it could finish the
 steps. This is called as *spurious failure*.
 
-```
+``` cpp
 void DoExchangeWeak(const int desired)
 {
     int expected = 50;
@@ -135,7 +135,7 @@ So if you want the exchange to run successfully every time, you probably
 need to put this operation under a loop. So that whenever the operation
 fails, you keep trying until it succeeds.
 
-```
+``` cpp
 while (i.compare_exchange_weak(expected, desired) != true) {
 }
 ```
@@ -143,7 +143,7 @@ while (i.compare_exchange_weak(expected, desired) != true) {
 Or, you can simply use `compare_exchange_strong()` which is guaranteed
 to eliminate all spurious failures.
 
-```
+``` cpp
 bool success = i.compare_exchange_strong(expected, desired);
 ```
 
@@ -152,7 +152,7 @@ same as the stored value. That is, whenever the comparison fails, and in
 that case the expected updates to whatever was the actual value. For
 example:
 
-```
+``` cpp
 void DoExchangeWeak(const int desired)
 {
     int expected = 0;
@@ -168,7 +168,7 @@ For all fundamental types that support `+=`, `-+`, `|=`, `&=`, and `^=`, the
 atomic types have equivalent `fetch_add`, `fetch_sub`, `fetch_or`,
 `fetch_and`, `fetch_xor` operation available.
 
-```
+``` cpp
 void DoFetchAdd(const int n)
 {
     std::atomic<int> i(100);
@@ -184,7 +184,7 @@ that means in practical world is that your type should work with
 `memcpy()` and `memcmp()`. That is plain C types, no virtual table lookups.
 Here’s trivial example:
 
-```
+``` cpp
 struct MyType {
     int a;
     int b;
@@ -225,7 +225,7 @@ Let’s consider scenario. On your social network you get a lot of LOL
 text that you just can’t understand. So, you decide to write a program
 to convert that text either into a full uppercase or full lower case.
 
-```
+``` cpp
 class UnLOLText {
 
 public:
@@ -293,7 +293,7 @@ Serial lower: hey how are you doing!
 The amount of such LOL text you receive is huge. So obviously you want
 to unLOL the the text concurrently.
 
-```
+``` cpp
 class UnLOLText {
 public:
     UnLOLText(const std::string &name) :
@@ -372,7 +372,7 @@ selecting a thread and blocking all the rest.
 This almost sounds like what `std::mutex` does right? In fact, using
 `std::atomic_flag` you can implement your own mutex object.
 
-```
+``` cpp
 class CustomMutex {
 public:
     CustomMutex() :
@@ -455,7 +455,7 @@ And since you’re so far, you can even just reap the benefits of
 exception-safe guarantee that no matter what the rest of the code does
 (except deadlock) your mutex will get unlocked.
 
-```
+``` cpp
 class UnLOLText {
 public:
 
@@ -559,7 +559,7 @@ hold the coffee and then checks if the employee also has a hat on. After
 both the security systems have reported back, the doors decides
 whether to grant entry or not.
 
-```
+``` cpp
 namespace defult {
     std::atomic<bool> hasHat;
     std::atomic<bool> hasCoffee;
@@ -634,7 +634,7 @@ the first item.
 
 Company B follows the unordered memory model.
 
-```
+``` cpp
 namespace unordered {
     std::atomic<bool> hasHat;
     std::atomic<bool> hasCoffee;
@@ -703,7 +703,7 @@ memory ordering.
 Company C learns the lessons from both companies A and B, and wants to
 get the best of both worlds. So it adopts the lock based memory model.
 
-```
+``` cpp
 namespace lock {
     std::atomic<bool> hasHat;
     std::atomic<bool> hasCoffee;
@@ -761,7 +761,7 @@ check for the hat can be successfully executed.
 
 Company D took a slightly different approach than company C.
 
-```
+``` cpp
 namespace lock2 {
     std::atomic<bool> hasHat;
     std::atomic<bool> hasCoffee;
@@ -830,7 +830,7 @@ object will be valid.
 
 Let’s consider a employee record example:
 
-```
+``` objc
 @interface Employee : NSObject
 
 @property (copy) NSString *firstName;
@@ -893,7 +893,7 @@ Let’s consider a employee record example:
 We simply create a employee with some default values. Now suppose we try
 to update a single record concurrently
 
-```
+``` objc
 
 void updateRecord()
 

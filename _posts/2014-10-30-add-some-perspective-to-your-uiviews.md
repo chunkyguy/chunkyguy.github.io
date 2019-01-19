@@ -12,9 +12,6 @@ can see the web content rendered, they have cross buttons. The content
 even periodically updates without launching the app using the background
 services probably.
 
-[![IMG\_1315](http://127.0.0.1/rants/wp-content/uploads/2014/10/IMG_1315.png){.aligncenter
-.size-full .wp-image-1206 width="640"
-height="1136"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/IMG_1315.png)
 
 Lets start with searching for something in the Apple’s documentation. As
 far as I was able to search, I only got so far to the [Adding
@@ -34,10 +31,8 @@ But for now, let’s get started.
 So, create a new single view project and add a new Swift file to it.
 Let’s call it PerspectiveView.swift.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 class PerspectiveView: UIView {
-
 }
 ```
 
@@ -47,32 +42,18 @@ apply perspective to this container view and hopefully the perspective
 gets applied to all the contained subviews. Let’s call this container
 view as contentView.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
+``` swift
 
 let contentView:UIView?
 
-
-
 required init(coder aDecoder: NSCoder)
-
 {
-
     super.init(coder: aDecoder)
-
-    
-
-    contentView = UIView()
-
-
-
+   contentView = UIView()
     contentView?.backgroundColor = UIColor.yellowColor()
-
     backgroundColor = UIColor.purpleColor()
 
-
-
     setUp()
-
 }
 ```
 
@@ -80,42 +61,23 @@ I’ve set the background color of the main view as purple and the
 contentView as yellow just for debugging. Next, lets implement the
 setUp(). This is where we configure the contentView
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func setUp()
-
 {
-
     var viewDict:[String: UIView] = [String: UIView]()
-
-
-
     viewDict["contentView"] = contentView!
-
     addSubview(contentView!)
 
-    
-
     if let imagePath:String = NSBundle.mainBundle().pathForResource("photo4", ofType: "JPG") {
-
         let image:UIImage = UIImage(contentsOfFile: imagePath)
-
         let imageView:UIImageView = UIImageView(image: image)
-
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-
         viewDict["imageView"] = imageView
-
         contentView?.addSubview(imageView)
-
     }
 
-
-
     applyConstraints(viewDict: viewDict)
-
     applyPerspective()
-
 }
 ```
 
@@ -125,68 +87,38 @@ a single UIImageView.
 
 Next up, applying constraints.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func applyConstraints(#viewDict:[String: UIView])
-
 {        
-
     contentView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-
     contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[contentView(>=100)]",
-
         options: NSLayoutFormatOptions(0),
-
         metrics: nil,
-
         views: viewDict))
-
     contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[contentView(>=100)]",
-
         options: NSLayoutFormatOptions(0),
-
         metrics: nil,
-
         views: viewDict))
-
-    
-
-
 
     contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[imageView]-|",
-
         options: NSLayoutFormatOptions(0),
-
         metrics: nil,
-
         views: viewDict))
 
     contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[imageView]-|",
-
         options: NSLayoutFormatOptions(0),
-
         metrics: nil,
-
         views: viewDict))
 
-
-
     addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[contentView]-|",
-
         options: NSLayoutFormatOptions(0),
-
         metrics: nil,
-
         views: viewDict))
 
     addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[contentView]-|",
-
         options: NSLayoutFormatOptions(0),
-
         metrics: nil,
-
         views: viewDict))
-
 }
 ```
 
@@ -202,43 +134,23 @@ apply to the CALayer of our contentView. As for the calculation let’s
 simply copy-paste the code from Core Animation Programming Guide to
 calculate the transform.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func calculatePerspectiveTransform() -> CATransform3D
-
 {
-
     let eyePosition:Float = 10.0;
-
     var contentTransform:CATransform3D = CATransform3DIdentity
-
     contentTransform.m34 = CGFloat(-1/eyePosition)
-
-    
-
     return contentTransform
-
 }
 
-
-
 func applyPerspective()
-
 {
-
     contentView?.layer.sublayerTransform = calculatePerspectiveTransform()
-
 }
 ```
 
 That’s it. Give it a run. That is not my dog BTW, just photobombing my
 photo out of nowhere.
-
-[![](http://127.0.0.1/rants/wp-content/uploads/2014/10/1.png){.aligncenter
-.size-full .wp-image-1199 width="677"
-height="1137"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/1.png)
-
- 
 
 If for now we just ignore the distortion of the image, which is a
 constraints issue. There are some other questions to be answered first.
@@ -253,64 +165,31 @@ just adds the perspective. But, in order to see it in action you still
 have to modify the transform a bit more. Let’s add a little translation
 to the transform.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func calculatePerspectiveTransform() -> CATransform3D
-
 {
-
     let eyePosition:Float = 10.0;
-
     var contentTransform:CATransform3D = CATransform3DIdentity
-
     contentTransform.m34 = CGFloat(-1/eyePosition)
-
-    
-
     contentTransform = CATransform3DTranslate(contentTransform, 0, 0, -20)
-
-
-
     return contentTransform
-
 }
 ```
-
-[![2](http://127.0.0.1/rants/wp-content/uploads/2014/10/2.png){.aligncenter
-.size-full .wp-image-1200 width="677"
-height="1137"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/2.png)
 
 Good. But from this angle this looks just as if the image has been
 scaled down. Why not rotate it along x axis.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func calculatePerspectiveTransform() -> CATransform3D
-
 {
-
     let eyePosition:Float = 10.0;
-
     var contentTransform:CATransform3D = CATransform3DIdentity
-
     contentTransform.m34 = CGFloat(-1/eyePosition)
-
-    
-
     contentTransform = CATransform3DRotate(contentTransform, CGFloat(GLKMathDegreesToRadians(45)), 1, 0, 0)
-
     contentTransform = CATransform3DTranslate(contentTransform, 0, 0, -20)
-
-
-
     return contentTransform
-
 }
 ```
-
-[![3](http://127.0.0.1/rants/wp-content/uploads/2014/10/3.png){.aligncenter
-.size-full .wp-image-1201 width="677"
-height="1137"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/3.png)
 
 Wow! Now we have some perspective. We can now either just tinker with
 the magic numbers until we get the desired effect, or we can get a
@@ -324,16 +203,12 @@ from above.
 If you look at the interface of CALayer, you’ll see there are two
 CATransform3D types.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
+``` swift
 
 class CALayer : NSObject, NSCoding, CAMediaTiming {
-
     /* other stuff */
-
     var transform: CATransform3D
-
     var sublayerTransform: CATransform3D
-
 }
 ```
 
@@ -343,16 +218,11 @@ modified, while the receiver’s layer remains untouched.
 
 If you replace sublayerTransform with transform
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 contentView?.layer.transform = calculatePerspectiveTransform()
 ```
 
 You would get something like
-
-[![4](http://127.0.0.1/rants/wp-content/uploads/2014/10/4.png){.aligncenter
-.size-full .wp-image-1202 width="677"
-height="1137"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/4.png)
 
 See what I mean? Our contentView which had a background color yellow
 also got modified. Let’s undo that code change. We need the contentView
@@ -366,10 +236,6 @@ value, the effect is less and if it is a smaller value, the effect more.
 We shall look behind the maths of this in the next session with linear
 algebra. But for now you can try experimenting with values like 5, 50,
 500, 5000, 50000 and see the changes yourself.
-
-[![7](http://127.0.0.1/rants/wp-content/uploads/2014/10/7.png){.aligncenter
-.size-full .wp-image-1210 width="197"
-height="505"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/7.png)
 
 **What’s up with m34?**
 
@@ -394,34 +260,17 @@ while a perspective matrix has some negative value here, typically -1.
 If in the above code, you simply set the value of m34 as 0, you’ll
 notice that all the perspective effect is gone!
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func calculatePerspectiveTransform() -> CATransform3D
-
 {
-
     let eyePosition:Float = 50000.0;
-
     var contentTransform:CATransform3D = CATransform3DIdentity
-
     contentTransform.m34 = 0
-
-    
-
     contentTransform = CATransform3DRotate(contentTransform, CGFloat(GLKMathDegreesToRadians(45)), 1, 0, 0)
-
     contentTransform = CATransform3DTranslate(contentTransform, 0, 0, -20)
-
-
-
     return contentTransform
-
 }
 ```
-
-[![5](http://127.0.0.1/rants/wp-content/uploads/2014/10/5.png){.aligncenter
-.size-full .wp-image-1203 width="677"
-height="1137"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/5.png)
 
 Of course, the view is scaled, because this isn’t a perfect orthogonal
 matrix, we’re still performing the rotation and the translation on the
@@ -434,28 +283,17 @@ available in Swift, we might have to do this work in Objective-C and
 return the CATransform3D object back to our Swift class, where we can
 simply apply it to our contentView.
 
-``` {.brush: .objc; .title: .; .notranslate title=""}
-
+``` objc
 // Transform.h
-
 @interface Transform : NSObject
-
 @property (nonatomic, readonly) CATransform3D transform;
-
 @end
 
-
-
 // PerspectiveView.swift
-
 func applyPerspective()
-
 {
-
     let contentTransform:Transform = Transform()
-
     contentView?.layer.sublayerTransform = contentTransform.transform
-
 }
 ```
 
@@ -465,45 +303,27 @@ aperture. The kind of things you usually set once before you begin the
 filming. The second is the camera motion, like the direction you want to
 point, rotating the camera and so forth.
 
-``` {.brush: .objc; .title: .; .notranslate title=""}
+``` objc
 
 /** Camera object */
-
 @interface Camera : NSObject
 
-
-
 /* lens */
-
 // field of view - in radians
-
 @property (nonatomic, readwrite) float fov;
-
 @property (nonatomic, readwrite) float aspectRatio;
 
 // near and far planes
-
 @property (nonatomic, readwrite) float nearZ, farZ;
 
-
-
 /* motion  */
-
 @property (nonatomic, readwrite) float eyeX, eyeY, eyeZ;
-
 @property (nonatomic, readwrite) float centerX, centerY, centerZ;
-
 @property (nonatomic, readwrite) float upX, upY, upZ;
 
-
-
 /* Read by Transform object */
-
 @property (nonatomic, readonly) GLKMatrix4 projectionMatrix;
-
 @property (nonatomic, readonly) GLKMatrix4 viewMatrix;
-
-
 
 @end
 ```
@@ -546,31 +366,20 @@ coordinate space.
 
 For our Camera class, we just keep track of two coordinate systems
 
-``` {.brush: .objc; .title: .; .notranslate title=""}
-
+``` objc
 - (void) updateProjection;
-
 {
-
     self.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(_fov),
-
-                                                      _aspectRatio,
-
-                                                      _nearZ, _farZ);
-
+    _aspectRatio,
+    _nearZ, _farZ);
 }
 
-
-
 - (void) updateView;
-
 {
-
-    self.viewMatrix = GLKMatrix4MakeLookAt(_eyeX, _eyeY, _eyeZ,
-
-                                           _centerX, _centerY, _centerZ,
-
-                                           _upX, _upY, _upZ);
+    self.viewMatrix = GLKMatrix4MakeLookAt(
+        _eyeX, _eyeY, _eyeZ,
+        _centerX, _centerY, _centerZ,
+        _upX, _upY, _upZ);
 
 }
 ```
@@ -580,29 +389,16 @@ matrix.
 
 Now let’s focus on the Transform class.
 
-``` {.brush: .objc; .title: .; .notranslate title=""}
-
+``` objc
 @interface Transform : NSObject
-
-
 
 - (id)initWithCamera:(Camera *)camera;
 
-
-
 @property (nonatomic, readwrite) float positionX, positionY, positionZ;
-
 @property (nonatomic, readwrite) float rotationX, rotationY, rotationZ;
-
 @property (nonatomic, readwrite) float scaleX, scaleY, scaleZ;
-
 @property (nonatomic, readwrite) float angle;
-
-
-
 @property (nonatomic, readonly) CATransform3D transform;
-
-
 
 @end
 ```
@@ -621,48 +417,27 @@ frog and the motion of your camera.
 With that setup, lets see what can we build now. With a little
 experiment on the fov, camera’s eyeZ and the transform angle.
 
-``` {.brush: .cpp; .title: .; .notranslate title=""}
-
+``` swift
 func applyPerspective()
-
 {
-
     // config camera
-
     let contentCam:Camera = Camera()
-
     contentCam.fov = 10
-
     contentCam.aspectRatio = Float(CGRectGetWidth(UIScreen.mainScreen().bounds))/Float(CGRectGetHeight(UIScreen.mainScreen().bounds))
-
     contentCam.eyeZ = 25
 
-    
-
     // config content transform
-
     let contentTransform:Transform = Transform(camera: contentCam)
-
     contentTransform.rotationX = 1.0
-
     contentTransform.rotationY = 0.0
-
     contentTransform.rotationZ = 0.0
-
     contentTransform.angle = -1.0
 
-    
-
     contentView?.layer.sublayerTransform = contentTransform.transform
-
 }
 ```
 
-I was able to get this
-
-[![6](http://127.0.0.1/rants/wp-content/uploads/2014/10/6.png){.aligncenter
-.size-full .wp-image-1204 width="677"
-height="1137"}](http://127.0.0.1/rants/wp-content/uploads/2014/10/6.png)
+I was able to get this.
 
 Now, for your experimentation, you can test that when we update the fov
 how distorted the image gets. Also updating the eyeZ of camera actually
@@ -673,11 +448,11 @@ There’s a whole lot of things I’ve skipped in the implementation of the
 Camera and the Transform class. It’s more about why things work the way
 they work. In particular the insides of
 
--   GLKMatrix4MakeLookAt()
--   GLKMatrix4MakePerspective()
--   GLKMatrix4MakeTranslation()
--   GLKMatrix4Rotate()
--   GLKMatrix4Multiply()
+-   `GLKMatrix4MakeLookAt()`
+-   `GLKMatrix4MakePerspective()`
+-   `GLKMatrix4MakeTranslation()`
+-   `GLKMatrix4Rotate()`
+-   `GLKMatrix4Multiply()`
 -   and much more
 
 These are some of the most important functions where the real linear

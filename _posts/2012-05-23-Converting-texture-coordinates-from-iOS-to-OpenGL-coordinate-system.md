@@ -2,26 +2,14 @@
 layout: post
 title:  "Converting texture coordinates from iOS to OpenGL coordinate system"
 date:   2012-05-23 23:28:54 +0530
-categories: openGL
+categories: opengl
 ---
-
-Using Sprite Sheet: Converting texture coordinates from iOS to OpenGL coordinate system
-========================================================================================
-
 
 One thing I realized at a very early stage is the importance of using a Texture Atlas or Sprite Sheet compared to individual images. If you haven’t yet, I recommend doing it now and realizing the benefits later.
 
 For sanity sake let me tell you what a texture atlas or sprite sheet is, I assume they are the same thing, if not please let me know.
 
 A sprite sheet or texture atlas is a smart way putting all your images in one giant image usually accompanied by a smart file. The giant image is the texture and the smart file is the atlas, this is how I see it.
-
-For example if I’ve these three images from my under development game :
-
-
-
-Then my sprite sheet might look like this:
-
-
 
 “Big change”, you might say sarcastically, but it’s a big change, assume that as you game grows and you add more and more image and still you’ll just have one giant image to load into memory, that will reduce a lot of memory overhead, compared to the situation where you’re loading images one by one and releasing one by one.
 
@@ -43,7 +31,7 @@ Now lets dive into the using sprite sheet part. Remember when I said about the s
 
 So, for the above example the plist file would look something like:
 
-```
+``` xml
 <!--?xml version="1.0" encoding="UTF-8"?-->
 
 	frames
@@ -132,22 +120,7 @@ So, for the above example the plist file would look something like:
 As, you can see that the structure basically consists of  a dictionary of two things, a frames and a metadata. The frames is the one we’re more interested in, it is again an array of dictionaries, with each dictionary having a key as the filename and the other data for the relative coordinated in the giant image.
 
 Here’s my code for parsing that data:
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
+``` objc
 -(GLKVector4)texCoordsForImageAtIndex:(NSInteger)indx{
     if(indx >= [imageNames_ count])
         return GLKVector4Make(0.0, 0.0, 0.0, 0.0);
@@ -163,70 +136,92 @@ Here’s my code for parsing that data:
     float t = v + frame.size.height;
     return GLKVector4Make(u/fullSize_.width, v/fullSize_.height, s/fullSize_.width, t/fullSize_.height);
 }
+```
+
 Now, let me explain the code, line by line.
 
 This method takes a index and returns the openGL texture coordinates, there’s also an helper method that can achieve same thing with the image name, and most of the time I use this:
 
-1
-2
-3
+``` objc
 -(GLKVector4)texCoordsForImageNamed:(NSString *)name{
     return [self texCoordsForImageAtIndex:[imageNames_ indexOfObject:name]];
 }
+```
+
 And I assume it’s just simple enough to understand.
+``` objc
+    if(indx >= [imageNames_ count])
+        return GLKVector4Make(0.0, 0.0, 0.0, 0.0);
+```
+Just a normal exception check and return a `GLKVector4` with everything set as 0.
 
-Line 2-3: Just a normal exception check and return a GLKVector4 with everything set as 0.
+``` objc
+    NSDictionary *frameDict = [imageValues_ objectAtIndex:indx];
+```
+The `frameDict` is the dictionary corresponding to the image name, imageValues_ is just an array corresponding to the frames in the plist.
 
-Line 5: The frameDict is the dictionary corresponding to the image name, imageValues_ is just an array corresponding to the frames in the plist.
+``` objc
+    NSString *frameStr = [frameDict objectForKey:@"textureRect"];
+```
+Lets assume we want to render the snowview.png on the screen, so we get the textureRect from the dictionary, which the rectangle in the absolute space. Now, we just have to transform that to the openGL texture coordinate system.
 
-Line 6: Lets assume we want to render the snowview.png on the screen, so we get the textureRect from the dictionary, which the rectangle in the absolute space. Now, we just have to transform that to the openGL texture coordinate system.
+``` objc
+    CGRect frame = CGRectFromString(frameStr);
+```
+Convert the string into CGRect type.
 
-Line 7: Convert the string into CGRect type.
+``` objc
+    float u = frame.origin.x;
+    float v = frame.origin.y;
+```
+Get the origin point, and set it as u and v.
 
-Line 8-9: Get the origin point, and set it as u and v.
-
-Line 10-11: We’ve already calculated the fullSize_ of the texture, the giant image as
-
-1
-2
-3
-4
-5
-    NSDictionary *metaDict = [texDict objectForKey:@"metadata"];
+``` objc
+    v += frame.size.height;
+    v = fullSize_.height - v;
+```
+We’ve already calculated the fullSize_ of the texture, the giant image as
+``` objc
+NSDictionary *metaDict = [texDict objectForKey:@"metadata"];
 NSString *sizeStr = [metaDict objectForKey:@"size"];
 NSString *fullFrameStr = [NSString stringWithFormat:@" { { 0,0 }, %@ }",sizeStr];
 CGRect fullFrame = CGRectFromString(fullFrameStr);
 fullSize_ = fullFrame.size;
+```
+
 Next, we just transform the origin y in openGL coordinate space, as the zwoptex plist and even the cocos2d plist format assumes the origin at top-left, while the openGL coordinate system assumes origin at the center of screen.
 
 So, if originally
 
-v = 0,
+`v = 0`,
 
-frame.size.height = 360
+`frame.size.height = 360`
 
-and the fullSize_.height = 1024,
+and the `fullSize_.height = 1024`,
 
 then after the calculations,
 
-v = 664
+`v = 664`
 
-Line 12-13: We adjust the size of the frame in the openGL coordinate system, by adding the respective size to the origins.
+``` objc
+    float s = u + frame.size.width;
+    float t = v + frame.size.height;
+```
+We adjust the size of the frame in the openGL coordinate system, by adding the respective size to the origins.
 
 So, for if a frame in iOS coordinate system is:
 
-[0, 0, 480, 360]
+`[0, 0, 480, 360]`
 
 We’ve the corresponding openGL coordinate system as:
 
-[0, 664, 480, 1024]
+`[0, 664, 480, 1024]`
 
-To illustrate pictorially,  I created this image with Grapher:
+``` objc
+    return GLKVector4Make(u/fullSize_.width, v/fullSize_.height, s/fullSize_.width, t/fullSize_.height);
+```
+This is the final step, just to set the values in range 0 to 1, we divide the values by the size of the giant image, that should make it something like:
 
-
-
-Line 14: This is the final step, just to set the values in range 0 to 1, we divide the values by the size of the giant image, that should make it something like:
-
-[0, 0.62, 0.46, 1]
+`[0, 0.62, 0.46, 1]`
 
 Hope, this helps you in understanding the math and usage of texture mapping, for the entire time I was assuming the Zwoptex plist format, but the cocos2d plist format is almost similar, this code should be comfortable with that too with just a little tweak.
