@@ -1,0 +1,188 @@
+---
+layout: post
+title:  "Service Locator pattern with GameplayKit"
+date:   2019-10-21 14:36:00 +0200
+categories: architecture ios
+published: false
+---
+
+## Service Locator Pattern
+
+As the code size increases, so does the problem of dependency injection. A very common solution that I often come across is to use the **Singleton Pattern** by providing a shared instance that can easily be accessed from anywhere in your code. This pattern is [very well covered by Apple](https://developer.apple.com/documentation/swift/cocoa_design_patterns/managing_a_shared_resource_using_a_singleton) too.
+
+This indeed does the job but not without creating a mess. The mess is felt the most when trying to unit test a functionality where there is a need to mock a service. Another place where the **Singleton Pattern** hurts the most is with initialization order, where 2 singleton instances can accidentaly become dependent on each other and end up in a infinite loop.
+
+```swift
+class ServiceA {
+     static let sharedInstance: ServiceA = {
+        let instance = ServiceA(that: ServiceB.sharedInstance.that)
+           return instance
+       }()
+
+    var this: String { return "this" }
+
+    init(that: String) {}
+}
+
+class ServiceB {
+    static let sharedInstance: ServiceB = {
+        let instance = ServiceB(this: ServiceA.sharedInstance.this)
+           return instance
+       }()
+
+    var that: String { return "that" }
+
+    init(this: String) {}
+}
+```
+
+Another good alternative to this pattern is to use what is commonly called as [**Service Locator Pattern**](https://en.wikipedia.org/wiki/Service_locator_pattern). The basic idea is that there is this one instance that manages all the global services. When the system starts, we register all the servies with this service locator, preferably during the initialization. Later, anyone who wishes to get the shared resource simply asks for the service.
+
+It's not a golden solution to all your problems, but at least helps with unit testing where can register our mock services before running the tests. And also since the service locator owns the dependencies, they are easier to manage. Including releasing a service when done. Which is hard (if not impossible) with **Singleton Pattern**.
+
+## Entity Component System
+
+And now for something completely different, let's talk about the Entity Component System which is very widely used when making games. 
+
+Most of games need at least these three kinds of objects:
+
+1. Render objects: Think of the background image that only needs to be rendered on screen.
+1. Player objects: Something that the main character that needs to be rendered and also interact with each other, so also need some physics body.
+1. Trigger objects: Something that do not need any rendering, but still interacts with the rest of the physics bodies. Like the invisible bonus or when character drops out of screen.
+
+One way to implement this could be have a classic object hierarchy that all inherit from something like a `GameObject`
+
+```swift
+class GameObject {}
+
+class RenderObject: GameObject {
+    func draw() {}
+}
+
+class PhysicsObject: GameObject {
+    func update() {}
+}
+
+class PlayerObject: PhysicsObject {}
+```
+
+Then we create our instances as:
+
+```swift
+let background = RenderObject()
+let hiddenBonus = PhysicsObject()
+let mario = PlayerObject()
+```
+
+This would work fine except the fact that now `hiddenBonus` also has a `draw()` function, which does nothing. Also notice that everytime we introduce another behavior, like say user interaction, we would come up with some strategy to update the inheritence hierarchy so that all the subclasses can get the behavior. This is a hard problem to solve. Harder if the game engine and the game live in entirely different layers.
+
+A good solution for this problem is [Entity Component System](https://en.wikipedia.org/wiki/Entity_component_system). The basic idea is to wrap every possible behavior in isolation and let's call it a `Component`.
+
+So, in our case above we could have 3 components:
+
+```swift
+class Component {}
+
+class RenderComponent: Component {
+    func draw()
+}
+
+class PhysicsComponent: Component {
+    func update()
+}
+```
+And then we can have something called as `Entity` that can be composed of all the behavior components that we want.
+
+```swift
+class Entity {
+    private var components: [Component]
+
+    init(components: [Component]) {
+        self.components = components
+    }
+
+    func add(component: Component) {
+        // ...
+    }
+
+    func getComponent(ofType: Component.Type) -> Component? {
+        // ...
+    }
+}
+```
+
+And now we can create all the desired instances as:
+
+```swift
+let background = Entity(components: [RenderComponent()])
+let hiddenBonus = Entity(components: [PhysicsComponent()])
+let mario = Entity(components: [RenderComponent(), PhysicsComponent()])
+```
+
+## GameplayKit
+
+Okay that sounds good. But how does it fit with our topic? 
+
+If you look closely, this is a Service Locator Pattern, where a service locator is `Entity` and the services are the `Component`s. Apple already provides us a nice framework which implements the **Entity Component System** it's called [GameplayKit](https://developer.apple.com/documentation/gameplaykit). `GameplayKit` provides all the boilerplate code we need.
+
+We can with our services. Let's say we want to write a service that manages all the feature flags stored on the device.
+
+```swift
+import GameplayKit
+
+class FeatureFlagService: GKComponent {
+    let store: UserDefaults
+
+    init(userDefaults: UserDefaults = .standard) {
+        self.store = userDefaults
+        super.init()
+    }
+
+    func set(value: Bool, key: String) {
+        store.set(value, forKey: key)
+    }
+
+    func value(key: String) -> Bool {
+        return store.bool(forKey: key)
+    }
+}
+```
+
+Next we can implement our `ServiceLocator` wrapped around a `GKEntity`
+
+```swift
+class ServiceLocator {
+    private let registry = GKEntity()
+
+    func register(service: GKComponent) {
+        registry.addComponent(service)
+    }
+
+    var featureFlagService: FeatureFlagService? {
+        return registry.component(ofType: FeatureFlagService.self)
+    }
+}
+```
+
+And we can simply use the `ServiceLocator` to find dependencies
+
+```swift
+let serviceLocator = ServiceLocator()
+serviceLocator.register(service: FeatureFlagService())
+
+serviceLocator.featureFlagService?.set(value: true, key: "show-alt-login")
+print(String(describing: serviceLocator.featureFlagService?.value(key: "show-alt-login")))
+```
+
+Another benefit is for scenarios where we can to perform any actions whenever the service is actually registered rather than at initialization. Like maybe we want to fetch the feature flag data from our backend whenever the `FeatureFlagService` is actually registered with the `ServiceLocator`. With `GameplayKit` we can achieve these tasks by overriding the `didAddToEntity`
+
+```swift
+    override func didAddToEntity() {
+        // TODO: fetch data and synchronize with local store
+        store.synchronize()
+    }
+```
+
+And that is not all. There is much more available in `GameplayKit` that can be useful when implementing a Service Locator Pattern. Like the `GKEntity.removeComponent(ofType:)` or `GKComponent.willRemoveFromEntity()`. There is also a section in the [GameplayKit programming guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/GameplayKit_Guide/EntityComponent.html#//apple_ref/doc/uid/TP40015172-CH6) that covers the Entity Component System I was talking about earlier.
+
+Although initially `GameplayKit` does sounds like an unsual fit for the Service Locator problem. But rather than writing your own solution from scratch, or using anu external dependency, I find `GameplayKit` a better for the job. For one, it is one less thing to maintain, and second it is already there ready for use. So, the next time you are looking for a Service Locator Pattern, try `GameplayKit`
