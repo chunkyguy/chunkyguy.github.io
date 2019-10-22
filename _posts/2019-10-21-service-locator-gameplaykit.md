@@ -42,11 +42,11 @@ class ServiceB {
 
 Another good alternative to this pattern is to use what is commonly called as [**Service Locator Pattern**](https://en.wikipedia.org/wiki/Service_locator_pattern). The basic idea is that there is this one instance that manages all the global services. When the system starts, we register all the services with this service locator, preferably during the initialization. Later, anyone who wishes to get the shared resource simply asks for the service from this service locator.
 
-It's not a golden solution to all your problems, but at least helps with unit testing where can register our mock services before running the tests. And also since the service locator owns the dependencies, they are easier to manage. Including releasing a service when done. Which is hard (if not impossible) with **Singleton Pattern**.
+It's not a golden solution to all your problems, but at least helps with unit testing where we can register our mock services before running the tests. And also since the service locator owns the dependencies, they are easier to manage. Including releasing a service when done. Which is hard (if not impossible) with **Singleton Pattern**.
 
 ## Entity Component System
 
-And now for something completely different, let's talk about the Entity Component System. A design pattern held in high regards by many game developers big and small.
+And now for something completely different, let's talk about the **Entity Component System**. A design pattern held in high regards by many game developers big and small.
 
 Most of the games need at least these three kinds of object types at some point of development cycle:
 
@@ -63,7 +63,7 @@ class RenderObject: GameObject {
     func draw() { }
 }
 
-class PhysicsObject: GameObject {
+class PhysicsObject: RenderObject {
     func update() { }
 }
 
@@ -78,6 +78,14 @@ Then we create our instances as:
 let background = RenderObject()
 let hiddenBonus = PhysicsObject()
 let mario = PlayerObject()
+
+background.draw()
+
+hiddenBonus.update()
+
+mario.collectCoins()
+mario.update()
+mario.draw()
 ```
 
 This would work fine except the fact that now `hiddenBonus` also has a `draw()` function, which does nothing. Also notice that every time we introduce another behavior, like say user interaction, we would have to come up with some strategy to update the inheritance hierarchy so that all the subclasses can get the behavior. This is a hard problem to solve. Harder if the game engine and the game live in entirely different layers.
