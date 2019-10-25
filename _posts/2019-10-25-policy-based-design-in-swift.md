@@ -1,16 +1,16 @@
 ---
 layout: post
 title: "Policy based design in Swift"
-date: 2019-10-25 11:26:19
+date: 2019-10-25 10:26:19 +0200
 categories: architecture ios
 published: true
 ---
 
 How about [Policy based design](https://en.wikipedia.org/wiki/Modern_C%2B%2B_Design#Policy-based_design) in Swift? 
 
-It's quite an interesting pattern in C++. I first read about it in the **Modern C++ Design by Andrei Alexandrescu** years ago. The idea is to replace inheritance madness by composition. If we could wrap every reusable functionality in a `Policy` then we can compose objects from those policies. One might think this is nothing new, but that is where things get interesting. The composition happens at compile time and not at runtime. 
+It's quite an interesting pattern in C++. I first read about it in the **Modern C++ Design by Andrei Alexandrescu** years ago. The idea is to replace inheritance madness by composition. If we could wrap every reusable functionality in a `Policy` then we can compose objects from those policies. One might think this is nothing new, but that is where things get interesting. The composition happens at compile time! Which obviously requires the language to have some generic programming support.
 
-In C++ this magic works since the language allows multiple inheritance. So as long as the policies are free of any ambiguities, one can have as many permutations of policies as they want. In swift though, it's a little challenge to implement as we do not have multiple inheritance, but we can have allocations per policy and can still achieve similar effect.
+In C++ this magic works beautifully since the language allows multiple inheritance. So as long as the policies are free of any ambiguities, one can have as many permutations of policies as they want. In swift though, it's a little challenge to implement as we do not have multiple inheritance, but we can workaround by having allocations per policy and can still achieve similar effect.
 
 So, here's my implementation of the Policy pattern in Swift:
 
@@ -50,8 +50,14 @@ class LanguagePolicyEmoji: LanguagePolicy {
     let message: String = "👋 🌏❗️"
 }
 
-let printerEnglish = Printer(output: OutputPolicyToConsole(), language: LanguagePolicyEnglish())
-let printerEmoji = Printer(output: OutputPolicyToConsole(), language: LanguagePolicyEmoji())
+let printerEnglish = Printer(
+    output: OutputPolicyToConsole(), 
+    language: LanguagePolicyEnglish()
+)
+let printerEmoji = Printer(
+    output: OutputPolicyToConsole(), 
+    language: LanguagePolicyEmoji()
+)
 
 printerEnglish.run()
 printerEmoji.run()
@@ -96,9 +102,9 @@ class LanguagePolicyEmoji
 
 int main() {
     Printer<OutputPolicyWriteToCout, LanguagePolicyEnglish> printerEnglish;
-    printerEnglish.run();
-
     Printer<OutputPolicyWriteToCout, LanguagePolicyEmoji> printerEmoji;
+
+    printerEnglish.run();
     printerEmoji.run();
 }
 ```
