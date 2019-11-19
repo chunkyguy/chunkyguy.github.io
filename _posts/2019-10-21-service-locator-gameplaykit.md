@@ -6,6 +6,12 @@ categories: architecture ios
 published: true
 ---
 
+- [Service Locator Pattern](#service-locator-pattern)
+- [Entity Component System](#entity-component-system)
+- [Hello GameplayKit](#hello-gameplaykit)
+- [Encapsulation](#encapsulation)
+- [And more](#and-more)
+
 ### Service Locator Pattern
 
 In the beginning everything seems fine. You start a new project. Things talk to each other, and there are so few participants and so less information that has to be shared among them. Next arrives a situation where a resource has to be shared among several objects. The shared resource could be a service that stores some app data, or could be some collection of utility functions wrapped under a single blanket. We can think of these shared resources as dependencies that need to be injected from outside into every one of those objects as their lifespan is controlled on a different level. 
@@ -241,7 +247,7 @@ class ServiceLocator {
 
 ```
 
-### And more ...
+### And more
 
 And that is not all. There is much more available in `GameplayKit` that can be useful when implementing a `Service Locator Pattern`. Like the `GKEntity.removeComponent(ofType:)` or `GKComponent.willRemoveFromEntity()`. There is also a section in the [GameplayKit programming guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/GameplayKit_Guide/EntityComponent.html#//apple_ref/doc/uid/TP40015172-CH6) that covers the Entity Component System I was talking about earlier.
 
