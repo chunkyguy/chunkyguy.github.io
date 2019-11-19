@@ -6,7 +6,7 @@ categories: architecture ios
 published: true
 ---
 
-## Service Locator Pattern
+### Service Locator Pattern
 
 In the beginning everything seems fine. You start a new project. Things talk to each other, and there are so few participants and so less information that has to be shared among them. Next arrives a situation where a resource has to be shared among several objects. The shared resource could be a service that stores some app data, or could be some collection of utility functions wrapped under a single blanket. We can think of these shared resources as dependencies that need to be injected from outside into every one of those objects as their lifespan is controlled on a different level. 
 
@@ -44,7 +44,7 @@ Another good alternative to this pattern is to use what is commonly called as [*
 
 It's not a golden solution to all your problems, but at least helps with unit testing where we can register our mock services before running the tests. And also since the service locator owns the dependencies, they are easier to manage. Including releasing a service when done. Which is hard (if not impossible) with **Singleton Pattern**.
 
-## Entity Component System
+### Entity Component System
 
 And now for something completely different, let's talk about the **Entity Component System**. A design pattern held in high regards by many game developers big and small.
 
@@ -129,7 +129,7 @@ let hiddenBonus = Entity(components: [PhysicsComponent()])
 let mario = Entity(components: [RenderComponent(), PhysicsComponent()])
 ```
 
-## Hello GameplayKit
+### Hello GameplayKit
 
 Okay that sounds good. But how does it fit with our topic? 
 
@@ -198,6 +198,50 @@ extension FeatureFlagService {
     }
 }
 ```
+
+### Encapsulation
+
+If we do not want to expose the `GameplayKit` dependency outside. Or if you want to use "pure" swift classes, structs to represent a Component. We can add another level of indirection to hide the abstraction.
+
+We can have a generic wrapper that wraps any service
+
+```swift
+private class ServiceWrapper<T>: GKComponent {
+    let service: T
+
+    init(service: T) {
+        self.service = service
+        super.init()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+```
+
+And then our `ServiceLocator` can perform one extra boxing/unboxing:
+
+```swift
+class ServiceLocator {
+    private let registry = GKEntity()
+
+    func register<T>(service: T) {
+        registry.addComponent(ServiceWrapper(service: service))
+    }
+
+    func get<T>() -> T? {
+        registry.component(ofType: ServiceWrapper<T>.self)?.service
+    }
+
+    var featureFlagService: FeatureFlagService? { return get() }
+    var networkService: NetworkService? { return get() }
+    var accessibilityService: AccessibilityService?  { return get() }
+}
+
+```
+
+### And more ...
 
 And that is not all. There is much more available in `GameplayKit` that can be useful when implementing a `Service Locator Pattern`. Like the `GKEntity.removeComponent(ofType:)` or `GKComponent.willRemoveFromEntity()`. There is also a section in the [GameplayKit programming guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/GameplayKit_Guide/EntityComponent.html#//apple_ref/doc/uid/TP40015172-CH6) that covers the Entity Component System I was talking about earlier.
 
