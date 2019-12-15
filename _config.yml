@@ -1,21 +1,15 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
-
-# Site settings
 title: whackylabs
 description: Rants on iOS, algorithms and graphics programming.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://whackylabs.com" # the base hostname & protocol for your site
-
 twitter_username: chunkyguy
 github_username:  chunkyguy
-
-# Build settings
-markdown: kramdown
-
+# show_downloads: true
+# google_analytics:
+# theme: jekyll-theme-dinky
 plugins:
-- jekyll-feed
+  - jekyll-feed
+  - 'jekyll-seo-tag'
+  - 'html-proofer'
+  - 'rubocop'
+  - 'w3c_validators'
