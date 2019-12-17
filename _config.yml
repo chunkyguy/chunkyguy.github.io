@@ -1,15 +1,22 @@
-title: whackylabs
-description: Rants on iOS, algorithms and graphics programming.
+title: Whacky Labs
+tagline: on iOS, algorithms and graphics programming
+description: Rants on iOS, algorithms and graphics programming
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://whackylabs.com" # the base hostname & protocol for your site
-twitter_username: chunkyguy
-github_username:  chunkyguy
-# show_downloads: true
-# google_analytics:
-# theme: jekyll-theme-dinky
+url: "https://whackylabs.com" # the base hostname & protocol for your site
+paginate: 1
+permalink: pretty
+
 plugins:
   - jekyll-feed
-  - 'jekyll-seo-tag'
-  - 'html-proofer'
-  - 'rubocop'
-  - 'w3c_validators'
+  - jekyll-gist
+  - jekyll-paginate
+  - jekyll-seo-tag
+
+sass:
+  sass_dir: _sass
+  style: :compressed
+
+author:
+  name: Sidharth Juyal
+  url: https://twitter.com/chunkyguy
+  email: juyal.sidharth@gmail.com
