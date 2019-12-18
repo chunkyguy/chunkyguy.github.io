@@ -4,8 +4,6 @@ title: Sidharth Juyal
 permalink: /about/
 ---
 
-# Hi there!
-
 I'm an iOS developer. I've been professionally making iOS apps since 2008.
 
  I have a keen interest in everything computer graphics. When not busy working on the next revolutionary app idea I'm probably working on my next game, or may be another game engine (maybe not) or may be just poking the GPU for fun. Most of my work is available as open source projects on my github.
