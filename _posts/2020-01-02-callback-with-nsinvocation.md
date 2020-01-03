@@ -277,7 +277,6 @@ Next we need something like a `NSURLSession` than manages the `PLNetworkTask`s.
               task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error;
 {
-  NSLog(@"PLNetworkSession::didCompleteWithError");
   PLNetworkTask *future = [self futureWithTask:task];
   [future completeWithError:error];
   [_tasks removeObject:future];
