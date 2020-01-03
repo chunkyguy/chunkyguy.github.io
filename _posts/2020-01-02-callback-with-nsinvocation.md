@@ -100,7 +100,7 @@ typedef void(^PLCalcAddCompletion)(NSInteger);
 }
 ```
 
-With blocks the `PLNonEscapingCalc` has to nothing about its caller, as all the type information it needs is available right there in the signature.
+With blocks the `PLNonEscapingCalc` has to know nothing about its caller, as all the type information it needs is available right there in the signature.
 
 ### Callback with NSInvocation
 
@@ -205,7 +205,7 @@ First we need something to hold the `NSInvocation` and the `NSData` as the `NSUR
 @end
 ```
 
-Next we need something like a `NSURLSession` than manages the `PLNetworkTask`s.
+Next we need something like a `NSURLSession` than manages many `PLNetworkTask`.
 
 ```objc
 @interface PLNetworkSession() <NSURLSessionDataDelegate>
