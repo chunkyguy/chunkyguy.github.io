@@ -304,7 +304,7 @@ int sum(const std::vector<color> &v) {
 
 ## Swift
 
-I feel Swift is very heavily influenced by C++. So it shouldn't come as any surprise that Swift supports very good meta programming with generics. If our simple `sum` looks something lie:
+I feel Swift is very heavily influenced by C++. So it shouldn't come as any surprise that Swift supports very good meta programming with generics. If our simple `sum` looks something like:
 
 ```swift
 func sum(elements: [Int]) -> Int {
@@ -330,7 +330,7 @@ func sum<T>(elements: [T]) -> Int {
 }
 ```
 
-But this is where things start diverging away. Swift is very strict with it's type checking. So strict that a few times it might even come out as annoying for simple use cases, at least simple inside our head. If we try to call this with `Int` we get an error:
+But this is where things start diverging apart. Swift is very strict with it's type checking. So strict that a few times it might even come out as annoying for simple use cases, at least simple inside our head. If we try to call this with `Int` we get an error:
 
 ```swift
 print("\(sum(elements: [1, 2, 3, 4]))")
@@ -365,7 +365,7 @@ print("\(sum(initial: "0", elements: ["1", "2", "3", "4"]))")
 ```
 > Error: Argument type 'String' does not conform to expected type 'AdditiveArithmetic'
 
-We could continue and explicitly provide a conformance for `String` for `AdditiveArithmetic`. This could be a way to go if we knew that the `sum` function only needs to handle a limited types. Or if modifying `sum` was outside our control. Or we can simply rollback to our previous implementation and make that work.
+We could continue by explicitly provide a conformance for `String: AdditiveArithmetic`. This could be a way to go if we knew that the `sum` function only needs to handle a limited types. Or if modifying `sum` was outside our control. Or we can simply rollback to our previous implementation and make that work.
 
 Remember, our original solution was as simple as `func sum<T>(elements: [T]) -> Int`. How can we make this work for `String`? In the earlier solution the problem was with `+` not working for `Int` and `T`. How about providing a protocol that converts any type to `Int`?
 
@@ -465,7 +465,7 @@ Remember the basic idea behind meta programming is to first write a simple solut
 NSLog(@"ints: %ld", [[Adder adderWithElements:@[@1, @2, @3, @4]] sum]);
 ```
 
-Since Objective-C is not so strict on compile time, we need to make sure that every element in `NSArray` can has implemented the `integerValue` method. One way to achieve this is
+Since Objective-C is not so strict at compile time, we need to make sure that every element in `NSArray` has implemented the `integerValue` method. One way to achieve this is
 
 ```objc
 - (NSInteger)sum
@@ -480,7 +480,7 @@ Since Objective-C is not so strict on compile time, we need to make sure that ev
 }
 ```
 
-And that's it! We are done! This same thing works for every type you can imagine!
+And that's it! We are done! This works for every type you can imagine!
 
 ```objc
 NSLog(@"ints: %ld", [[Adder adderWithElements:@[@1, @2, @3, @4]] sum]);
@@ -532,4 +532,4 @@ I think the best strategy when going down the meta programming rabbit hole is to
 
 - The first draft should be very short, clean, concise and to the point. No wondering about cases that do not yet exists.
 
-- When expanding for another type avoid overthinking. Implement the algorithm that provides a solution for just the subset required. So no over abstract protocols, no complex types. Focus is the key here.
+- When expanding for another type avoid overthinking. Implement the algorithm that provides a solution for just the finite type subset required. So no over abstract protocols, no complex types. Focus is the key here. Remember we can always expand the code for more types when the requirement actually arrives.
