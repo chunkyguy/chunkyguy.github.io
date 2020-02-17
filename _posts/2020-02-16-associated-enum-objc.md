@@ -164,4 +164,4 @@ With that change the call site looks much cleaner:
 
 ## Resources
 
-1. [Class Clusters Pattern | developer.apple.com](https://developer.apple.com/library/archive/documentation/General/Conceptual/CocoaEncyclopedia/ClassClusters/ClassClusters.html)
+1. [Class Clusters Pattern • **developer.apple.com**](https://developer.apple.com/library/archive/documentation/General/Conceptual/CocoaEncyclopedia/ClassClusters/ClassClusters.html)
