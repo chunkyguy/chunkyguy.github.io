@@ -7,21 +7,20 @@ categories: uikit
 
 The Safari for iOS has some very interesting perspective effect
 built-in. You can check that when you’ve multiple tabs open. How about
-building something like that? Those views are clearly UIViews right? You
+building something like that? Those views are clearly `UIView` right? You
 can see the web content rendered, they have cross buttons. The content
 even periodically updates without launching the app using the background
 services probably.
-
 
 Lets start with searching for something in the Apple’s documentation. As
 far as I was able to search, I only got so far to the [Adding
 Perspective to Your
 Animations](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/coreanimation_guide/AdvancedAnimationTricks/AdvancedAnimationTricks.html#//apple_ref/doc/uid/TP40004514-CH8-SW13)
-in the Apple’s Core Animation Programming Guide.
+in the *Apple’s Core Animation Programming Guide*.
 
-If you just scroll down the ‘Advanced Animation Tricks’ page, at the
+If you just scroll down the **Advanced Animation Tricks** page, at the
 bottom you’ll find around 10 lines and a small code snippet explaining
-how to add perspective to your CALayer object.
+how to add perspective to your `CALayer` object.
 
 This is a good start, it’s not great as it skips a lot of details and
 that’s for a reason. To adding perspective, you have to be familiar with
@@ -29,18 +28,17 @@ the linear algebra behind it, and we shall get to in the next session.
 But for now, let’s get started.
 
 So, create a new single view project and add a new Swift file to it.
-Let’s call it PerspectiveView.swift.
+Let’s call it *PerspectiveView.swift*.
 
 ``` swift
-class PerspectiveView: UIView {
-}
+class PerspectiveView: UIView {}
 ```
 
-In the storyboard add a UIView and set its class to be PerspectiveView
+In the storyboard add a `UIView` and set its class to be `PerspectiveView`
 type. Next, we need a container view to hold any subview into it. We’ll
 apply perspective to this container view and hopefully the perspective
 gets applied to all the contained subviews. Let’s call this container
-view as contentView.
+view as `contentView`.
 
 ``` swift
 
@@ -49,7 +47,7 @@ let contentView:UIView?
 required init(coder aDecoder: NSCoder)
 {
     super.init(coder: aDecoder)
-   contentView = UIView()
+    contentView = UIView()
     contentView?.backgroundColor = UIColor.yellowColor()
     backgroundColor = UIColor.purpleColor()
 
@@ -58,8 +56,8 @@ required init(coder aDecoder: NSCoder)
 ```
 
 I’ve set the background color of the main view as purple and the
-contentView as yellow just for debugging. Next, lets implement the
-setUp(). This is where we configure the contentView
+`contentView` as yellow just for debugging. Next, lets implement the
+`setUp()`. This is where we configure the `contentView`
 
 ``` swift
 func setUp()
@@ -83,11 +81,11 @@ func setUp()
 
 We’re just creating required views here. Here we’re just adding the view
 that we wish to have perspective applied on to. For now, I’m just adding
-a single UIImageView.
+a single `UIImageView`.
 
 Next up, applying constraints.
 
-``` swift
+```swift
 func applyConstraints(#viewDict:[String: UIView])
 {        
     contentView?.setTranslatesAutoresizingMaskIntoConstraints(false)
