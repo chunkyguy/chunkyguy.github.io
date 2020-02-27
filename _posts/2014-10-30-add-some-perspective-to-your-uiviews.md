@@ -41,9 +41,7 @@ gets applied to all the contained subviews. Let’s call this container
 view as `contentView`.
 
 ``` swift
-
   let contentView = UIView()
-
 
   required init?(coder: NSCoder)
   {
