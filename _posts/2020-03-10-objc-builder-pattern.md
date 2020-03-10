@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Objective-C builder pattern"
+title:  "Objective-C subclass builder pattern"
 date:   2020-03-09 23:30:54 +0200
 categories: objc design-pattern
 published: true
