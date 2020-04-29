@@ -10,7 +10,7 @@ published: true
 
 ## Dot syntax
 
-In C there idea of `->` and `.` to access `struct` properties and it is simple to understand. For a given `struct` as:
+In C there's this idea of `->` and `.` to access `struct` properties and it is simple to understand. For a given `struct` as:
 
 ```c
 typedef struct _Person {
