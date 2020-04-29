@@ -266,6 +266,6 @@ class GameViewController: NSViewController {
 
 # Benefit?
 
-![Hello Metal Triangle]({{ site.url }}/assets/metal_triangle.png)
+![Hello Metal Triangle]({{ site.url }}/assets/metal/metal_triangle.png)
 
 The code is also available on Github [github.com/chunkyguy/try-metal](https://github.com/chunkyguy/try-metal/tree/master/01_HelloMetal)
