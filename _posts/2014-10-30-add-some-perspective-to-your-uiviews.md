@@ -2,7 +2,7 @@
 layout: post
 title:  "Add Some Perspective to Your UIViews"
 date:   2014-10-30 01:19:00 +0530
-categories: uikit
+categories: uikit ios
 ---
 
 The Safari for iOS has some very interesting perspective effect

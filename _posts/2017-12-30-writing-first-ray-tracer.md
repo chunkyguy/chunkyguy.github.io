@@ -2,7 +2,7 @@
 layout: post
 title:  "Writing first ray tracer"
 date:   2017-12-30 13:02:00 +0200
-categories: pbr
+categories: pbr graphics
 ---
 
 One of the many goals I had for 2017 were:

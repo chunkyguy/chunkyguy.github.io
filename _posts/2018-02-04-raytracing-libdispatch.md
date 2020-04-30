@@ -2,7 +2,7 @@
 layout: post
 title:  "Raytracing with libdispatch"
 date:   2018-02-04 14:35:00 +0200
-categories: concurrency raytracing
+categories: concurrency raytracing graphics pbr
 published: true
 ---
 

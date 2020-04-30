@@ -2,7 +2,7 @@
 layout: post
 title:  "10 Things nobody tells the OpenGL noob"
 date:   2011-12-29 23:28:54 +0530
-categories: openGL
+categories: opengl rant
 ---
 
 I’ve been curious about diving into some real Graphics stuff, as far as I remember from last few years. And because I didn’t get any related education at my college or from anyone I knew, I just had to somehow rely on my destiny and the Internet, or both.

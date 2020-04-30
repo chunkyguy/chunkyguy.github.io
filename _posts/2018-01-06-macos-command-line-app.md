@@ -2,7 +2,7 @@
 layout: post
 title:  "Building command line tool without leaving Xcode"
 date:   2018-01-06 12:59:00 +0200
-categories: macos xcode
+categories: macos xcode rant
 published: true
 ---
 
