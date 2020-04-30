@@ -10,15 +10,41 @@ layout: default
 
 {% if site.related_posts != empty %}
 <aside class="related">
-  <h3>Related posts</h3>
+  <h3>Related posts</h3>  
+  {% assign maxRelated = 4 %}
+  {% assign minCommonTags =  1 %}
+  {% assign maxRelatedCounter = 0 %}
+  
   <ul class="related-posts">
-    {% for post in site.related_posts limit:3 %}
-      <li>
-        <a href="{{ site.baseurl }}{{ post.url }}">
-          {{ post.title }}
-          <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time></small>
-        </a>
-      </li>
+  {% for post in site.posts %}
+  
+      {% assign sameTagCount = 0 %}
+      {% assign commonTags = '' %}
+  
+      {% for category in post.categories %}
+        {% if post.url != page.url %}
+          {% if page.categories contains category %}
+            {% assign sameTagCount = sameTagCount | plus: 1 %}
+            {% capture tagmarkup %} <span class="label label-default">{{ category }}</span> {% endcapture %}
+            {% assign commonTags = commonTags | append: tagmarkup %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+  
+      {% if sameTagCount >= minCommonTags %}
+        <li>
+          <a href="{{ site.baseurl }}{{ post.url }}">
+            <!-- {{ post.title }}{{ commonTags }} -->
+            {{ post.title }}
+            <small><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time></small>
+          </a>
+        </li>
+        {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
+        {% if maxRelatedCounter >= maxRelated %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+  
     {% endfor %}
   </ul>
 </aside>
