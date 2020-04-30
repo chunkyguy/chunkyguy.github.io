@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Enums are anti-pattern"
-date:   2020-02-16 23:28:54 +0200
+date:   2020-01-02 23:28:54 +0200
 categories: architecture objc swift
 published: false
 ---
