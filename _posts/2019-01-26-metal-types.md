@@ -1,12 +1,14 @@
 ---
 layout: post
-title:  "Types sharing between Metal and C++"
+title:  "Types sharing between Metal and App"
 date:   2019-01-19 22:43:00 +0200
 categories: metal cpp
 published: true
 ---
 
 One of the best things about Metal is the [Metal Shading Language](https://developer.apple.com/library/archive/documentation/Metal/Reference/MetalShadingLanguageGuide/Introduction/Introduction.html?language=objc#//apple_ref/doc/uid/TP40014364) which is a based on C++. What this means is that we can share data structures between the shader and app code. There are a few cases that we have to look out for though, which is what this post is about. 
+
+# Using C++
 
 Lets say we want to define a data structure that represents vertex data:
 
@@ -129,4 +131,24 @@ typedef struct
 
 Not the prettiest looking code out there, but gets the job done. 
 
-This does makes one wonder what was going through the minds of the Metal team at Apple. The Metal API is exposed as Objective C where you can not use `float4`, rather the C variant `simd_float4`. Though `float4` is available in swift but then you can not share code between swift and Metal. The only way left is to use ObjectiveC++ and Metal.
+# Using Objective-C
+
+With Objective-C, the same trick can be applied, since for all `simd` types a C variant is available.
+
+```cpp
+// common.h
+
+#ifdef __METAL_VERSION__
+#define ATTRIB_POSITION [[position]]
+#else
+#define ATTRIB_POSITION
+#endif
+
+typedef struct _Vertex
+{
+    vector_float4 position ATTRIB_POSITION;
+    vector_float4 color;
+} Vertex;
+```
+
+Nothing changes on the Metal side.
