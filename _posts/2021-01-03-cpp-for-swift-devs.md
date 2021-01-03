@@ -54,7 +54,7 @@ int main() {
 cout << "Hello world!"; // 4
 ```
 
-Like Swift we can also override operators in C++. In this case the `iostream` library provides `cout` which is an object of type `ostream` that outputs to *standard output stream*. `iostream` also provides overrides for `operator <<` for many common types like for `string` that we're using above, but if can also work for our custom types if we provide the `operator <<` for our type. The Swift equivalent to this would be the `CustomStringConvertible` protocol.
+Like Swift we can also override operators in C++. In this case the `iostream` library provides `cout` which is an object of type `ostream` that outputs to *standard output stream*. `iostream` also provides overrides for `operator <<` for many common types like for `string` that we're using above. But it can also work for our custom types if we provide the `operator <<` for our type. The Swift equivalent to this would be the `CustomStringConvertible` protocol.
 
 ```cpp
 return 0; // 5
