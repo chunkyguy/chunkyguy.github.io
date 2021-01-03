@@ -62,7 +62,7 @@ return 0; // 5
 
 And finally since our function requires a return type `int` we have to end our function with a `return` statement.
 
-With that now let us look at C++ in a bit more detail from a Swift perspective.
+With a basic introduction, now let us take a look at C++ in a bit more detail from Swift perspective.
 
 - [Variables](#variables)
 - [String](#string)
