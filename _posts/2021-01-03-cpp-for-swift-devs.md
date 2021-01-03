@@ -33,7 +33,7 @@ Swift equivalent would be `import iostream`. Frameworks usually come with an umb
 using namespace std; // 2
 ```
 
-Unlike Swift, C++ has a proper support for namespaces. So if two types in different frameworks have same type name they can be resolved using their namespaces. For example `fwkA::JSON` and `fwkB::JSON`.
+Unlike Swift, C++ has a proper support for namespaces. So if two types in different frameworks have same type name they can be resolved using their namespaces. For example `fwkA::JSON` and `fwkB::JSON`. To get a more Swift like behavior we can add `using` to indicate that the symbols do not need their namespace for every single usage.
 
 ```cpp
 auto main() -> int { // 3
