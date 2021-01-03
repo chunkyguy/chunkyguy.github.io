@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "Depth testing"
+date:   2021-01-03 00:10:00 +0200
+categories: swift cpp
+published: false
+---
+
 A better way to render objects is using depth testing. The idea is that we use another texture to hold the depth value for every pixel and later the GPU decides which pixel is needs to be displayed.
 
 
