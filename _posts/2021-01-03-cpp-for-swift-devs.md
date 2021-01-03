@@ -22,7 +22,7 @@ Now lets break them down from Swift perspective.
 #include <iostream> // 1
 ```
 
-Swift equivalent would be `import iostream`. Frameworks are usually come with an umbrella header as a single file, so typically we need to add only one include statement per framework like in Swift. But unlike Swift, we need to add include statements for every file we want to use from our own code.
+Swift equivalent would be `import iostream`. Frameworks usually come with an umbrella header as a single file, so typically we need to add only one include statement per framework like in Swift. But unlike Swift, we need to add include statements for every file we want to use from our own code.
 
 ```cpp
 #include <framework>      // external framework
