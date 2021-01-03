@@ -107,7 +107,7 @@ float myFloat = 3.14;
 </tr></tbody>
 </table>
 
-Unlike Swift type conversions can also happen implicitly in C++ and needs to be watched out for. For other cases we need to explicitly convert data from a type to another. For example `int` to `string`
+Unlike Swift, type conversions can also occur implicitly in C++. This needs to be carefully watched out for to avoid hard to find bugs. For other cases we need to explicitly convert data from a type to another. For example `int` to `string`
 
 <table>
 <thead><tr><th>Swift</th><th>C++</th></tr></thead>
@@ -127,7 +127,7 @@ auto widthLabel = label + to_string(width);
 
 ## String
 
-Coming to string interpolation, C++ isn't as good as Swift but nonetheless we can construct `string` with either explicit string conversion, like we saw above
+String interpolation in C++ isn't as good as with Swift. But nonetheless we can construct `string` with either explicit string conversion, like we saw above
 
 <table>
 <thead><tr><th>Swift</th><th>C++</th></tr></thead>
@@ -156,7 +156,7 @@ ss << "I have " << apples << " apples.";
 auto str = ss.str();
 ```
 
-which can further be reduced to:
+which can then further be reduced to:
 
 ```cpp
 auto str = (ostringstream()<<"I have "<<apples<<" apples.").str();
@@ -218,7 +218,7 @@ for (auto & item : shoppingList) {
 </tr></tbody>
 </table>
 
-The `&` here means we wish to use `item` as reference. If we were to use `auto item` it would always create a new copy.
+The `&` here means that we wish to use `item` as a reference. If we were to use `auto item` it would always create a new copy.
 
 ## Dictionary
 
@@ -304,7 +304,12 @@ auto main() -> int {
 </tr></tbody>
 </table>
 
-The `*str` can be thought of as force unwrapping in Swift, `str!`.
+The `*str` can be thought of as force unwrapping in Swift, `str!`. And after *dereferencing* we can either use the `.` or the handy `->` operator to access the variable. 
+
+```cpp
+str->size();
+(*str).size();
+```
 
 ## Function
 
@@ -385,7 +390,7 @@ hasAnyMatches(numbers, lessThanTen);
 </tr></tbody>
 </table>
 
-That said C++ still doesn't has all the fancy functional operations like `map`, `filter`, `...` that we get with Swift, but they're coming soon with [C++20 ranges](https://en.cppreference.com/w/cpp/ranges). For now we can use `transform` as an equivalent to Swift `map`
+That said, C++ still doesn't has all the fancy functional operations like `map`, `filter`, `...` that we get with Swift, but they're coming soon with [C++20 ranges](https://en.cppreference.com/w/cpp/ranges). For now we can use `transform` as an equivalent to Swift `map`
 
 <table>
 <thead><tr><th>Swift</th><th>C++</th></tr></thead>
@@ -452,7 +457,7 @@ auto shapeDescription = shape.simpleDescription();
 </tr></tbody>
 </table>
 
-Initializer or constructor as they are called in C++ have a slightly different syntax
+Initializer (or constructor as they are called in C++) have a slightly different syntax
 
 <table>
 <thead><tr><th>Swift</th><th>C++</th></tr></thead>
@@ -490,7 +495,7 @@ public:
 </tr></tbody>
 </table>
 
-In C++ subclasses need to be more explicit that Swift. Consider this
+In C++ subclasses need to be more explicit than Swift.
 
 <table>
 <thead><tr><th>Swift</th><th>C++</th></tr></thead>
@@ -759,4 +764,4 @@ anyCommonElements(vector&lt;int&gt;{1, 2, 3}, vector&lt;int&gt;{3});
 </tr></tbody>
 </table>
 
-Notice no type constraints to `Sequence` or `Equatable` since the C++ compiler automatically takes care of that. In case the type constraints fail, for instance `T.Element` does not have `==` implemeted, the compiler throws errors that are generally hard to decipher. If you like that level of control c++20 has a proposal for [constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints) which is very close to where Swift is at.
+Notice no type constraints to `Sequence` or `Equatable` since the C++ compiler automatically takes care of that. In case the type constraints fail, for instance `T.Element` does not have `==` implemeted, the compiler throws errors that are generally hard to decipher. If you like that level of control c++20 has a proposal for [constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints) which is very close to where Swift is already at.
