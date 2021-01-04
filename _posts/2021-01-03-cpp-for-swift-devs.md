@@ -782,13 +782,13 @@ We can easily make this a generic function in our custom namespace
 ```cpp
 namespace wl {
   template <typename Sequence, typename Func>
-  Sequence map(Sequence seq, Func func) {
+  Sequence map(const Sequence & seq, const Func & func) {
     Sequence output;
     transform(seq.begin(), seq.end(), back_inserter(output), func);
     return output;
   }
 }
 
-auto numbers = vector<int> {1, 2, 3, 4};
+auto numbers = vector<int> {20, 19, 7, 12};
 auto mappedNumbers = wl::map(numbers, [](auto number) { return 3 * number; });
 ```
