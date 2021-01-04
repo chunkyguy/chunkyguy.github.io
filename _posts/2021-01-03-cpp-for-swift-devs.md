@@ -286,7 +286,7 @@ func main() -> Int {
 }
 </code></pre></td>
 <td><pre><code class="language-cpp">
-auto greeting(bool required) {
+auto greeting(bool required) -> optional<string> {
   return required ? optional{"Hello"} : nullopt;
 }
 
@@ -307,8 +307,8 @@ auto main() -> int {
 The `*str` can be thought of as force unwrapping in Swift, `str!`. And after *dereferencing* we can either use the `.` or the handy `->` operator to access the variable. 
 
 ```cpp
-str->size();
 (*str).size();
+str->size();
 ```
 
 ## Function
