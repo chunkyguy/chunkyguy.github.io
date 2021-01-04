@@ -286,7 +286,7 @@ func main() -> Int {
 }
 </code></pre></td>
 <td><pre><code class="language-cpp">
-auto greeting(bool required) -> optional<string> {
+auto greeting(bool required) -> optional&lt;string&gt; {
   return required ? optional{"Hello"} : nullopt;
 }
 
@@ -765,3 +765,30 @@ anyCommonElements(vector&lt;int&gt;{1, 2, 3}, vector&lt;int&gt;{3});
 </table>
 
 Notice no type constraints to `Sequence` or `Equatable` since the C++ compiler automatically takes care of that. In case the type constraints fail, for instance `T.Element` does not have `==` implemeted, the compiler throws errors that are generally hard to decipher. If you like that level of control c++20 has a proposal for [constraints and concepts](https://en.cppreference.com/w/cpp/language/constraints) which is very close to where Swift is already at.
+
+---------
+
+And finally, for a wrap up and to show how easy it is to work with C++ generics. Lets revisit our closure example from above where we tried to replicate the Swift `map` behavior with `transfrom`.
+
+```cpp
+auto mappedNumbers = vector<int> {};
+transform(numbers.begin(), numbers.end(), back_inserter(mappedNumbers), [](auto number) {
+  return 3 * result;
+});
+```
+
+We can easily make this a generic function in our custom namespace
+
+```cpp
+namespace wl {
+  template <typename Sequence, typename Func>
+  Sequence map(Sequence seq, Func func) {
+    Sequence output;
+    transform(seq.begin(), seq.end(), back_inserter(output), func);
+    return output;
+  }
+}
+
+auto numbers = vector<int> {1, 2, 3, 4};
+auto mappedNumbers = wl::map(numbers, [](auto number) { return 3 * number; });
+```
