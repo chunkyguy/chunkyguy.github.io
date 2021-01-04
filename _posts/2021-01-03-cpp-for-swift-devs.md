@@ -547,8 +547,8 @@ auto shape = Square(5.2, "My Square");
 </tr></tbody>
 </table>
 
- In C++ there's a clear concept of *function overloading* vs *function overriding*. To get the same behavior as Swift we would have to mark the base class `simpleDescription()` as `virtual`, so that if we assign a `Square` instance to `Shape` it would dispatch the `Square.simpleDescription` at runtime. To elaborate this is what would happen with the current implementation:
-
+ In C++ methods are by default bound to the declared types. Lets look at an example to understand what I mean by that.
+ 
  ```cpp
 auto shape = make_shared<Shape>("My Shape");  // create new Shape
 cout << shape->simpleDescription() << endl;   // prints: A shape with 0 sides.
@@ -556,7 +556,7 @@ shape.reset(new Square(5.2, "My Square"));    // release Shape and create new Sq
 cout << shape->simpleDescription() << endl;   // prints: A shape with 4 sides.
 ```
 
-But after we mark the method as `virtual` and `override` we get the dynamic dispatching as we expect.
+ In this case since `shape` is originally declared as of type `Shape`, so even after we assign it to a `Square` type `simpleDescription` still invokes `Shape::simpleDescription`. To get the same behavior as Swift we would have to mark the base class `simpleDescription()` as `virtual`, so that if we assign a `Square` instance to `Shape` it would dynamically dispatch the `Square::simpleDescription` at runtime.
 
 ```cpp
 class Shape {
