@@ -6,12 +6,6 @@ url: "https://whackylabs.com" # the base hostname & protocol for your site
 paginate: 5
 permalink: pretty
 
-plugins:
-  - jekyll-feed
-  - jekyll-gist
-  - jekyll-paginate
-  - jekyll-seo-tag
-
 sass:
   sass_dir: _sass
   style: :compressed
