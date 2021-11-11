@@ -4,8 +4,10 @@ title: Sidharth Juyal
 permalink: /about/
 ---
 
-Working on the all Apple platforms since 2008 using **Swift**, **Objective-C**, **C++**, **C** and whatever gets along.
+![Sidharth Juyal]({{ site.url }}/assets/profile.jpg)
 
-I make apps, games, graphics stuffs and something more I can't recall.
+I make apps, games, graphics stuffs and something else I can't seem to recall... ah yes, jokes.
 
-Public work is available at [github](https://github.com/chunkyguy) and opinions on [twitter](https://twitter.com/chunkyguy). 
+I've been working professionally on Apple platforms since 2008 using Swift, Objective-C, C++, C and whatever that gets the job done. 
+
+Public work is available at [github](https://github.com/chunkyguy) and opinions on [twitter](https://twitter.com/chunkyguy).
