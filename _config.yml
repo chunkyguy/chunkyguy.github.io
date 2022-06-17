@@ -1,6 +1,6 @@
 title: Whacky Labs
-tagline: on iOS, algorithms and graphics programming
-description: Rants on iOS, algorithms and graphics programming
+tagline: apps and games
+description: Making apps and games
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://whackylabs.com" # the base hostname & protocol for your site
 paginate: 5
