@@ -10,7 +10,7 @@ The maths required for SwiftUI custom layout reminds me of the days before AutoL
 
 # Problem
 
-The idea is to has a container view similar to `HStack` where every child has the same width but with the exception that the width should be that of the maximum a child has. This is how `HStack` places the children by default
+The idea is to have a container view similar to `HStack` where every child has the same width but with the exception that the width should be that of the maximum a child has. This is how `HStack` places the children by default
 
 ```swift
 HStack {
