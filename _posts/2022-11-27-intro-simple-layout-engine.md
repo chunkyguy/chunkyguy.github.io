@@ -10,7 +10,7 @@ published: true
 
 I love [Auto Layout](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/index.html). It helps a lot when designing complex UI. But there are times when the UI is very simple and Auto Layout might feel a bit overkill, while other times the UI might be a bit too complex and Auto Layout actually starts affecting the app performance. Before auto layout there was another technique to creating UI, it's called *Springs and Struts* (also known as *Manual Layout* to be in contrast with Auto Layout). I like Manual Layout a lot as well for its simplicity. Like with every other tool, there are trade-offs when selecting the best tool for the job, and it also applies when selecting Auto Layout vs Manual Layout.
 
-The good thing is that, the Auto Layout has not been designed as an alternative to Manual Layout, rather more like an complement. Where instead of us having to calculate the `frame`, we start with a `CGRect.zero` and let the Auto Layout fill in the `frame` value later. Most of the time it's wonderful and doesn't impact our flow. Other times we might have to wait for the layout pass run to read back the calculated `frame` values
+The good thing is that, the Auto Layout has not been designed as an alternative to Manual Layout, rather more like an supplement. Where instead of us having to calculate the `frame`, we start with a `CGRect.zero` and let the Auto Layout fill in the `frame` value later. Most of the time it's wonderful and doesn't impact our flow. Other times we might have to wait for the layout pass run to read back the calculated `frame` values
 
 ```swift
 // let Auto layout calculate the frame values
@@ -19,7 +19,7 @@ DispatchQueue.main.async {
 }
 ```
 
-I often wish if the Auto Layout were not that tightly coupled with `UIKit`. In a sense, if I could just run Auto Layout without a layout pass. This inspired me to take another take of building UIs without Auto Layout with something I'd like to call as *Simple Manual Layout*.
+I often wish if the Auto Layout were not that tightly coupled with `UIKit`. In a sense I wish I could just run Auto Layout without a UIKit draw layout pass. This inspired me to take another take of building UIs without Auto Layout with something I’d like to call as *Simple Manual Layout*.
 
 ## Inspiration
 
@@ -44,7 +44,7 @@ We would create a `UIToolBar` and add a bunch of `UIBarButtonItem`
   ]
 ```
 
-The interesting element here is `UIBarButtonSystemItem.flexibleSpace`. Which is [documented as](https://developer.apple.com/documentation/uikit/uibarbuttonsystemitem/uibarbuttonsystemitemflexiblespace) _"Blank space to add between other items. The space is distributed equally between the other items."_. Similarly, there's another one called `UIBarButtonSystemItem.fixedSpace` which is [documented as](https://developer.apple.com/documentation/uikit/uibarbuttonsystemitem/uibarbuttonsystemitemfixedspace) _"Blank space to add between other items. Only the width property is used when this value is set."_.
+The interesting element here is `.flexibleSpace`. Which is [documented as](https://developer.apple.com/documentation/uikit/uibarbuttonsystemitem/uibarbuttonsystemitemflexiblespace) _"Blank space to add between other items. The space is distributed equally between the other items."_. Similarly, there's another one called `.fixedSpace` which is [documented as](https://developer.apple.com/documentation/uikit/uibarbuttonsystemitem/uibarbuttonsystemitemfixedspace) _"Blank space to add between other items. Only the width property is used when this value is set."_.
 
 I think this approach could be used to build a layout engine which is very simple in terms of mental model but can be used to build as sophisticated layouts as we'd want.
 
@@ -76,7 +76,7 @@ And a 2 subview layout, where the top is flexible and bottom is fixed
 ![img]({{ site.url }}/assets/simple-manual-layout/testBottomFixLayout.png)
 
 ```swift
-let layout = Layout(parentFrame: frame, direction: .column, alignment: .center)
+let layout = Layout(parentFrame: frame, direction: .column)
 try layout.add(item: .flexible)
 try layout.add(item: .height(200))
 
@@ -220,7 +220,7 @@ private extension Layout {
     }
 
     // calculate height per flex item
-    let itemSpace = totalFlexSpace/CGFloat(max(flexItems, 1))
+    let itemSpace = totalFlexSpace / CGFloat(max(flexItems, 1))
     guard itemSpace >= 0 else {
       throw LayoutError.outOfSpace
     }
@@ -275,6 +275,6 @@ y = parentFrame.origin.y + offset
 
 ## References
 
-1. The entire code for the **Simple Layout Engine** is available at [github](https://github.com/chunkyguy/SimpleLayoutEngine)
+1. [Simple Layout Engine](https://github.com/chunkyguy/SimpleLayoutEngine)
 2. There’s also an [Objective-C implementation](https://github.com/chunkyguy/SimpleLayoutEngine-objc) which I think has a much simpler implementation
 3. And finally the [original article](https://whackylabs.com/objc/ui/2020/09/15/simple-manual-layout/)
