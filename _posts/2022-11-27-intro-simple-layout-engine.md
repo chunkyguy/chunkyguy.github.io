@@ -6,7 +6,7 @@ categories: swift layout
 published: true
 ---
 
-*Note: This is a Swift rewrite the [original article](https://whackylabs.com/objc/ui/2020/09/15/simple-manual-layout/) published in 2020*
+*Note: This is a Swift rewrite of the [original article](https://whackylabs.com/objc/ui/2020/09/15/simple-manual-layout/) published in 2020*
 
 I love [Auto Layout](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/index.html). It helps a lot when designing complex UI. But there are times when the UI is very simple and Auto Layout might feel a bit overkill, while other times the UI might be a bit too complex and Auto Layout actually starts affecting the app performance. Before auto layout there was another technique to creating UI, it's called *Springs and Struts* (also known as *Manual Layout* to be in contrast with Auto Layout). I like Manual Layout a lot as well for its simplicity. Like with every other tool, there are trade-offs when selecting the best tool for the job, and it also applies when selecting Auto Layout vs Manual Layout.
 
