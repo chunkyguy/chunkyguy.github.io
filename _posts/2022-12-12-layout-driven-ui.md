@@ -44,17 +44,17 @@ class Node {
 }
 ```
 
-This means that we proper use of `setNeedsLayout`, `layoutIfNeeded` and `layoutSubviews` we can come up with a decent data driven layout system. With that in mind let's try to rebuild the [classic MoveMe example](https://developer.apple.com/library/archive/samplecode/MoveMe/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007315).
+This means that with proper use of `setNeedsLayout`, `layoutIfNeeded` and `layoutSubviews` we can come up with a decent data driven layout system. With that in mind let's try to rebuild the [classic MoveMe example](https://developer.apple.com/library/archive/samplecode/MoveMe/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007315).
 
 ## MoveMe
 
-If you're not familiar with it, MoveMe example is like the hello world for UI frameworks. It requires placing a small card view with some default values. At finger down the color of the card changes and the card scales up a bit with some animation. Then the card can be dragged around with the finger down. Some time later when the finger is lifted the color and the size of the card resets.
+If you're not familiar with the exercise, MoveMe example is like the "hello world!" for UI frameworks. It requires placing a small card view with some default values. At finger down the color of the card changes and the card scales up a bit with animation. Then the card can be dragged around while the finger is still down. Some time later when the finger is lifted the color and the size of the card resets.
 
 ![Demo]({{ site.url }}/assets/layout-driven-ui/demo.gif)
 
 ## Layout System
 
-The system we want to build is similar to the trend of these days, a data driven UI, where we only need to take care of updating the data and the view would automatically update. Our layout system is based on the idea that UIKit calls `layoutSubviews` whenever the `UIView` is marked as dirty. So if we have a `struct` model data in our `UIView` subclass, then we can use the `didSet` property observer to invoke `setNeedsLayout` whenever the model data changes. Then it would guarantee that at the next draw cycle our `layoutSubviews` would get invoked. So we can safely keep all of our UI updates in `layoutSubviews`
+The system we want to build is similar to the trend of these days, a data driven UI, where we only need to take care of updating the data and the view would automatically update. Our layout system is based on the idea that UIKit calls `layoutSubviews` whenever the `UIView` is marked as dirty. So if we have a `struct` model data in our `UIView` subclass, then we can use the `didSet` property observer to invoke `setNeedsLayout` whenever the model data changes. Then it would mean that at the next draw cycle our `layoutSubviews` would get invoked. So we can safely keep all of our UI updates in `layoutSubviews`
 
 ```swift
 struct Colors {
@@ -89,16 +89,16 @@ class MoveMeView: UIView {
 }
 ```
 
-Notice that we are initializing the `model` when the first time `layoutSubviews` is invoked, this is because the UIKit calls `layoutSubviews` as part of building the internal render tree. And values like `center` of a `UIView` are not known at `init` time when using auto layout so we can build our initial data the first time `layoutSubviews` is invoked. 
+Notice that we are initializing the `model` when the first time `layoutSubviews` is invoked, this is because the UIKit also calls `layoutSubviews` as part of building the internal render tree. And values like `center` of a `UIView` are not known at `init` time when using auto layout so we can build our initial data the first time `layoutSubviews` is invoked. 
 
-With that in place, any update to our `model` data it would trigger `layoutSubviews` at next draw cycle.
+With that in place, any update to our `model` data would now trigger `layoutSubviews` at next draw cycle.
 
 ```swift
 model.color = Colors.normal
 model.scale = 1.2
 ```
 
-This would also work nicely for things where we get a continuous stream of events, like say a callback handler of a drag gesture
+So there we have our **UI = f(data)** pipeline. This would also work nicely for things where we get a continuous stream of events, like say a callback handler of a drag gesture
 
 ```swift
 extension CGPoint {
@@ -116,7 +116,7 @@ Animation is a bit tricky but if we update [properties that animatable](https://
 
 ```swift
 model.scale = 1.2
-UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState]) {
+UIView.animate(withDuration: 0.3) {
   self.layoutIfNeeded()
 }
 ```
@@ -127,7 +127,7 @@ This code above is equivalent to
 
 ```swift
 let scale = 1.2
-UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState]) {
+UIView.animate(withDuration: 0.3) {
   self.cardView.transform = CGAffineTransform(scaleX: scale, y: scale)
 }
 ```
