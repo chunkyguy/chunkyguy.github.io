@@ -112,7 +112,7 @@ model.position = CGPoint.add(translation, model.position)
 panGestureRecognizer.setTranslation(.zero, in: self)
 ```
 
-Animation is a bit tricky but if we update [properties that animatable](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW1) within the `UIView.animate` block it should work, like the `transform` property in our case
+Animation is a bit tricky but if we update [properties that are animatable](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW1) within the `UIView.animate` block it should work, like the `transform` property in our case
 
 ```swift
 model.scale = 1.2
