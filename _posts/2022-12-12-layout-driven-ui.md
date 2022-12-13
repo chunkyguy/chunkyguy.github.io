@@ -48,13 +48,13 @@ This means that we proper use of `setNeedsLayout`, `layoutIfNeeded` and `layoutS
 
 ## MoveMe
 
-If you're not familiar with it, MoveMe example is like the hello world for UI frameworks. It requires placing a small card view with some default values. At finger down the color of the card changes and the card scales up a bit with some animation. Then the card can be dragged around with the finger down. Some time later when the finger is lifted the color and the size of the card restores to original values.
+If you're not familiar with it, MoveMe example is like the hello world for UI frameworks. It requires placing a small card view with some default values. At finger down the color of the card changes and the card scales up a bit with some animation. Then the card can be dragged around with the finger down. Some time later when the finger is lifted the color and the size of the card resets.
 
 ![Demo]({{ site.url }}/assets/layout-driven-ui/demo.gif)
 
 ## Layout System
 
-The system we want to build is similar to the trend of these days, a data driven UI, where we only need to take care of updating the data and the view would automatically update. Our layout system is based on the idea that UIKit calls `layoutSubviews` whenever the `UIView` is marked as dirty. So if can have a `struct` in our `UIView` and a `setNeedsLayout` is invoked whenever the data changes thanks to `didSet` observer. Then it would guarantee that at the next draw cycle our `layoutSubviews` would get invoked. So we can safely keep all of our UI updates in `layoutSubviews`
+The system we want to build is similar to the trend of these days, a data driven UI, where we only need to take care of updating the data and the view would automatically update. Our layout system is based on the idea that UIKit calls `layoutSubviews` whenever the `UIView` is marked as dirty. So if we have a `struct` model data in our `UIView` subclass, then we can use the `didSet` property observer to invoke `setNeedsLayout` whenever the model data changes. Then it would guarantee that at the next draw cycle our `layoutSubviews` would get invoked. So we can safely keep all of our UI updates in `layoutSubviews`
 
 ```swift
 struct Colors {
@@ -89,9 +89,9 @@ class MoveMeView: UIView {
 }
 ```
 
-Notice that we are initializing the `model` when the first time `layoutSubviews` is invoked, this is because the UIKit calls `layoutSubviews` as part of building the internal render tree, so values like `center` of a `UIView` are not known at `init` time. 
+Notice that we are initializing the `model` when the first time `layoutSubviews` is invoked, this is because the UIKit calls `layoutSubviews` as part of building the internal render tree. And values like `center` of a `UIView` are not known at `init` time when using auto layout so we can build our initial data the first time `layoutSubviews` is invoked. 
 
-With that in place if we update our `model` data it would trigger `layoutSubviews` at some point later.
+With that in place, any update to our `model` data it would trigger `layoutSubviews` at next draw cycle.
 
 ```swift
 model.color = Colors.normal
@@ -112,7 +112,7 @@ model.position = CGPoint.add(translation, model.position)
 panGestureRecognizer.setTranslation(.zero, in: self)
 ```
 
-Animation is a bit tricky but if we update properties that animatable within the `UIView.animate` block it can work, like the `CGAffineTransform` in our case
+Animation is a bit tricky but if we update [properties that animatable](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW1) within the `UIView.animate` block it should work, like the `transform` property in our case
 
 ```swift
 model.scale = 1.2
@@ -121,7 +121,9 @@ UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState]) {
 }
 ```
 
-Another way to think about it is that UIKit provides a way to perform implicit animation for a lot of properties, we just need to provide a final value for them. This code above is equivalent to
+Another way to think about it is that UIKit provides a way to perform implicit animation for a lot of properties, we just need to provide a final value for them and UIKit does the rest. 
+
+This code above is equivalent to
 
 ```swift
 let scale = 1.2
@@ -130,7 +132,7 @@ UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState]) {
 }
 ```
 
-With that we can finish off by adding a `UIPanGestureRecognizer` to make the `cardView` move with user interaction.
+With that we can finish off by adding a `UIPanGestureRecognizer` to make the `cardView` move with user interaction complete with animations.
 
 ```swift
 class MoveMeView: UIView {
@@ -177,3 +179,4 @@ class MoveMeView: UIView {
 ## Further Reading
 1. [Source code](https://gist.github.com/chunkyguy/e0acac64fcc027f917b9b4b7d02830a9)
 1. [layoutSubviews](https://developer.apple.com/documentation/uikit/uiview/1622482-layoutsubviews)
+1. [Core Animation Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514-CH1-SW1)
