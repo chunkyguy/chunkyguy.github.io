@@ -178,5 +178,6 @@ class MoveMeView: UIView {
 
 ## Further Reading
 1. [Source code](https://gist.github.com/chunkyguy/e0acac64fcc027f917b9b4b7d02830a9)
+1. [Adding delight to your iOS App](https://developer.apple.com/wwdc18/233)
 1. [layoutSubviews](https://developer.apple.com/documentation/uikit/uiview/1622482-layoutsubviews)
 1. [Core Animation Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514-CH1-SW1)
