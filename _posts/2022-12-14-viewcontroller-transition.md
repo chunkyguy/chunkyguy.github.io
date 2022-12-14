@@ -358,7 +358,7 @@ Or even go crazy with some mind blowing 3D transformations
 
 ![Some text]({{ site.url }}/assets/viewcontroller-transition/06.gif)
 
-If this seems interesting to you [I wrote about 3D transformation]((https://whackylabs.com/uikit/ios/2014/10/29/add-some-perspective-to-your-uiviews/)) in more details some time back, go check it out.
+If this seems interesting to you [I wrote about 3D transformation](https://whackylabs.com/uikit/ios/2014/10/29/add-some-perspective-to-your-uiviews/) in more details some time back, go check it out.
 
 ## Source
 
