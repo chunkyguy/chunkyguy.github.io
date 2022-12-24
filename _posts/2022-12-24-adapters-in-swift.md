@@ -238,4 +238,4 @@ class Client {
 ```
 
 ## Conclusion
-As we just saw Swift has evolved long since the days of being strict compiled language with all rules being embeded within some contracts bounded by `Protocol`. There is a lot of magical stuff that can be achieved with things that you to learn from elsewhere, like the `$` access via `projectedValue` or the magical `KeyPath` based access. But we can use this to simplify our APIs and make everyone a bit more happier.
+As we just saw Swift has evolved long since the days of being strict compiled language with all rules being embeded within some contracts bounded by `Protocol`. There is a lot of magical stuff that can be achieved with things that you to must first learn from elsewhere, like the `$` access via `projectedValue` or the magical `KeyPath` based access. But we can use this to simplify our APIs and make everyone a bit more happier.
