@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Enum Array"
+title:  "EnumArray in Swift"
 date:   2023-01-27 21:30:00 +0200
 categories: swift algorithm
 published: true
