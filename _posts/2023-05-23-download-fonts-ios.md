@@ -28,26 +28,26 @@ There are only two steps before this function can be called:
 Here's how it looks with Swift
 
 ```swift
-    // Create an attributes dictionary
-    let attrs = NSDictionary(
-        object: fontName, 
-        forKey: kCTFontNameAttribute as NSString
-    )
-    // Create font descriptor
-    let desc = CTFontDescriptorCreateWithAttributes(
-        attrs as CFDictionary
-    )
-    // Download font
-    CTFontDescriptorMatchFontDescriptorsWithProgressHandler(
-        [desc] as CFArray, nil) { state, _ in
-        if state == .didFinish {
-            // Font probably downloaded!
-            DispatchQueue.main.async { 
-                // notify listeners
-            }
+// Create an attributes dictionary
+let attrs = NSDictionary(
+    object: fontName,  
+    forKey: kCTFontNameAttribute as NSString
+)
+// Create font descriptor
+let desc = CTFontDescriptorCreateWithAttributes(
+    attrs as CFDictionary
+)    
+// Download font
+CTFontDescriptorMatchFontDescriptorsWithProgressHandler(
+    [desc] as CFArray, nil) { state, _ in
+    if state == .didFinish {
+        // Font probably downloaded!
+        DispatchQueue.main.async { 
+            // notify listeners
         }
-        return true
     }
+    return true
+}
 ```
 
 I've skipped a lot of other good things that can be done here, like error handling and tracking progress. But after a while the `state` would end up at `.didFinish` and by then if all went well a font would've been downloaded somewhere for our use.
@@ -94,6 +94,6 @@ When does it make sense to use this API? I think for most apps that simply use a
 
 ## References
 
-1. https://developer.apple.com/fonts/system-fonts/
-1. https://developer.apple.com/documentation/coretext/1511433-ctfontdescriptormatchfontdescrip?language=objc
-1. https://developer.apple.com/library/archive/samplecode/DownloadFont/Introduction/Intro.html#//apple_ref/doc/uid/DTS40013404
+1. [developer.apple.com/fonts/system-fonts](https://developer.apple.com/fonts/system-fonts/)
+1. [CTFontDescriptorMatchFontDescriptorsWithProgressHandler documentation](https://developer.apple.com/documentation/coretext/1511433-ctfontdescriptormatchfontdescrip?language=objc)
+1. [Apple's DownloadFont sample code](https://developer.apple.com/library/archive/samplecode/DownloadFont/Introduction/Intro.html#//apple_ref/doc/uid/DTS40013404)
