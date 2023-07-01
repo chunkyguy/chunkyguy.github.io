@@ -6,7 +6,7 @@ categories: swift uikit layout
 published: true
 ---
 
-There are a plethora of wrappers around the AutoLayout engine. They all seem to provide convenience towards making the layout code look cleaner. In all fairness this is due to the fact that the first version of `NSLayoutContraint` API was very verbose. But I remember when Apple announced the constraint based layout they were equally excited about providing a what they referred as *'ascii based API'*. The idea is to create constraints between siblings and parent UI elements in a string based format. They even provide a guide to "Visual Format Language" aka **VFL**.
+There are a plethora of wrappers around the AutoLayout engine. They all seem to provide convenience towards making the layout code look cleaner. In all fairness this is due to the fact that the first version of `NSLayoutContraint` API was very verbose. But I remember when Apple announced the constraint based layout they were equally excited about providing a what they referred to as *'ascii based constraints'*. The idea is to create constraints between siblings and parent UI elements in a string based format. They even provide a guide to "Visual Format Language" aka **VFL**.
 
 The grammar of the syntax is very simple:
 
@@ -188,11 +188,12 @@ Here's an example:
 
 ```swift
 // add subviews
-let vfl = VFL()
 let topVw = UIImageView(image: UIImage(named: "square"))
 let leftVw = UIImageView(image: UIImage(named: "square"))
 let rightVw = UIImageView(image: UIImage(named: "square"))
 let borderVw = VFLColorView(color: .green)
+let vfl = VFL()
+
 vfl
     .setParent(self)
     .add(subview: borderVw, name: "borderVw")
@@ -206,23 +207,22 @@ vfl
 override func layoutSubviews() {
     super.layoutSubviews()
     if bounds.width < bounds.height {
-        layoutSubviewPortrait()
+        layoutSubviewsPortrait()
     } else {
-        layoutSubviewLandscape()
+        layoutSubviewsLandscape()
     }
 }
 ```
 
 ```swift
 // portait layout
-private func layoutSubviewPortrait() {
-    vfl
-        .replaceConstraints(
-          metrics: [
+private func layoutSubviewsPortrait() {
+    vfl.replaceConstraints(
+        metrics: [
             "w": bounds.width,
             "hw": bounds.width / 2
           ],
-          formats: [
+        formats: [
             "V:|[topVw(w)][borderVw(40)]",
             "H:|[topVw]|",
             "H:|[borderVw]|",
@@ -237,9 +237,8 @@ private func layoutSubviewPortrait() {
 
 ```swift
 // landscape layout
-private func layoutSubviewLandscape() {
-    vfl
-      .replaceConstraints(
+private func layoutSubviewsLandscape() {
+    vfl.replaceConstraints(
         metrics: [
           "w": bounds.height,
           "hw": bounds.height / 2.0,
