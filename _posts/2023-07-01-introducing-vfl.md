@@ -32,7 +32,7 @@ The minimal usage looks like:
 let view = UIView(frame: .zero)
 VFL(self)
     .add(subview: view, name: "view")
-    .updateConstraints(formats: [
+    .appendConstraints(formats: [
         "V:|[view]|", "H:|[view]|"
     ])
 ```
