@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "EnumArray in Swift"
+title:  "Inventing EnumArray"
 date:   2023-01-27 21:30:00 +0200
 categories: swift algorithm
 published: true
 ---
-So today I happened to need something which is like an `Array` but can't grow boundless. And I also need a named lookup, like what `Dictionary` does. But I don't want to deal with `Optional` types. I want it to be guaranteed to be populated with all the data during the `init` time, so lookups can never be `nil`. Does such a thing already exists? In Swift I mean. I guess not, so obviously the next step to make such a thing. I'm calling it `EnumArray`.
+So today I happened to need something which has an storage of an `Array` but can not grow. And instead of `Int` I need a named lookup, like a `Dictionary`. But then again I don't want to deal with `Optional`s. I want the initial values to be populated during the `init` so that lookups can never be `nil`. Does such a thing already exists? In Swift I mean. I guess not, so obviously the next step is to make such a thing. I'm calling it `EnumArray`.
 
 ```swift
 /// A sort of an array but also a dictionary with enum as key, and no optionals
