@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "Downloading fonts on iOS"
+title:  "Downloading system fonts on Apple platforms"
 date:   2023-05-15 21:58:00 +0200
 categories: ios fonts
 published: true
 ---
 
-So it turns out you can download a bunch of fonts at runtime on a device. But not every font. There's a selected list that Apple has made available that you can find here [https://developer.apple.com/fonts/system-fonts/](https://developer.appl.e.com/fonts/system-fonts/). 
+So it turns out apart from the fonts that come packaged with the Apple platforms you can also download a bunch of fonts at runtime There is a list that Apple has made available that you can find here [https://developer.apple.com/fonts/system-fonts/](https://developer.apple.com/fonts/system-fonts/). 
 
 So how do you actually download these fonts? It's not as trivial as it could be. You need to dip your hands into `CoreText`. But no complains, it's a beautiful C API that works across all Apple platforms and you can even easily mix it your other cross-platform projects. 
 
