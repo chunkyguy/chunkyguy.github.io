@@ -90,7 +90,7 @@ class VFLFullView: VFLExampleView {
     VFL(self)
       .add(subview: VFLColorView(), name: "view")
       .appendConstraints(formats: [
-        "V:|[view]|", "H:|[view]|"
+         "H:|[view]|", "V:|[view]|"
       ])
   }
 }
@@ -105,8 +105,7 @@ class VFLFixView: VFLExampleView {
     VFL(self)
       .add(subview: VFLColorView(), name: "view")
       .appendConstraints(formats: [
-        "V:|-[view(100)]",
-        "H:|-[view(100)]"
+        "H:|-[view(100)]", "V:|-[view(100)]"
       ])
   }
 }
@@ -123,8 +122,8 @@ class VFLHSplitView: VFLExampleView {
       .add(subview: VFLColorView(), name: "leftVw")
       .add(subview: VFLColorView(), name: "rightVw")
       .appendConstraints(formats: [
-        "V:|[leftVw]|", "V:|[rightVw]|",
-        "H:|[leftVw(==rightVw)][rightVw]|"
+        "H:|[leftVw(==rightVw)][rightVw]|",
+        "V:|[leftVw]|", "V:|[rightVw]|"
       ])
   }
 }
@@ -160,8 +159,7 @@ class VFLCenterView: VFLExampleView {
     VFL(self)
       .add(subview: view, name: "view")
       .appendConstraints(formats: [
-        "H:[view(320)]",
-        "V:[view(480)]",
+        "H:[view(320)]", "V:[view(480)]"
       ])
       .appendConstraints([
         NSLayoutConstraint(
@@ -187,19 +185,20 @@ For more advanced cases, like supporting different layouts for landscape and por
 Here's an example:
 
 ```swift
-// add subviews
-let topVw = UIImageView(image: UIImage(named: "square"))
-let leftVw = UIImageView(image: UIImage(named: "square"))
-let rightVw = UIImageView(image: UIImage(named: "square"))
-let borderVw = VFLColorView(color: .green)
 let vfl = VFL()
+
+// add subviews
+let headerVw = UIImageView(image: UIImage(named: "square"))
+let borderVw = VFLColorView(color: .green)
+let firstThumbVw = UIImageView(image: UIImage(named: "square"))
+let secondThumbVw = UIImageView(image: UIImage(named: "square"))
 
 vfl
     .setParent(self)
+    .add(subview: headerVw, name: "headerVw")
     .add(subview: borderVw, name: "borderVw")
-    .add(subview: topVw, name: "topVw")
-    .add(subview: leftVw, name: "leftVw")
-    .add(subview: rightVw, name: "rightVw")
+    .add(subview: firstThumbVw, name: "firstThumbVw")
+    .add(subview: secondThumbVw, name: "secondThumbVw")
 ```
 
 ```swift
@@ -223,12 +222,11 @@ private func layoutSubviewsPortrait() {
             "hw": bounds.width / 2
           ],
         formats: [
-            "V:|[topVw(w)][borderVw(40)]",
-            "H:|[topVw]|",
+            "H:|[headerVw]|",
             "H:|[borderVw]|",
-            "V:[leftVw(hw)]|",
-            "V:[rightVw(hw)]|",
-            "H:|-[leftVw(==rightVw)]-[rightVw]-|"
+            "H:|-[firstThumbVw(==secondThumbVw)]-[secondThumbVw]-|",
+            "V:|[headerVw(w)][borderVw(40)]",
+            "V:[firstThumbVw(hw)]|", "V:[secondThumbVw(hw)]|"
           ]
         )
 }
@@ -244,12 +242,11 @@ private func layoutSubviewsLandscape() {
           "hw": bounds.height / 2.0,
         ],
         formats: [
-          "V:|[topVw]|",
-          "H:|[topVw(w)][borderVw(40)]",
+          "H:|[headerVw(w)][borderVw(40)]",
+          "H:[firstThumbVw(hw)]|", "H:[secondThumbVw(hw)]|",
+          "V:|[headerVw]|",
           "V:|[borderVw]|",
-          "V:|-[leftVw(==rightVw)]-[rightVw]-|",
-          "H:[leftVw(hw)]|",
-          "H:[rightVw(hw)]|",
+          "V:|-[firstThumbVw(==secondThumbVw)]-[secondThumbVw]-|",
         ]
       )
 }
