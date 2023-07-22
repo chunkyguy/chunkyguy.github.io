@@ -108,4 +108,19 @@ Here are the outputs for all various alignment types:
 ![CenterY]({{ site.url }}/assets/vfl-align/05.png)
 ![Bottom]({{ site.url }}/assets/vfl-align/06.png)
 
+As an extra bonus, if we with to have the changes always animated all we need to add is:
+
+```swift
+vfl
+    .removeAllConstraints()
+    .removeAllOptions()
+    .addOptions(alignment)
+    .applyConstraints(name: constraintsName)
+      
+UIView.animate(withDuration: 0.2) {
+    self.vfl.parentView?.layoutIfNeeded()
+}
+```
+![Bottom]({{ site.url }}/assets/vfl-align/animation.gif)
+
 The full source code is available at: [https://github.com/chunkyguy/VFL](https://github.com/chunkyguy/VFL)
