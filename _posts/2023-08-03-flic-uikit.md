@@ -24,7 +24,7 @@ Another way to look at this architecture is in terms of scene graph. So any GUI 
 Some of these are simple *drawable* nodes, you give them some data to draw and they draw it, no questions asked. Like say the `Label` which takes in a `String` and draws it. While others are *interactive* nodes that can emit an event but don't care who handles that event, like the `Button`. And finally there are some *reactive* parent nodes that listen to events emitted from their subtree. These nodes might also hold the state of the subtree and based on the event received they then update the state and trigger a redraw of the subtree below them or just let the event bubble up the tree to be handled by some other parent node. For example, in our case the `Button` might emit an event that is then caught by the `Content` and which then might pass a new piece of data to `TextView` to draw.
 
 In other words FLIC says: 
-> "data goes down and event go up"*. 
+> "data goes down and event goes up"*. 
 
 And that's it! This is all there is to learn about the architecture. The beauty of this simple pattern is that it is easy to wrap your head around, faster to develop because you're focusing on only one thing at a time, could be just the drawing part or event handling and so is also easier to maintain. Also since this is such a simple pattern it can be easily applied to any other framework.
 
