@@ -42,7 +42,7 @@ let mask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
 
 So what can you do with this mask thing? Not a lot actually. Remember you were supposed to do all the math yourself, and this was just a quick way to make sure your same layout works even when the orientation changes, if that makes sense. So to do such a math you would initially calculate the `frame` of a view based on the geometry of the `superview`. So whenever the orientation would change it would simply mean the outmost frame (`UIWindow` in this case) `width` and `height` values got swapped. So every subview would then adjust their frame accordingly. But in some cases you'd prefer to recalculate the `frame` based on the margin from the `superview` - `autoresizingMask` was the way to avoid doing that recalculation.
 
-Conceptually `autoresizingMask` works with the idea breaking down any layout in 3 components per direction. So `[left, width, right]` and `[top, height, bottom]`. And using `autoresizingMask` we could specify what components don't have a fixed value.
+Conceptually `autoresizingMask` works with the idea of breaking down the layout in 3 components per direction. So `[left, width, right]` and `[top, height, bottom]`. And using `autoresizingMask` we could specify what components don't have a fixed value.
 
 To illustrate, let's say we know we want a view with some exact offset values from the edges, we could build it like:
 
@@ -59,7 +59,7 @@ So far so good. But as soon as we rotate the device our view starts getting draw
 
 ![bg-landscape-bad.png]({{site.url}}/assets/autoresizingmask/bg-landscape-bad.png)
 
-The fix for this is to set the `autoresizingMask` with `width` and `height` to indicate that all the margins are fixed and so the width and height are flexible:
+The fix for this is to set the `autoresizingMask` with flexible `width` and `height` to indicate that all the margins are fixed and so the width and height are flexible:
 
 ```swift
 bgVw.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -168,7 +168,7 @@ centerVw.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin,
 
 ![center-landscape-good]({{site.url}}/assets/autoresizingmask/center-landscape-good.png)
 
-The good thing is this is still using the auto layout based system. So you could add another subview using the regular constraints based layout
+The good thing is that this is still using the auto layout based system. So you could add another subview using the regular constraints based layout if you wish. For example, if we wanted to add another subview but aligned to the `centerVw`
 
 ```swift
 let centerOffsetVw = UIView()
