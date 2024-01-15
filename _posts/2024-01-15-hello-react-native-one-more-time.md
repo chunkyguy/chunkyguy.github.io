@@ -672,10 +672,10 @@ But said that, I've heard there's a [new rendering engine](https://reactnative.d
 The code from this article is available at [https://github.com/chunkyguy/PhotoApp](https://github.com/chunkyguy/PhotoApp/tree/master/react-native/PhotoApp_func)
 
 ### References
-[https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
-[https://reactnative.dev/blog/2016/03/24/introducing-hot-reloading](https://reactnative.dev/blog/2016/03/24/introducing-hot-reloading)
-[https://webpack.js.org/guides/hot-module-replacement/](https://webpack.js.org/guides/hot-module-replacement/)
-[https://reactnative.dev/docs/navigation](https://reactnative.dev/docs/navigation)
-[https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-[https://react.dev/reference/react/useEffect](https://react.dev/reference/react/useEffect)
-[https://react.dev/reference/react/useState](https://react.dev/reference/react/useState)
+- [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup) 
+- [https://reactnative.dev/blog/2016/03/24/introducing-hot-reloading](https://reactnative.dev/blog/2016/03/24/introducing-hot-reloading) 
+- [https://webpack.js.org/guides/hot-module-replacement/](https://webpack.js.org/guides/hot-module-replacement/) 
+- [https://reactnative.dev/docs/navigation](https://reactnative.dev/docs/navigation) 
+- [https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) 
+- [https://react.dev/reference/react/useEffect](https://react.dev/reference/react/useEffect) 
+- [https://react.dev/reference/react/useState](https://react.dev/reference/react/useState) 
