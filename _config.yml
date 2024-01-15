@@ -10,6 +10,8 @@ sass:
   sass_dir: _sass
   style: :compressed
 
+markdown: kramdown
+
 author:
   name: Sidharth Juyal
   url: https://twitter.com/chunkyguy
