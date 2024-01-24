@@ -6,7 +6,7 @@ categories: maui ios android
 published: true
 ---
 
-So another cross platform tool that I've trying to poke for a very very long time now is .NET MAUI. Since I love making games with Unity and C# so I've always wondered what would it feel like to also make apps with C#. Also I've heard good things about .NET. So yes, lets dive into it.
+So another cross platform tool that I've been trying to poke for a very very long time now is .NET MAUI. Since I love making games with Unity and C# so I've always wondered what would it feel like to also make apps with C#. Also I've heard good things about .NET. So yes, lets dive into it.
 
 ### Set up
 The first struggle getting started with MAUI is that according to the [official docs](https://dotnet.microsoft.com/en-us/learn/maui/first-app-tutorial/install) the first step is to **Download and install Visual Studio 2022 for Mac** but also [recently they announced](https://9to5mac.com/2023/08/30/microsoft-visual-studio-mac-discontinued/) that Visual Studio for Mac is going away soon. The recommended route for the upcoming future is to use the Visual Studio Code with the official extensions, so this is what I'm also going to try.
