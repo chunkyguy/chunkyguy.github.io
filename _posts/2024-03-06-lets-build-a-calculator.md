@@ -16,7 +16,7 @@ This is what I came up with:
 
 Let me explain what is this mess. 
 
-The data goes through 5 different stages, starting from **I**nput that the user provides with the user interface and then depending on the type of the input it might go to the **B**uffer or the **O**utput, both of which are string types. But any change to the **O**utput would trigger an update to the stored **R**esult which is a number type and most likely a floating type. The result is computed using the last stored value and the value in the buffer. And finally, every input should eventually refresh the text on **D**isplay.
+The data goes through 5 different stages, starting from **I**nput that the user provides with the user interface and then depending on the type of the input it might go to the **B**uffer or the **O**perations, both of which are string types. But any change to the **O**perations would trigger an update to the stored **R**esult which is a number type and most likely a floating type. The result is computed using the last stored value and the value in the buffer. And finally, every input should eventually refresh the text on **D**isplay.
 
 So for any numeric input we just update our buffer. The special case is with `0` since we don't want multiple leading `0s`. Finally we concatenate the buffer and send the output string for display.  
 ```js
