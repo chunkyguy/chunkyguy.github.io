@@ -8,6 +8,8 @@ published: true
 
 I wanted to try React Native for quite some time now. But this time for real. 
 
+<a href="https://imgflip.com/i/8ynlv9"><img src="https://i.imgflip.com/8ynlv9.jpg" title="made at imgflip.com"/></a>
+
 For context, I have tried building the [https://github.com/chunkyguy/PhotoApp](PhotoApp) with React Native quite a while ago and it was fun but also scary because I had no clue what was happening. I was simply following some tutorial and copy pasting code from the internet to make things work. And yes, eventually I was able to fetch data and draw it on the screen but honestly I had no clue what just happened. The entire app was just this one file called `App.js`
 
 <!-- {% raw %} -->
