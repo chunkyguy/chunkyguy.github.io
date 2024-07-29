@@ -6,6 +6,8 @@ categories: js reactnative
 published: true
 ---
 
+<a href="https://imgflip.com/i/8ymeiz"><img src="https://i.imgflip.com/8ymeiz.jpg" title="made at imgflip.com"/></a>
+
 Let's try expo. The motivation behind this experiment is neither my eternal curiosity for exploring new technologies nor is this post sponsored by expo in any way. Rather it is the fact that the nice folks at React Native have killed our beloved React Native CLI. You don't even see the instructions to create React Native apps using the CLI anymore, as if it never existed! So, without losing another tear on the past let's take a sneak peek into the future.
 
 ### Set up
