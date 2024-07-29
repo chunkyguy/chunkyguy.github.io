@@ -8,6 +8,8 @@ published: true
 
 This a quick reference on how to make `UIScrollView` work with autolayout
 
+<a href="https://imgflip.com/gif/8ymfqc"><img src="https://i-download.imgflip.com/8ymfqc.gif" title="made at imgflip.com"/></a>
+
 ### Solution 1: Where the content has a fixed size
 
 ```swift
