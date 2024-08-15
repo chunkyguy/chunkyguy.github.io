@@ -117,7 +117,8 @@ Then within the `/index.js` file is where we render a `Home` screen that renders
       pathname: "/photos/[id]",
       params: { title, url },
     });
-  }}
+   }
+  }
 />
 ```
 
@@ -128,7 +129,9 @@ export default function DetailsScreen() {
   const { title, url } = useLocalSearchParams();
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.image} source={{ uri: url }} />
+      <Image style={styles.image} source={
+        {uri: url }
+      } />
       <Text style={styles.title}>{title}</Text>
     </SafeAreaView>
   );
