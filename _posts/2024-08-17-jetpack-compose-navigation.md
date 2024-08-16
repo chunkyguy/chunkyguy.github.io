@@ -95,7 +95,7 @@ The good thing is the the back button comes for free with Android OS. But for cu
 
 So there is how you navigate between screens with Android. The code for this experiment is up there sitting in the cloud nicely with the rest of the PhotoApp. 
 
-https://github.com/chunkyguy/PhotoApp/tree/master/kotlin
+[https://github.com/chunkyguy/PhotoApp/tree/master/kotlin](https://github.com/chunkyguy/PhotoApp/tree/master/kotlin)
 
 ### References
 - [Navigation with Compose](https://developer.android.com/develop/ui/compose/navigation)
