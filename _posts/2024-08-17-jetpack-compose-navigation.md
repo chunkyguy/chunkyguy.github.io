@@ -53,7 +53,7 @@ Navigation in Android works with the help of these 2 components:
 - `NavController`: Top level object to navigate between screens
 - `NavHost`: Container within which all routing happens.
 
-So to make this work, we first need to inject the `NavController` at the root level of the app. Like say the `MainActivity`
+So to make this work, we first need to inject the `NavController` at the root level of the app. Like say the `MainActivity` or the root composable like `PhotoApp` in our case.
 
 ```kotlin
 fun PhotoApp(
