@@ -10,6 +10,8 @@ cover_image: https://i.imgflip.com/90jgo1.jpg
 
 I just realized that I've never made the photos app with react.js. So let's do that today.
 
+![React vs React Native](https://i.imgflip.com/922suj.jpg)
+
 ### Setup
 I'm going to use vite to build the app with javascript.
 
