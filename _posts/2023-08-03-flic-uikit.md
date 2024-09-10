@@ -8,6 +8,8 @@ published: true
 
 After many years of search for the best way to build GUI softwares I think I've finally found the one true architecture to rule them all! 
 
+![Yeah I'm gonna need you to rewrite your good working code one more time](https://i.imgflip.com/9319y4.jpg)
+
 It is known by many names, some call it the [Elm Architecture](https://guide.elm-lang.org/architecture/) others call it [Redux](https://redux.js.org/) or [Flux](https://facebookarchive.github.io/flux/), but for simplicity I'll just call it **Feedback Loop Is Cool** or **FLIC**.
 
 At the core of FLIC is a 3 piece orchestra:
