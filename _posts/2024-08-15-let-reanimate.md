@@ -20,12 +20,12 @@ Let's build that sample using React Native's Reanimated library.
 I'm following the official docs but not using their template. So I've a basic project created with the blank template and installed the dependencies
 
 ```
-npx create-expo-app playground --template blank
+npx create-expo-app moveme --template blank
 npx expo install react-native-reanimated
 npx expo install react-native-gesture-handler
 ```
 
-Next, I added the plugin
+Next, I added the plugin by editing `babel.config.js` to
 
 ```jsx
 module.exports = function (api) {
@@ -175,6 +175,8 @@ function Square() {
 And there you have it
 
 ![final]({{site.url}}/assets/reanimate/final.gif)
+
+The source code is available on [https://github.com/chunkyguy/MoveMe/tree/main/reactnative](https://github.com/chunkyguy/MoveMe/tree/main/reactnative)
 
 ### References
 - [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated)
