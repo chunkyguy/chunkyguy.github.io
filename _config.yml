@@ -8,9 +8,22 @@ permalink: pretty
 
 sass:
   sass_dir: _sass
-  style: :compressed
+  style: "compressed"
 
 markdown: kramdown
+
+plugins:
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-admin
+  - jekyll-compose
+  - github-pages
+
+twitter:
+  username: chunkyguy
+  card: summary
 
 author:
   name: Sidharth Juyal

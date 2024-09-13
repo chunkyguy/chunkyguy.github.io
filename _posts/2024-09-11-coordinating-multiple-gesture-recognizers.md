@@ -3,12 +3,13 @@ layout: post
 title: Coordinating multiple gesture recognizers
 date: 2024-09-11 21:53 +0200
 categories: swift uikit ios animation
+image: /assets/coordinating-gestures/meme.jpg
 published: true
 ---
 
 So how does one actually work with multiple gesture recognizers on same view?
 
-![UIGestureRecognizer is now my best friend](https://i.imgflip.com/936fxw.jpg)
+![UIGestureRecognizer is now my best friend](/assets/coordinating-gestures/meme.jpg)
 
 Let's recreate the **MoveMe** sample with `UIGestureRecognizer`. The idea is to have both `UILongPressGestureRecognizer` and `UIPanGestureRecognizer` play nicely with each other. With `UILongPressGestureRecognizer` responsible for detecting selection and `UIPanGestureRecognizer` responsible for dragging the selected squares.
 

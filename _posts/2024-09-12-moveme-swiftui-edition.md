@@ -3,12 +3,13 @@ layout: post
 title: MoveMe - SwiftUI Edition
 date: 2024-09-12 20:38 +0200
 categories: swift swiftui ios animation
+image: /assets/moveme-swiftui/meme.jpg
 published: true
 ---
 
 Taking about gestures and animation with SwiftUI is actually not as intuitive as it sounds. But how hard could it be?
 
-![Best way to build an app is with Swift and SwiftUI](https://i.imgflip.com/93cvet.jpg)
+![Best way to build an app is with Swift and SwiftUI](/assets/moveme-swiftui/meme.jpg)
 
 ### Setup
 
