@@ -6,7 +6,9 @@ categories: swift swiftui ios animation
 published: true
 ---
 
-Taking about gestures and animation with SwiftUI is actually not as intuitive as it sounds. But how hard could it be. Famous last words. 
+Taking about gestures and animation with SwiftUI is actually not as intuitive as it sounds. But how hard could it be?
+
+![Best way to build an app is with Swift and SwiftUI](https://i.imgflip.com/93cvet.jpg)
 
 ### Setup
 
