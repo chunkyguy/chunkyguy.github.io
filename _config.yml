@@ -21,10 +21,11 @@ plugins:
   - jekyll-compose
   - github-pages
 
-twitter:
-  username: chunkyguy
-  card: summary
-
 author:
   name: Sidharth Juyal
-  url: https://twitter.com/chunkyguy
+  twitter: chunkyguy
+  url: https://whackylabs.com
+
+twitter:
+  username: whackylabs
+  card: summary
