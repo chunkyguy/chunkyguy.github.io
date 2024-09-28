@@ -3,6 +3,7 @@ layout: post
 title:  "Getting started Cocos2d with Swift"
 date:   2014-06-24 23:28:54 +0530
 categories: concurrency
+published: false
 ---
 
 I understand that everybody is super excited about the Swift Programming Language right? Although Apple has provided the Playground for getting acquainted with Swift but there is an even better way – by making a game.

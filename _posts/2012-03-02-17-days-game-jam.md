@@ -3,6 +3,7 @@ layout: post
 title:  "17 Days Game Jam!"
 date:   2012-03-02 23:28:54 +0530
 categories: gamedev
+published: false
 ---
 
 ### DAY 1: 0917 hours

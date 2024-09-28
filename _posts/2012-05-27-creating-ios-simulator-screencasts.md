@@ -3,6 +3,7 @@ layout: post
 title:  "Creating iOS Simulator Screencasts"
 date:   2012-05-27 23:28:54 +0530
 categories: tip rant
+published: false
 ---
 
 I’ve seen in many forums devs asking tips to screencast the iOS Simulator to demo their app or whatever. Even I was using Jing to create swf files to demo my apps, but I think today everything is going to change forever :)

@@ -3,6 +3,7 @@ layout: post
 title:  "opengl-series iOS migration notes"
 date:   2013-03-17 23:28:54 +0530
 categories: gamedev ios
+published: false
 ---
 
 Today I spent few hours porting the Tom Dalling’s OpenGL sample code to work on iOS.

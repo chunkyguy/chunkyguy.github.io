@@ -3,6 +3,7 @@ layout: post
 title:  "Experiment 4: OBJLoader"
 date:   2013-09-07 23:28:54 +0530
 categories: gamedev ios
+published: false
 ---
 
 This article is part of the Experiments with OpenGL series.

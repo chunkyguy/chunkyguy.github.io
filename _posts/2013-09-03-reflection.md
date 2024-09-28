@@ -3,6 +3,7 @@ layout: post
 title:  "Experiment 3: Reflection"
 date:   2013-09-03 23:28:54 +0530
 categories: opengl ios
+published: false
 ---
 
 This article is part of the Experiments with OpenGL series.

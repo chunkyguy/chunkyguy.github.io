@@ -3,6 +3,7 @@ layout: post
 title:  "opengl-series: Changes with 06_diffuse_lighting"
 date:   2013-03-24 23:28:54 +0530
 categories: opengl ios
+published: false
 ---
 
 This post is in continuation with the opengl-series. 

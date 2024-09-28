@@ -2,7 +2,7 @@
 layout: post
 title:  "The Art of Designing Softwares"
 date:   2014-09-07 23:28:54 +0530
-categories: concurrency
+categories: rant
 ---
 
 When I was in college, my vision of a software was like, we have a problem and we need a solution, a program, a set of instructions, that has to be executed by the computer in order to solve that particular problem. For example, design a program to print a Fibonacci series using loops, recursion, implement with an array, a doubly linked list, an AVL tree.

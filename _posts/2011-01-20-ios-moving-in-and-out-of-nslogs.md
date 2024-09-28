@@ -3,6 +3,7 @@ layout: post
 title:  "iOS: Moving in and out of NSLogs"
 date:   2011-01-20 04:15:00 +0530
 categories: logging ios
+published: true
 ---
 
 So, if you are a iPhone developer like me you must be using a lot of
