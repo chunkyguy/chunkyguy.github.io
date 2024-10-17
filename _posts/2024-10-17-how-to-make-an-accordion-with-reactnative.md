@@ -10,7 +10,11 @@ In the journey of making complex animations with React Native, let's make an acc
 
 ![meme](/assets/accordion-reactnative/meme.jpg)
 
-I don't know what is the best term for this component. I call it accordion, others call it expandable list. In the first version of material design this component was called as "Expansion Panel". In the latest version they simply don't talk about it anymore. In Apple's Human Interface Guidelines they named it as "Disclosure controls" and in SwiftUI for some reasons they called it `DisclosureGroup`. But the documentation writer described the component as "A view that shows or hides another content view, based on the state of a disclosure control." Yes that is exactly what I mean.
+I don't know what is the best term for this component. I call it accordion, others call it expandable list. In the first version of material design this component was called as ["Expansion Panel"](https://m1.material.io/components/expansion-panels.html). In the latest version they simply don't talk about it anymore. In Apple's Human Interface Guidelines they named it as ["Disclosure controls"](https://developer.apple.com/design/human-interface-guidelines/disclosure-controls) and in SwiftUI for some reasons they called it `DisclosureGroup`. But the [documentation writer](https://developer.apple.com/documentation/SwiftUI/DisclosureGroup) described the component as:
+
+> A view that shows or hides another content view, based on the state of a disclosure control. 
+
+Yes that is exactly what I mean.
 
 I'm going to use the assets from the [frontendmentor challenge](https://www.frontendmentor.io/challenges/faq-accordion-wyfFdeBwBz) because it looks nice.
 
@@ -291,6 +295,5 @@ And this is how you build an accordion with ReactNative.
 The code from this experiment is available on [https://github.com/chunkyguy/frontendmentor](https://github.com/chunkyguy/frontendmentor/tree/main/faq-accordion)
 
 ### Reference
-- [https://m1.material.io/components/expansion-panels.html](https://m1.material.io/components/expansion-panels.html)
-- [https://developer.apple.com/design/human-interface-guidelines/disclosure-controls](https://developer.apple.com/design/human-interface-guidelines/disclosure-controls)
 - [https://reactnative.dev/docs/view#onlayout](https://reactnative.dev/docs/view#onlayout)
+- [Animated Collapsible Cards in React Native - Easier Than You Think](https://youtu.be/NzrJJLSbWf8?si=W1uXuSHyIWVEeWWE)
