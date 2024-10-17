@@ -292,7 +292,7 @@ function Cell({ text, isOpen }) {
 
 And this is how you build an accordion with ReactNative. 
 
-The code from this experiment is available on [https://github.com/chunkyguy/frontendmentor](https://github.com/chunkyguy/frontendmentor/tree/main/faq-accordion)
+The code from this experiment is available on [https://github.com/chunkyguy/frontendmentor](https://github.com/chunkyguy/frontendmentor/blob/main/faq-accordion/app/App.js)
 
 ### Reference
 - [https://reactnative.dev/docs/view#onlayout](https://reactnative.dev/docs/view#onlayout)
