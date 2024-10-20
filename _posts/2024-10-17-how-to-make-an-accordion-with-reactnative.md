@@ -297,3 +297,4 @@ The code from this experiment is available on [https://github.com/chunkyguy/fron
 ### Reference
 - [https://reactnative.dev/docs/view#onlayout](https://reactnative.dev/docs/view#onlayout)
 - [Animated Collapsible Cards in React Native - Easier Than You Think](https://youtu.be/NzrJJLSbWf8?si=W1uXuSHyIWVEeWWE)
+- [Reanimated Example: Accordion](https://docs.swmansion.com/react-native-reanimated/examples/accordion/)
