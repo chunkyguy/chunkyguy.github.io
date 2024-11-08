@@ -6,7 +6,7 @@ categories: swift tensorflow ml
 published: true
 ---
 
-So Google recently renamed TensorflowLite to LiteRT. And yes that was a genius move indeed. Because now for the time in my life I actually want to try TFLite ... yea, I mean LiteRT.
+So Google recently renamed TensorflowLite to LiteRT. And yes that was a genius move indeed. Because now for the first time in my life I actually want to try TFLite ... yea, I mean LiteRT.
 
 ![Setup](/assets/hello-litert/meme.jpg)
 
