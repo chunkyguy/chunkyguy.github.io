@@ -1,10 +1,14 @@
 {
     "spellright.documentTypes": [
-        "markdown",
         "latex",
         "plaintext"
     ],
     "spellright.language": [
         "en"
-    ]
+    ],
+    "[plaintext]": {
+        "editor.quickSuggestions": {
+            "other": "off"
+        }
+    }
 }
