@@ -20,7 +20,7 @@ Conclusion:
   ✓ Your operation system is ready for Kotlin Multiplatform Mobile Development!
 ```
 
-And then their is the amazing [KMM plugin for Android Studio](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform) which provides a nice template for creating a new project from Android Studio.
+And then there is the amazing [KMM plugin for Android Studio](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform) which provides a nice template for creating a new project from Android Studio.
 
 Next update the dependencies by updating the `libs.versions.toml`. The idea here is to list all of the libraries regardless of the platform, we will get the chance later to add libraries to targets later on.
 
