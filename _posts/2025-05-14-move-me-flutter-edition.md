@@ -278,5 +278,5 @@ Every time I work with flutter, I feel like this is probably the best cross-plat
 
 I look forward to work more with flutter in the future.
 
-The code from this experiment is at https://github.com/chunkyguy/MoveMe/tree/main/flutter/move_me
+The code from this experiment is at [github.com/chunkyguy/MoveMe](https://github.com/chunkyguy/MoveMe/tree/main/flutter/move_me)
 
