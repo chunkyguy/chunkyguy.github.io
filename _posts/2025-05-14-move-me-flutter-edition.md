@@ -8,6 +8,8 @@ published: true
 
 Let us build the MoveMe one more time but with Flutter.
 
+![Meme](/assets/moveme-flutter/meme.jpg)
+
 ### Set up
 
 First thing first, let's create an empty project with `flutter create move_me`.
