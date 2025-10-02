@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introduction to JavascriptCore with iOS
+title: Introduction to JavaScriptCore with iOS
 date: 2025-10-01 22:08 +0200
 categories: js objc ios
 published: true
