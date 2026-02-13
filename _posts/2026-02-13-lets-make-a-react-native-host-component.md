@@ -1,24 +1,22 @@
 ---
 layout: post
-title: Lets make a React Native Custom Component
+title: Lets make a React Native Host Component
 date: 2026-02-13 15:51 +0100
-categories: ts react-native turbo-module
+categories: ts react-native host-component
 published: true
 ---
 
-They say if you really wanna know how React Native works make a turbo module. So that is the task for the day.
+They say if you really wanna know how React Native works make a host component. So that is the task for the day.
 
-![meme](/assets/2026-02-13-lets-make-a-react-native-turbo-module/meme.jpg)
+![meme](/assets/2026-02-13-lets-make-a-react-native-host-component/meme.jpg)
 
-I'll be following the offical guide on making the Turbo Module by making a native webview and make it available to react native.
+I'll be following the offical guide on making the Host Component by making a native webview and make it available to react native.
 
 ### Set up
 
-Step one is to create the package. I'm calling my turbo module as `MyTurboModule`
+Step one is to create the package. I'm calling my host component as `MyWebView`
 
-`npx @react-native-community/cli@latest init MyTurboModule --version 0.83`
-
-The one command is enough to create all the boilerplate code required to build a Turbo Module. 
+`npx @react-native-community/cli@latest init MyWebView --version 0.83`
 
 ```
 .
@@ -39,9 +37,9 @@ The one command is enough to create all the boilerplate code required to build a
 └── tsconfig.json
 ```
 
-The funny thing is, it looks a lot like any other react native project that you can actually build and run.
+So far this looks a lot like any other react native project that you can actually build and run.
 
-![Hello Turbo Module](/assets/2026-02-13-lets-make-a-react-native-turbo-module/img-00.png)
+![Hello Host Component](/assets/2026-02-13-lets-make-a-react-native-host-component/img-00.png)
 
 The real difference comes when we configure the codegen by updating the `package.json`
 ```json
@@ -114,7 +112,7 @@ In the terminal I can see that the `Codegen` generating all of the glue code
 
 ```sh
 [Codegen] Generating Native Code for AppSpec - ios
-[Codegen] Generated artifacts: MyTurboModule/ios/build/generated/ios/ReactCodegen
+[Codegen] Generated artifacts: MyWebView/ios/build/generated/ios/ReactCodegen
 ...
 ```
 
@@ -144,7 +142,7 @@ build/generated/ios
     └── safeareacontextJSI.h
 ```
 
-And finally with the `renderer` directory is where the real good stuff is:
+And finally the `renderer` directory is where the real good stuff is:
 ```
 build/generated/ios/ReactCodegen/react/renderer
 └── components
@@ -353,7 +351,7 @@ const styles = StyleSheet.create({
 export default App;
 ```
 
-![Hello React Native](/assets/2026-02-13-lets-make-a-react-native-turbo-module/img-01.png)
+![Hello React Native](/assets/2026-02-13-lets-make-a-react-native-host-component/img-01.png)
 
 And finally add our beautiful `MyWebView` component
 
@@ -393,7 +391,7 @@ const styles = StyleSheet.create({
 
 And voila! It's alive!
 
-![Hello React Native](/assets/2026-02-13-lets-make-a-react-native-turbo-module/img-02.png)
+![Hello React Native](/assets/2026-02-13-lets-make-a-react-native-host-component/img-02.png)
 
 ### Android implementation
 
@@ -590,7 +588,7 @@ class MainApplication : Application(), ReactApplication {
 
 And we have our android web view available in React native
 
-![Hello Android](/assets/2026-02-13-lets-make-a-react-native-turbo-module/img-03.png)
+![Hello Android](/assets/2026-02-13-lets-make-a-react-native-host-component/img-03.png)
 
 ### Resources
 
