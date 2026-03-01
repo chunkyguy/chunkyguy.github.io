@@ -6,7 +6,7 @@ categories: ts react-native host-component
 published: true
 ---
 
-They say if you really wanna know how React Native works make a host component. So that is the task for the day.
+They say if you really wanna know how React Native works then make a host component. So that is the task for the day.
 
 ![meme](/assets/2026-02-13-lets-make-a-react-native-host-component/meme.jpg)
 
