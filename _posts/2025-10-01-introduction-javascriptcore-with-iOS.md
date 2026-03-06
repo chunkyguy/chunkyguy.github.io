@@ -242,8 +242,10 @@ Next for the native UI we only require a simple text view that renders the lates
 @end
 ```
 
+<video controls width="300" poster="/assets/javascriptcore/00_chess.png">
+  <source src="/assets/javascriptcore/demo.mp4" type="video/mp4" />
+</video>
 
-![random vs random](/assets/javascriptcore/00_chess.png)
 
 ### References
 
