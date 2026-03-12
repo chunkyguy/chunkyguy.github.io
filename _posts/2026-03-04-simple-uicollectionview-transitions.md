@@ -18,7 +18,7 @@ So how do you make it work? Simple first you need to have 2 `UICollectionViewCon
   <source src="/assets/2026-03-04-simple-uicollectionview-transitions/demo.mp4" type="video/mp4" />
 </video>
 
-Did I say 2 `UICollectionViewController`? Sorry I mean one. The only thing that is changing is the `collectionViewLayout` that is powering the `UICollectionView`.
+Did I say 2 `UICollectionViewController`? Sorry I meant one. The only thing that is changing is the `collectionViewLayout` that is powering the `UICollectionView`.
 
 ```swift
 class TileLayout: UICollectionViewFlowLayout {
