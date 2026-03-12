@@ -1,12 +1,12 @@
 ---
 layout: post
-title: This one liner to add beautiful transition between UICollectionViews
+title: One line to add beautiful transition between UICollectionViews
 date: 2026-03-04 21:58 +0100
 categories: swift ios uikit
 published: true
 ---
 
-UIKit comes with a bag full of techniques to build mind blowing animations and transitions but this one liner has to my favorite.
+UIKit comes with a bag full of techniques to build mind blowing animations and transitions but this one liner has to be my favorite.
 
 ```swift
 useLayoutToLayoutNavigationTransitions = true
